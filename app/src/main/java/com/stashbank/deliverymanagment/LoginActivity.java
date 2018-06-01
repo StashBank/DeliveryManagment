@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import android.content.*;
 
 /**
  * A login screen that offers login via email/password.
@@ -359,7 +360,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 			}
 
 			// TODO: register the new account here.
-			return true;
+			return false;
 		}
 
 		@Override
@@ -368,6 +369,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 			showProgress(false);
 
 			if (success) {
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				LoginActivity.this.startActivity(intent);
 				finish();
 			} else {
 				mPasswordView.setError(getString(R.string.error_incorrect_password));
