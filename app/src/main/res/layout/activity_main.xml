@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/activity_main"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -10,8 +11,9 @@
 		android:id="@+id/toolbar"
 		style="style/Toolbar"
 		android:elevation="4dp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"/>
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/colorPrimaryDark"/>
 
 	<RelativeLayout
 		xmlns:tools="http://schemas.android.com/tools"
@@ -26,22 +28,34 @@
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:text="Доставка"
-			android:layout_centerHorizontal="true"/>
+			android:text="@string/menu_delivery"
+			android:layout_centerHorizontal="true"
+			android:id="@+id/btn_menu_delivery"
+			style="@style/Widget.AppCompat.Button.Colored"
+			android:background="@color/colorPrimary"
+			android:textSize="18sp"/>
 
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:text="Отгрузка"
+			android:text="@string/menu_shipment"
 			android:layout_centerHorizontal="true"
-			android:layout_marginTop="60dp"/>
+			android:layout_marginTop="60dp"
+			android:id="@+id/btn_menu_shipping"
+			style="@style/Widget.AppCompat.Button.Colored"
+			android:background="@color/colorPrimary"
+			android:textSize="18sp"/>
 
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:text="Оплата"
+			android:text="@string/menu_payment"
 			android:layout_centerHorizontal="true"
-			android:layout_marginTop="120dp"/>
+			android:layout_marginTop="120dp"
+			android:textSize="18sp"
+			android:id="@+id/btn_menu_payment"
+			style="@style/Widget.AppCompat.Button.Colored"
+			android:background="?attr/colorControlActivated"/>
 
 	</RelativeLayout>
 
