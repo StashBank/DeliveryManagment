@@ -23,10 +23,25 @@
 		android:paddingRight="@dimen/activity_horizontal_margin"
 		android:paddingTop="@dimen/activity_vertical_margin">
 
-		<TextView
+		<Button
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="Text"/>
+			android:layout_width="match_parent"
+			android:text="Доставка"
+			android:layout_centerHorizontal="true"/>
+
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="Отгрузка"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="60dp"/>
+
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="Оплата"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="120dp"/>
 
 	</RelativeLayout>
 
