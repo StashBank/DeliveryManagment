@@ -27,7 +27,7 @@ public class DeliveryActivity extends AppCompatActivity
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+				Snackbar.make(view, "Delivery: Replace with your own action", Snackbar.LENGTH_LONG)
 						.setAction("Action", null).show();
 			}
 		});
@@ -79,7 +79,13 @@ public class DeliveryActivity extends AppCompatActivity
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-
+		View view = findViewById(R.id.fab);
+		String message = "Delivery: menu item - " + item.getTitle();
+		Snackbar
+			.make(view, message, Snackbar.LENGTH_LONG)
+			.setAction("Action", null)
+			.show();
+		
 		if (id == R.id.nav_camera) {
 			// Handle the camera action
 		} else if (id == R.id.nav_gallery) {

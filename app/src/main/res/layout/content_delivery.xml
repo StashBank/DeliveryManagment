@@ -14,4 +14,13 @@
 	tools:context="com.stashbank.deliverymanagment.DeliveryActivity"
 	tools:showIn="@layout/app_bar_delivery">
 
+	<TextView
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:text="Delivery Activity"
+		android:layout_centerHorizontal="true"
+		android:layout_centerInParent="true"/>
+
 </RelativeLayout>
+

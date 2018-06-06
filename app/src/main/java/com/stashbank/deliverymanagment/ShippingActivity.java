@@ -79,7 +79,12 @@ public class ShippingActivity extends AppCompatActivity
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-
+		View view = findViewById(R.id.fab);
+		String message = "Shipping: menu item - " + item.getTitle();
+		Snackbar
+			.make(view, message, Snackbar.LENGTH_LONG)
+			.setAction("Action", null)
+			.show();
 		if (id == R.id.nav_camera) {
 			// Handle the camera action
 		} else if (id == R.id.nav_gallery) {
