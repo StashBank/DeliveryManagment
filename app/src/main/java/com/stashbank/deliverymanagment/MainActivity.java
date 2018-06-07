@@ -16,11 +16,11 @@ import android.widget.*;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
 
+	private DrawerLayout drawer;
+	private Toolbar toolbar;
 	private Button deliveryMenuButton;
 	private Button shippingMenuButton;
 	private Button paymentMenuButton;
-	private DrawerLayout drawer;
-	private Toolbar toolbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,39 +38,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		toggle.syncState();
 		
 		if (savedInstanceState == null) {
-			openDeliveryFragment();
-			navigationView.setCheckedItem(R.id.nav_delivery);
+			openMainFragment();
+			// navigationView.setCheckedItem(R.id.nav_delivery);
 		}
-
-		/*
-		deliveryMenuButton = (Button) findViewById(R.id.btn_menu_delivery);
-		shippingMenuButton = (Button) findViewById(R.id.btn_menu_shipping);
-		paymentMenuButton = (Button) findViewById(R.id.btn_menu_payment);
-
-		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, DeliveryActivity.class);
-				MainActivity.this.startActivity(intent);
-			}
-		});
-
-		shippingMenuButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, ShippingActivity.class);
-				MainActivity.this.startActivity(intent);
-			}
-		});
-
-		paymentMenuButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Intent intent = new Intent(MainActivity.this, DeliveryActivity.class);
-				// MainActivity.this.startActivity(intent);
-			}
-		});
-		*/
+		// initButtons();
 
 	}
 	
@@ -125,6 +96,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		return true;
 	}
 	
+	private void openMainFragment() {
+		getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.fragment_container, new MainFragment())
+			.commit();
+	}
+	
 	private void openDeliveryFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
@@ -137,5 +115,26 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 			.beginTransaction()
 			.replace(R.id.fragment_container, new ShippingFragment())
 			.commit();
+	}
+	
+	private void initButtons() {
+		deliveryMenuButton = (Button) findViewById(R.id.btn_menu_delivery);
+		shippingMenuButton = (Button) findViewById(R.id.btn_menu_shipping);
+		paymentMenuButton = (Button) findViewById(R.id.btn_menu_payment);
+
+		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {}
+			});
+
+		shippingMenuButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {}
+			});
+
+		paymentMenuButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {}
+			});
 	}
 }
