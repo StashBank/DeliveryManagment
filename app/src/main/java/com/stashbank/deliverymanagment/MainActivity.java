@@ -18,16 +18,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	private DrawerLayout drawer;
 	private Toolbar toolbar;
-	private Button deliveryMenuButton;
-	private Button shippingMenuButton;
-	private Button paymentMenuButton;
+	private NavigationView navigationView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+		navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		toolbar = (Toolbar)findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -39,9 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		
 		if (savedInstanceState == null) {
 			openMainFragment();
-			// navigationView.setCheckedItem(R.id.nav_delivery);
 		}
-		// initButtons();
 
 	}
 	
@@ -76,13 +72,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
 
 		switch (menuItem.getItemId()) {
+			case R.id.nav_home:
+				openMainFragment();
+				break;
 			case R.id.nav_delivery:
 				openDeliveryFragment();
-				menuItem.setChecked(true);
 				break;
 			case R.id.nav_shipping:
 				openShippingFragment();
-				menuItem.setChecked(true);
 				break;
 			case R.id.nav_share:
 				Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
@@ -101,13 +98,17 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 			.beginTransaction()
 			.replace(R.id.fragment_container, new MainFragment())
 			.commit();
+		navigationView.setCheckedItem(R.id.nav_home);			
+		// initButtons();	
 	}
+	
 	
 	private void openDeliveryFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new DeliveryFragment())
 			.commit();
+		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
 	
 	private void openShippingFragment() {
@@ -115,16 +116,21 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 			.beginTransaction()
 			.replace(R.id.fragment_container, new ShippingFragment())
 			.commit();
+		navigationView.setCheckedItem(R.id.nav_shipping);
 	}
 	
 	private void initButtons() {
-		deliveryMenuButton = (Button) findViewById(R.id.btn_menu_delivery);
-		shippingMenuButton = (Button) findViewById(R.id.btn_menu_shipping);
-		paymentMenuButton = (Button) findViewById(R.id.btn_menu_payment);
+		View view = findViewById(R.id.fragment_delivery);
+		Button deliveryMenuButton = (Button) view.findViewById(R.id.btn_menu_delivery);
+		Button shippingMenuButton = (Button) view.findViewById(R.id.btn_menu_shipping);
+		Button paymentMenuButton = (Button) view.findViewById(R.id.btn_menu_payment);
 
 		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {}
+				public void onClick(View v) {
+					// NavigationView navigationView = (NavigationView) v.findViewById(R.id.nav_view);
+					// Toast.makeText(this, "Delivery button click", Toast.LENGTH_SHORT).show();
+				}
 			});
 
 		shippingMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -137,4 +143,5 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 				public void onClick(View v) {}
 			});
 	}
+
 }

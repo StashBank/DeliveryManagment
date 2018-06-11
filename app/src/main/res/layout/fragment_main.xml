@@ -9,42 +9,50 @@
 	android:paddingBottom="@dimen/activity_vertical_margin"
 	android:paddingLeft="@dimen/activity_horizontal_margin"
 	android:paddingRight="@dimen/activity_horizontal_margin"
-	android:paddingTop="@dimen/activity_vertical_margin"
+	android:paddingTop="?attr/actionBarSize"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior"
 	tools:context="com.stashbank.deliverymanagment.DeliveryActivity"
 	tools:showIn="@layout/app_bar_delivery">
 	
-	<Button
-		android:layout_height="wrap_content"
+	<RelativeLayout
 		android:layout_width="match_parent"
-		android:text="@string/menu_delivery"
-		android:layout_centerHorizontal="true"
-		android:id="@+id/btn_menu_delivery"
-		style="@style/Widget.AppCompat.Button.Colored"
-		android:background="@color/colorPrimary"
-		android:textSize="18sp"/>
-
-	<Button
 		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:text="@string/menu_shipment"
-		android:layout_centerHorizontal="true"
-		android:layout_marginTop="60dp"
-		android:id="@+id/btn_menu_shipping"
-		style="@style/Widget.AppCompat.Button.Colored"
-		android:background="@color/colorPrimary"
-		android:textSize="18sp"/>
+		android:layout_centerVertical="true"
+		android:orientation="vertical">
+	
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="@string/menu_delivery"
+			android:layout_centerHorizontal="true"
+			android:id="@+id/btn_menu_delivery"
+			style="@style/Widget.AppCompat.Button.Colored"
+			android:background="@color/colorPrimary"
+			android:textSize="18sp"/>
 
-	<Button
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:text="@string/menu_payment"
-		android:layout_centerHorizontal="true"
-		android:layout_marginTop="120dp"
-		android:textSize="18sp"
-		android:id="@+id/btn_menu_payment"
-		style="@style/Widget.AppCompat.Button.Colored"
-		android:background="?attr/colorControlActivated"/>
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="@string/menu_shipment"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="60dp"
+			android:id="@+id/btn_menu_shipping"
+			style="@style/Widget.AppCompat.Button.Colored"
+			android:background="@color/colorPrimary"
+			android:textSize="18sp"/>
 
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="@string/menu_payment"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="120dp"
+			android:id="@+id/btn_menu_payment"
+			style="@style/Widget.AppCompat.Button.Colored"
+			android:background="@color/colorActivated"
+			android:textSize="18sp"/>
+
+	</RelativeLayout>
+	
 </RelativeLayout>
 
