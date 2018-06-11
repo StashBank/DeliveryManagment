@@ -96,52 +96,27 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private void openMainFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new MainFragment())
+			.replace(R.id.fragment_container, new MainFragment(this))
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_home);			
-		// initButtons();	
+
 	}
 	
 	
-	private void openDeliveryFragment() {
+	public void openDeliveryFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new DeliveryFragment())
+			.replace(R.id.fragment_container, new DeliveryFragment(this))
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
 	
-	private void openShippingFragment() {
+	public void openShippingFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new ShippingFragment())
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_shipping);
-	}
-	
-	private void initButtons() {
-		View view = findViewById(R.id.fragment_delivery);
-		Button deliveryMenuButton = (Button) view.findViewById(R.id.btn_menu_delivery);
-		Button shippingMenuButton = (Button) view.findViewById(R.id.btn_menu_shipping);
-		Button paymentMenuButton = (Button) view.findViewById(R.id.btn_menu_payment);
-
-		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// NavigationView navigationView = (NavigationView) v.findViewById(R.id.nav_view);
-					// Toast.makeText(this, "Delivery button click", Toast.LENGTH_SHORT).show();
-				}
-			});
-
-		shippingMenuButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {}
-			});
-
-		paymentMenuButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {}
-			});
 	}
 
 }
