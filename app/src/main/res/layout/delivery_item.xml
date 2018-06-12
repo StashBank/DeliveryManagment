@@ -1,35 +1,105 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-	
-	<TextView
-		android:id="@+id/item_number"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text=""
-		android:textSize="18sp">
-	</TextView>
-    
-	<TextView
-		android:id="@+id/item_amount"
-		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="match_parent"
+			android:text="ТТН"
+			android:textSize="18sp"
+			android:layout_width="@dimen/item_label_width">
+
+		</TextView>
+
+		<TextView
+			android:id="@+id/item_number"
+			android:layout_height="match_parent"
+			android:text="0000000000"
+			android:textSize="18sp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp"
+			android:layout_width="match_parent">
+
+		</TextView>
+
+	</LinearLayout>
+
+	<LinearLayout
 		android:layout_height="wrap_content"
-		android:text=""
-		android:textSize="18sp">
-	</TextView>
-	
-	<TextView
-		android:id="@+id/item_address"
 		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:text="Сумма"
+			android:textSize="18sp"/>
+
+		<TextView
+			android:id="@+id/item_amount"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Address"
+			android:textSize="18sp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp">
+
+		</TextView>
+
+	</LinearLayout>
+
+	<LinearLayout
 		android:layout_height="wrap_content"
-		android:text=""
-		android:textSize="18sp">
-	</TextView>
-	
-	<CheckBox
-		android:id="@+id/item_delivered"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-	</CheckBox>
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:text="Адрес доставки"
+			android:textSize="18sp"/>
+
+		<TextView
+			android:id="@+id/item_address"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Amount"
+			android:textSize="18sp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp">
+
+		</TextView>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:textSize="18sp"
+			android:text="Доставлено"/>
+
+		<CheckBox
+			android:id="@+id/item_delivered"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp">
+
+		</CheckBox>
+
+	</LinearLayout>
+
 </LinearLayout>
+
