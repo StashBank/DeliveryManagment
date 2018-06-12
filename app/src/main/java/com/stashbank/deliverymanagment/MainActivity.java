@@ -14,7 +14,9 @@ import android.support.v7.app.*;
 import android.support.v4.view.*;
 import android.widget.*;
 
-public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity
+implements OnNavigationItemSelectedListener, MainFragment.OnMainFragmentButtonClickListener
+{
 
 	private DrawerLayout drawer;
 	private Toolbar toolbar;
@@ -93,17 +95,36 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		return true;
 	}
 	
+	@Override
+	public void onDeliveryMenuButtonClick(View view)
+	{
+		openDeliveryFragment();
+	}
+
+	@Override
+	public void onShippingMenuButtonClick(View view)
+	{
+		openShippingFragment();
+	}
+
+	@Override
+	public void onPaymentMenuButtonClick(View view)
+	{
+		// TODO: Implement this method
+		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
+	}
+	
 	private void openMainFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new MainFragment(this))
+			.replace(R.id.fragment_container, new MainFragment(this, this))
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_home);			
 
 	}
 	
 	
-	public void openDeliveryFragment() {
+	private void openDeliveryFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new DeliveryFragment(this))
@@ -111,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
 	
-	public void openShippingFragment() {
+	private void openShippingFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new ShippingFragment())

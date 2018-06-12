@@ -12,17 +12,24 @@ import android.content.*;
 
 public class MainFragment extends Fragment
 {
+	public static abstract interface OnMainFragmentButtonClickListener
+    {
+        public abstract void onDeliveryMenuButtonClick(android.view.View view);
+		public abstract void onShippingMenuButtonClick(android.view.View view);
+		public abstract void onPaymentMenuButtonClick(android.view.View view);
+
+    }
 
 	private Context context;
-	private MainActivity mainActivity;
+	private OnMainFragmentButtonClickListener menuButtonClickListner;
 	private Button deliveryMenuButton;
 	private Button shippingMenuButton;
 	private Button paymentMenuButton;
 	private View view;
 	
-	public MainFragment(Context context) {
+	public MainFragment(Context context, OnMainFragmentButtonClickListener menuButtonClickListner) {
 		this.context = context;
-		this.mainActivity = (MainActivity) context;
+		this.menuButtonClickListner = menuButtonClickListner;
 	}
 
 	@Nullable
@@ -35,30 +42,28 @@ public class MainFragment extends Fragment
 	}
 	
 	private void initButtons() {
-		Button deliveryMenuButton = view.findViewById(R.id.btn_menu_delivery);
-		Button shippingMenuButton = view.findViewById(R.id.btn_menu_shipping);
-		Button paymentMenuButton = view.findViewById(R.id.btn_menu_payment);
+		deliveryMenuButton = view.findViewById(R.id.btn_menu_delivery);
+		shippingMenuButton = view.findViewById(R.id.btn_menu_shipping);
+		paymentMenuButton = view.findViewById(R.id.btn_menu_payment);
 
 		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					// Toast.makeText(context, "Delivery button click", Toast.LENGTH_SHORT).show();
-					mainActivity.openDeliveryFragment();
+				public void onClick(View view) {
+					menuButtonClickListner.onDeliveryMenuButtonClick(view);
 				}
 			});
 
 		shippingMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					// Toast.makeText(context, "Shipping button click", Toast.LENGTH_SHORT).show();
-					mainActivity.openShippingFragment();
+				public void onClick(View view) {
+					menuButtonClickListner.onShippingMenuButtonClick(view);
 				}
 			});
 
 		paymentMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(context, "Paymant button click", Toast.LENGTH_SHORT).show();
+					menuButtonClickListner.onPaymentMenuButtonClick(view);
 				}
 			});
 	}
