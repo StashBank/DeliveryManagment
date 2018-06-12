@@ -14,8 +14,7 @@ import android.support.v7.app.*;
 import android.support.v4.view.*;
 import android.widget.*;
 
-public class MainActivity extends AppCompatActivity
-implements OnNavigationItemSelectedListener, MainFragment.OnMainFragmentButtonClickListener
+public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener, MainFragment.OnButtonClickListner
 {
 
 	private DrawerLayout drawer;
@@ -95,49 +94,51 @@ implements OnNavigationItemSelectedListener, MainFragment.OnMainFragmentButtonCl
 		return true;
 	}
 	
-	@Override
-	public void onDeliveryMenuButtonClick(View view)
-	{
-		openDeliveryFragment();
-	}
-
-	@Override
-	public void onShippingMenuButtonClick(View view)
-	{
-		openShippingFragment();
-	}
-
-	@Override
-	public void onPaymentMenuButtonClick(View view)
-	{
-		// TODO: Implement this method
-		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
-	}
-	
 	private void openMainFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new MainFragment(this, this))
+			.replace(R.id.fragment_container, new MainFragment())
 			.commit();
-		navigationView.setCheckedItem(R.id.nav_home);			
+		navigationView.setCheckedItem(R.id.nav_home);
 
 	}
 	
 	
 	private void openDeliveryFragment() {
+		DeliveryFragment fragment = new DeliveryFragment();
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new DeliveryFragment(this))
+			.replace(R.id.fragment_container, fragment)
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
 	
 	private void openShippingFragment() {
+		ShippingFragment fragment = new ShippingFragment();
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new ShippingFragment())
+			.replace(R.id.fragment_container, fragment)
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_shipping);
+	}
+	
+	@Override
+	public void onDeliveryButtonClick(View view)
+	{
+		openDeliveryFragment();
+	}
+
+	@Override
+	public void onShippingButtonClick(View view)
+	{
+		openShippingFragment();
+	}
+
+	@Override
+	public void onPaymentButtonClick(View view)
+	{
+		// TODO: Implement this method
+		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
 	}
 
 }

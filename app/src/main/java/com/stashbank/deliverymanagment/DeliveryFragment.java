@@ -17,11 +17,6 @@ public class DeliveryFragment extends Fragment
 	ArrayList<DeliveryItem> items = new ArrayList<DeliveryItem>();
 	DeliveryItemAdapter itemAdapter;
 	ListView listView;
-	Context context;
-	
-	public DeliveryFragment(Context context) {
-		this.context = context;
-	}
 
 	@Nullable
 	@Override
@@ -29,20 +24,20 @@ public class DeliveryFragment extends Fragment
 	{
 		View view = inflater.inflate(R.layout.fragment_delivery, container, false);
 		fetchData();
-		itemAdapter = new DeliveryItemAdapter(context, items);
+		itemAdapter = new DeliveryItemAdapter(getActivity(), items);
 		listView = view.findViewById(R.id.list_view);
 		listView.setAdapter(itemAdapter);
 		return view;
 	}
 	
 	private void fetchData() {
-		for (int i = 1; i <= 50; i++) {
-			String number = "000";
+		for (int i = 1; i <= 30; i++) {
+			String number = "000" + i;
 			DeliveryItem item = new DeliveryItem(
 				i,
 				number,
 				"Some address",
-				Math.random()
+				Math.random() * 1000
 			);
 			items.add(item);
 		}

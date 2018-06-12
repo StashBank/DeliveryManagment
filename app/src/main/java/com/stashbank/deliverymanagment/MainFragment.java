@@ -12,58 +12,61 @@ import android.content.*;
 
 public class MainFragment extends Fragment
 {
-	public static abstract interface OnMainFragmentButtonClickListener
-    {
-        public abstract void onDeliveryMenuButtonClick(android.view.View view);
-		public abstract void onShippingMenuButtonClick(android.view.View view);
-		public abstract void onPaymentMenuButtonClick(android.view.View view);
+	public interface OnButtonClickListner {
+		public void onDeliveryButtonClick(View view);
+		public void onShippingButtonClick(View view);
+		public void onPaymentButtonClick(View view);
+	}
+	OnButtonClickListner buttonClickListner;
 
-    }
-
-	private Context context;
-	private OnMainFragmentButtonClickListener menuButtonClickListner;
-	private Button deliveryMenuButton;
-	private Button shippingMenuButton;
-	private Button paymentMenuButton;
-	private View view;
-	
-	public MainFragment(Context context, OnMainFragmentButtonClickListener menuButtonClickListner) {
-		this.context = context;
-		this.menuButtonClickListner = menuButtonClickListner;
+	@Override
+	public void onAttach(Context context)
+	{
+		super.onAttach(context);
+		try {
+			buttonClickListner = (OnButtonClickListner) context;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(
+				context.toString() + "must implement OnButtonClickListner interface"
+			);
+		}
 	}
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
 	{
-		view = inflater.inflate(R.layout.fragment_main, container, false);
-		initButtons();
+		View view = inflater.inflate(R.layout.fragment_main, container, false);
+		initButtons(view);
 		return view;
 	}
 	
-	private void initButtons() {
-		deliveryMenuButton = view.findViewById(R.id.btn_menu_delivery);
-		shippingMenuButton = view.findViewById(R.id.btn_menu_shipping);
-		paymentMenuButton = view.findViewById(R.id.btn_menu_payment);
+	private void initButtons(View view) {
+		Button deliveryMenuButton = view.findViewById(R.id.btn_menu_delivery);
+		Button shippingMenuButton = view.findViewById(R.id.btn_menu_shipping);
+		Button paymentMenuButton = view.findViewById(R.id.btn_menu_payment);
 
 		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					menuButtonClickListner.onDeliveryMenuButtonClick(view);
+					if (buttonClickListner != null)
+						buttonClickListner.onDeliveryButtonClick(view);
 				}
 			});
 
 		shippingMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					menuButtonClickListner.onShippingMenuButtonClick(view);
+					if (buttonClickListner != null)
+						buttonClickListner.onShippingButtonClick(view);
 				}
 			});
 
 		paymentMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					menuButtonClickListner.onPaymentMenuButtonClick(view);
+				public void onClick(View view) {
+					if (buttonClickListner != null)
+						buttonClickListner.onPaymentButtonClick(view);
 				}
 			});
 	}

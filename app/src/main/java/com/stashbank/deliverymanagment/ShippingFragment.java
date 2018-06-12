@@ -6,9 +6,17 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.view.*;
+import java.util.*;
+import com.stashbank.deliverymanagment.models.*;
+import com.stashbank.deliverymanagment.adapters.*;
+import android.content.*;
+import android.widget.*;
 
 public class ShippingFragment extends Fragment
 {
+	ArrayList<DeliveryItem> items = new ArrayList<DeliveryItem>();
+	DeliveryItemAdapter itemAdapter;
+	ListView listView;
 
 	@Nullable
 	@Override
