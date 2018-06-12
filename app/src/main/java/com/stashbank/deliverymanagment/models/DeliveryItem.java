@@ -2,7 +2,7 @@ package com.stashbank.deliverymanagment.models;
 
 public class DeliveryItem extends Item
 {
-	Boolean delivered;
+	boolean delivered = false;
 
 	public DeliveryItem(
 		int id,
@@ -13,12 +13,12 @@ public class DeliveryItem extends Item
 		super(id, number, address, amount);
 	}
 
-	public void setDelivered(Boolean delivered)
+	public void setDelivered(boolean delivered)
 	{
 		this.delivered = delivered;
 	}
 
-	public Boolean getDelivered()
+	public boolean getDelivered()
 	{
 		return delivered;
 	}

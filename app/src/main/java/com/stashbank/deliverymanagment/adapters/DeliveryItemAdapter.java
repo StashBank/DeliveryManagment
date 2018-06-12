@@ -5,9 +5,11 @@ import android.content.*;
 import java.util.*;
 import com.stashbank.deliverymanagment.models.*;
 import android.support.v7.appcompat.*;
+import android.widget.CompoundButton.*;
 
-public class DeliveryItemAdapter extends BaseAdapter
+public class DeliveryItemAdapter extends BaseAdapter implements OnCheckedChangeListener
 {
+	
 	Context context;
 	LayoutInflater layoutInflater;
 	ArrayList<DeliveryItem> items;
@@ -48,6 +50,9 @@ public class DeliveryItemAdapter extends BaseAdapter
 		tvAddress = view.findViewById(R.id.item_address);
 		tvAmount = view.findViewById(R.id.item_amount);
 		cbDelivered = view.findViewById(R.id.item_delivered);
+		cbDelivered.setOnCheckedChangeListener(this);
+		cbDelivered.setTag(position);
+		cbDelivered.setChecked(item.getDelivered());
 		
 		tvNumber.setText(item.getNumber());
 		tvAddress.setText(item.getAddress());
@@ -60,6 +65,14 @@ public class DeliveryItemAdapter extends BaseAdapter
 	public int getCount()
 	{
 		return items.size();
+	}
+	
+	@Override
+	public void onCheckedChanged(CompoundButton button, boolean isChecked)
+	{
+		int position = button.getTag();
+		DeliveryItem item = (DeliveryItem) getItem(position);
+		item.setDelivered(isChecked);
 	}
 
 }
