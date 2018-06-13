@@ -59,5 +59,9 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 		DeliveryItem item = (DeliveryItem) getItem(position);
 		item.setDelivered(isChecked);
 	}
+	
+	public void onFetchDataFailure() {
+		Toast.makeText(getContext(), "Can't fetch data from server", Toast.LENGTH_LONG);
+	}
 
 }

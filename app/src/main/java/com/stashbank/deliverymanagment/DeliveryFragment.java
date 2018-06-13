@@ -50,12 +50,14 @@ public class DeliveryFragment extends Fragment
 					itemAdapter.addAll(response.body());
 				} else {
 					log("response code " + response.code());
+					itemAdapter.onFetchDataFailure();
 				}
 			}
 
 			@Override
 			public void onFailure(Call<List<DeliveryItem>> call, Throwable t) {
 				log("ERROR " + t);
+				itemAdapter.onFetchDataFailure();
 			}
 
 		});
