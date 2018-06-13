@@ -5,7 +5,7 @@ public class ShippingItem extends Item
 	private Boolean shipped;
 
 	public ShippingItem(
-	int id,
+	String id,
 	String number,
 	String address,
 	double amount,

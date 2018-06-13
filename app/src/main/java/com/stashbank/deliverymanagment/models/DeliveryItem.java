@@ -5,7 +5,7 @@ public class DeliveryItem extends Item
 	boolean delivered = false;
 
 	public DeliveryItem(
-		int id,
+		String id,
 		String number,
 		String address,
 		double amount

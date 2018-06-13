@@ -2,13 +2,13 @@ package com.stashbank.deliverymanagment.models;
 
 public class Item
 {
-	private int id;
+	private String id;
 	private String number;
 	private String address;
 	private double amount;
 	
 	public Item(
-		int id,
+		String id,
 		String number,
 		String address,
 		double amount
@@ -19,12 +19,12 @@ public class Item
 		this.address = address;
 	}
 
-	public void setId(int id)
+	public void setId(String id)
 	{
 		this.id = id;
 	}
 
-	public int getId()
+	public String getId()
 	{
 		return id;
 	}
