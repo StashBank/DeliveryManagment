@@ -28,7 +28,7 @@
 			android:id="@+id/btn_menu_delivery"
 			style="@style/Widget.AppCompat.Button.Colored"
 			android:background="@color/colorPrimary"
-			android:textSize="18sp"/>
+			android:textSize="18sp" />
 
 		<Button
 			android:layout_height="wrap_content"

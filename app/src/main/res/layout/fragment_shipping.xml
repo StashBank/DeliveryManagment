@@ -20,6 +20,6 @@
 		android:layout_width="wrap_content"
 		android:text="Shipping Activity"
 		android:layout_centerHorizontal="true"
-		android:layout_centerInParent="true"/>
+		android:layout_centerInParent="true" />
 	
 </RelativeLayout>
