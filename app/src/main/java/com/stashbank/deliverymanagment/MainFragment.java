@@ -42,9 +42,9 @@ public class MainFragment extends Fragment
 	}
 	
 	private void initButtons(View view) {
-		Button deliveryMenuButton = view.findViewById(R.id.btn_menu_delivery);
-		Button shippingMenuButton = view.findViewById(R.id.btn_menu_shipping);
-		Button paymentMenuButton = view.findViewById(R.id.btn_menu_payment);
+		Button deliveryMenuButton = (Button) view.findViewById(R.id.btn_menu_delivery);
+		Button shippingMenuButton = (Button) view.findViewById(R.id.btn_menu_shipping);
+		Button paymentMenuButton = (Button) view.findViewById(R.id.btn_menu_payment);
 
 		deliveryMenuButton.setOnClickListener(new View.OnClickListener() {
 				@Override
