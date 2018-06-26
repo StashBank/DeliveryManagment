@@ -6,20 +6,26 @@ import java.util.*;
 import com.stashbank.deliverymanagment.models.*;
 import android.support.v7.appcompat.*;
 import android.widget.CompoundButton.*;
+import com.stashbank.deliverymanagment.DeliveryFragment;
 
 public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChangeListener
 {
 	
 	LayoutInflater layoutInflater;
-	
+	DeliveryFragment.DeliveryFragmentEventListener eventListener;
 	TextView tvNumber;
 	TextView tvAddress;
+	TextView tvClient;
 	TextView tvAmount;
 	CheckBox cbDelivered;
+	CheckBox cbPayed;
+	Button btnPay;
+	Button btnDeliver;
 	
-	public DeliveryItemAdapter(Context context, ArrayList<DeliveryItem> items) {
+	public DeliveryItemAdapter(Context context, ArrayList<DeliveryItem> items, DeliveryFragment.DeliveryFragmentEventListener eventListener) {
 		super(context, 0, items);
 		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.eventListener = eventListener;
 	}
 
 	@Override
@@ -38,16 +44,46 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 		}
 		DeliveryItem item = (DeliveryItem) getItem(position);
 		tvNumber = view.findViewById(R.id.item_number);
+		tvClient = view.findViewById(R.id.item_client);
 		tvAddress = view.findViewById(R.id.item_address);
 		tvAmount = view.findViewById(R.id.item_amount);
 		cbDelivered = view.findViewById(R.id.item_delivered);
 		cbDelivered.setOnCheckedChangeListener(this);
 		cbDelivered.setTag(position);
-		cbDelivered.setChecked(item.getDelivered());
+		cbDelivered.setChecked(item.isDelivered());
+		cbDelivered.setEnabled(false);
+		
+		cbPayed = view.findViewById(R.id.item_payed);
+		cbPayed.setChecked(item.isPayed());
+		cbPayed.setEnabled(false);
 		
 		tvNumber.setText(item.getNumber());
+		tvClient.setText(item.getClient());
 		tvAddress.setText(item.getAddress());
 		tvAmount.setText("" + item.getAmount());
+		
+		btnPay = view.findViewById(R.id.item_btn_pay);
+		btnPay.setTag(position);
+		btnPay.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View button) {
+				int position = button.getTag();
+				DeliveryItem item = (DeliveryItem) getItem(position);
+				eventListener.makePayment(item);
+			}
+		});
+		
+
+		btnDeliver = view.findViewById(R.id.item_btn_delivered);
+		btnDeliver.setTag(position);
+		btnDeliver.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View button) {
+					int position = button.getTag();
+					DeliveryItem item = (DeliveryItem) getItem(position);
+					eventListener.markAsDelivered(item);
+				}
+			});
 		return view;
 	}
 

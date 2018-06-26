@@ -26,17 +26,8 @@
 		<activity android:name=".MainActivity">
 		</activity>
 		<activity
-			android:name=".DeliveryActivity"
-			android:label="@string/title_activity_delivery"
-			android:parentActivityName=".MainActivity"
-			android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.stashbank.deliverymanagment.MainActivity"/>
-		</activity>
-		<activity
-			android:name=".ShippingActivity"
-			android:label="@string/title_activity_shipping"
+			android:name=".PaymentActivity"
+			android:label="@string/title_activity_payment"
 			android:parentActivityName=".MainActivity"
 			android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 			<meta-data

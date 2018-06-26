@@ -5,18 +5,33 @@ public class Item
 	private String id;
 	private String number;
 	private String address;
+	private String client;
 	private double amount;
+	
+	public Item() {}
 	
 	public Item(
 		String id,
 		String number,
 		String address,
+		String client,
 		double amount
 	) {
 		this.id = id;
 		this.number = number;
 		this.amount = amount;
 		this.address = address;
+		this.client = client;
+	}
+
+	public void setClient(String client)
+	{
+		this.client = client;
+	}
+
+	public String getClient()
+	{
+		return client;
 	}
 
 	public void setId(String id)

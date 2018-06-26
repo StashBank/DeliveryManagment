@@ -13,13 +13,22 @@ import android.support.design.widget.NavigationView.OnNavigationItemSelectedList
 import android.support.v7.app.*;
 import android.support.v4.view.*;
 import android.widget.*;
+import com.stashbank.deliverymanagment.models.*;
+import com.stashbank.deliverymanagment.rest.*;
+import retrofit2.*;
+import android.util.*;
 
-public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener, MainFragment.OnButtonClickListner
+public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener,
+	MainFragment.OnButtonClickListner,
+	DeliveryFragment.DeliveryFragmentEventListener
 {
 
 	private DrawerLayout drawer;
 	private Toolbar toolbar;
 	private NavigationView navigationView;
+	private DeliveryItem selectedDeliveryItem;
+	
+	private int PAYMENT_REQ_CODE = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	
 	private void openDeliveryFragment() {
 		DeliveryFragment fragment = new DeliveryFragment();
+		fragment.setEventListener(this);
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, fragment)
@@ -139,6 +149,82 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	{
 		// TODO: Implement this method
 		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
+	}
+	
+	@Override
+	public void showProgress(final boolean show) {
+		ProgressBar progressView = (ProgressBar) findViewById(R.id.progress);
+		if (progressView != null) {
+			FrameLayout frame = (FrameLayout) findViewById(R.id.fragment_container);
+			progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+			frame.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
+	}
+
+	@Override
+	public void overridePendingTransition(int enterAnim, int exitAnim)
+	{
+		// TODO: Implement this method
+		super.overridePendingTransition(enterAnim, exitAnim);
+	}
+
+	@Override
+	public void makePayment(DeliveryItem delivery)
+	{
+		selectedDeliveryItem = delivery;
+		Intent intent = new Intent(this, PaymentActivity.class);
+		intent.putExtra("number", delivery.getNumber());
+		intent.putExtra("amount", delivery.getAmount());
+		intent.putExtra("client", delivery.getClient());
+		intent.putExtra("deliveryId", delivery.getId());
+		// intent.putExtra("delivery", delivery);
+		startActivityForResult(intent, PAYMENT_REQ_CODE);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (data == null) {return;}
+		if (requestCode == PAYMENT_REQ_CODE) {
+			markPayment(selectedDeliveryItem);
+		}
+	}
+	
+	void markPayment(DeliveryItem item) {
+		DeliveryItemRepository repository = new DeliveryItemRepository();
+		// Call<DeliveryItem> items = repository.setItem(item.getId(), item);
+		Call<DeliveryItem> items = repository.markPayment(item.getId(), true);
+		// showProgress(true);
+		items.enqueue(new Callback<DeliveryItem>() {
+				@Override
+				public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
+					// showProgress(false);
+					if (response.isSuccessful()) {
+						// response.body();
+					} else {
+						log("response code " + response.code());
+						// itemAdapter.onFetchDataFailure();
+					}
+				}
+
+				@Override
+				public void onFailure(Call<DeliveryItem> call, Throwable t) {
+					// showProgress(false);
+					log("ERROR " + t);
+					// itemAdapter.onFetchDataFailure();
+				}
+
+			});
+	}
+	
+	@Override
+	public void markAsDelivered(DeliveryItem delivery)
+	{
+		// TODO: Implement this method
+	}
+	
+	private void log(String message)
+	{
+		Log.d("REST", message);
 	}
 
 }

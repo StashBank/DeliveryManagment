@@ -8,10 +8,11 @@ public class ShippingItem extends Item
 	String id,
 	String number,
 	String address,
+	String client,
 	double amount,
 	boolean shipped
 	) {
-		super(id, number, address, amount);
+		super(id, number, address, client, amount);
 		this.shipped = shipped;
 	}
 

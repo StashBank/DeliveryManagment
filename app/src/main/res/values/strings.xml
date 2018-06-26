@@ -19,9 +19,8 @@
 	<string name="menu_delivery">Доставка</string>
 	<string name="menu_shipment">Отгрузка</string>
 	<string name="menu_payment">Оплата</string>
-	<string name="title_activity_delivery">Доставка</string>
+	<string name="title_activity_payment">Оплата</string>
 
 	<string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>
-	<string name="title_activity_shipping">Отгрузка</string>
 </resources>

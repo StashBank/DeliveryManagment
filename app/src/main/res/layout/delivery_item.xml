@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:orientation="vertical">
+	android:orientation="vertical"
+	android:layout_marginLeft="3dp">
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -13,7 +14,7 @@
 		<TextView
 			android:layout_height="match_parent"
 			android:text="ТТН"
-			android:textSize="18sp"
+			android:textSize="@dimen/item_text_size"
 			android:layout_width="@dimen/item_label_width">
 
 		</TextView>
@@ -40,14 +41,36 @@
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
 			android:text="Сумма"
-			android:textSize="18sp"/>
+			android:textSize="@dimen/item_text_size"/>
 
 		<TextView
 			android:id="@+id/item_amount"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Ammount"
+			android:textSize="@dimen/item_text_size"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:text="Клиент"
+			android:textSize="@dimen/item_text_size"/>
+
+		<TextView
+			android:id="@+id/item_client"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Address"
-			android:textSize="18sp"
+			android:text="Client"
+			android:textSize="@dimen/item_text_size"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="5dp">
 
@@ -64,14 +87,14 @@
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
 			android:text="Адрес доставки"
-			android:textSize="18sp"/>
+			android:textSize="@dimen/item_text_size"/>
 
 		<TextView
 			android:id="@+id/item_address"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Amount"
-			android:textSize="18sp"
+			android:text="Address"
+			android:textSize="@dimen/item_text_size"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="5dp">
 
@@ -80,24 +103,81 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:layout_height="wrap_content"
+		android:layout_height="32dp"
 		android:layout_width="match_parent"
 		android:orientation="horizontal">
 
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
-			android:textSize="18sp"
-			android:text="Доставлено"/>
-
-		<CheckBox
-			android:id="@+id/item_delivered"
+			android:textSize="@dimen/item_text_size"
+			android:text="Оплачено"/>
+		
+		<RelativeLayout
+			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:orientation="horizontal"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="5dp">
 
-		</CheckBox>
+			<CheckBox
+				android:id="@+id/item_payed"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="5dp"
+				android:layout_alignParentLeft="true">
+			</CheckBox>
+
+			<Button
+				android:id="@+id/item_btn_pay"
+				android:layout_height="wrap_content"
+				android:layout_width="96dp"
+				android:text="Оплатить"
+				android:textSize="10sp"
+				android:layout_alignParentRight="true"
+				android:textColor="#0A0FEA"/>
+
+		</RelativeLayout>
+
+	</LinearLayout>
+	
+	<LinearLayout
+		android:layout_height="32dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:textSize="@dimen/item_text_size"
+			android:text="Доставлено"/>
+		
+		<RelativeLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp">
+			
+			<CheckBox
+				android:id="@+id/item_delivered"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="5dp"
+				android:layout_alignParentLeft="true">
+
+			</CheckBox>
+
+			<Button
+				android:id="@+id/item_btn_delivered"
+				android:layout_height="wrap_content"
+				android:layout_width="96dp"
+				android:text="Доставлено"
+				android:layout_alignParentRight="true"
+				android:textSize="10sp"
+				android:textColor="#0A0FEA"/>
+
+		</RelativeLayout>
 
 	</LinearLayout>
 
