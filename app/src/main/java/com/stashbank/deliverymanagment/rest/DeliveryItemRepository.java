@@ -1,47 +1,54 @@
 package com.stashbank.deliverymanagment.rest;
 
 import retrofit2.*;
-import retrofit2.converter.gson.*;
+import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.*;
 import com.stashbank.deliverymanagment.models.*;
+import retrofit2.http.*;
+import okhttp3.OkHttpClient;
 
 public class DeliveryItemRepository implements DeliveryItemApi
 {
-	Retrofit retrofit;
-	DeliveryItemApi api;
-	
-	public DeliveryItemRepository() {
-		retrofit = new Retrofit.Builder()
+	DeliveryItemApi createService() {
+		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+		Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl("https://crud-server.firebaseapp.com/")
 			.addConverterFactory(GsonConverterFactory.create())
+			.client(httpClientBuilder.build())
 			.build();
-		api = retrofit.create(DeliveryItemApi.class);
-		
+		DeliveryItemApi api = retrofit.create(DeliveryItemApi.class);
+		return api;
 	}
 
 	@Override
 	public Call<DeliveryItem> getItemById(String id)
 	{
-		Call<DeliveryItem> items = api.getItemById(id);
-		return items;
+		DeliveryItemApi api = createService();
+		Call<DeliveryItem> call = api.getItemById(id);
+		return call;
 	}
 	
 	@Override
 	public Call<List<DeliveryItem>> getItems()
 	{
-		Call<List<DeliveryItem>> items = api.getItems();
-		return items;
+		DeliveryItemApi api = createService();
+		Call<List<DeliveryItem>> call = api.getItems();
+		return call;
 	}
 
 	@Override
 	public Call<DeliveryItem> setItem(String id, DeliveryItem item)
 	{
-		return api.setItem(id, item);
+		DeliveryItemApi api = createService();
+		Call<DeliveryItem> call = api.setItem(id, item);
+		return call;
 	}
 	
 	@Override
 	public Call<DeliveryItem> markPayment(String id, boolean payed) {
-		return api.markPayment(id, payed);
+		DeliveryItemApi api = createService();
+		Call<DeliveryItem> call = api.markPayment(id, payed);
+		return call;
 	}
 	
 }
