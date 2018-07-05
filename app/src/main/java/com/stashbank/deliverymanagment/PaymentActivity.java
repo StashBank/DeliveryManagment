@@ -17,6 +17,7 @@ import retrofit2.*;
 import com.stashbank.deliverymanagment.models.*;
 import android.util.*;
 import android.view.View.*;
+import java.io.*;
 
 
 public class PaymentActivity extends AppCompatActivity
@@ -59,37 +60,33 @@ public class PaymentActivity extends AppCompatActivity
 	
 	void markPayment(DeliveryItem item) {
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<DeliveryItem> items = repository.setItem(item.getId(), item);
+		Call<DeliveryItem> call = repository.setItem(item.getId(), item);
 		// showProgress(true);
-		items.enqueue(new Callback<DeliveryItem>() {
-				@Override
-				public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
-					// showProgress(false);
-					if (response.isSuccessful()) {
-						// response.body();
-					} else {
-						log("response code " + response.code());
-						// itemAdapter.onFetchDataFailure();
-					}
-				}
-
-				@Override
-				public void onFailure(Call<DeliveryItem> call, Throwable t) {
-					// showProgress(false);
-					log("ERROR " + t);
-					// itemAdapter.onFetchDataFailure();
-				}
-
-			});
+		try {
+			Response<DeliveryItem> response = call.execute();
+			// showProgress(false);
+			if (response.isSuccessful()) {
+				// response.body();
+			} else {
+				log("response code " + response.code());
+				// itemAdapter.onFetchDataFailure();
+			}
+		} catch (IOException e) {
+			// showProgress(false);
+			log("ERROR " + e);
+			Toast.makeText(this, "Error while sending data to server", Toast.LENGTH_LONG);
+		}
 	}
 	
 	void fetchDeliveryItem(String id) {
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<DeliveryItem> item = repository.getItemById(id);
+		Call<DeliveryItem> call = repository.getItemById(id);
 		// showProgress(true);
-		item.enqueue(new Callback<DeliveryItem>() {
+		call.enqueue(new Callback<DeliveryItem>() {
+
 				@Override
-				public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
+				public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response)
+				{
 					// showProgress(false);
 					if (response.isSuccessful()) {
 						DeliveryItem delivery = response.body();
@@ -104,18 +101,18 @@ public class PaymentActivity extends AppCompatActivity
 						textView.setText(text);
 					} else {
 						log("response code " + response.code());
-						// itemAdapter.onFetchDataFailure();
 					}
 				}
 
 				@Override
-				public void onFailure(Call<DeliveryItem> call, Throwable t) {
+				public void onFailure(Call<DeliveryItem> call, Throwable t)
+				{
 					// showProgress(false);
 					log("ERROR " + t);
-					// itemAdapter.onFetchDataFailure();
+					// Toast.makeText(this, "Error while fetching data from server", Toast.LENGTH_LONG);
 				}
 
-			});
+		});
 	}
 	
 	private void log(String message)

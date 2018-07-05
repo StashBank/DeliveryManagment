@@ -49,10 +49,10 @@ public class DeliveryFragment extends Fragment
 	private void fetchData() {
 		// REST
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<List<DeliveryItem>> items = repository.getItems();
+		Call<List<DeliveryItem>> call = repository.getItems();
 		if (eventListener != null)
 			eventListener.showProgress(true);
-		items.enqueue(new Callback<List<DeliveryItem>>() {
+		call.enqueue(new Callback<List<DeliveryItem>>() {
 			@Override
 			public void onResponse(Call<List<DeliveryItem>> call, Response<List<DeliveryItem>> response) {
 				if (eventListener != null)
