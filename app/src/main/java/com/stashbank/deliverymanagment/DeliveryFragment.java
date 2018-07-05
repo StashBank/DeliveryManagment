@@ -41,7 +41,7 @@ public class DeliveryFragment extends Fragment
 		View view = inflater.inflate(R.layout.fragment_delivery, container, false);
 		fetchData();
 		itemAdapter = new DeliveryItemAdapter(getActivity(), items, eventListener);
-		listView = view.findViewById(R.id.list_view);
+		listView = (ListView) view.findViewById(R.id.list_view);
 		listView.setAdapter(itemAdapter);
 		return view;
 	}
