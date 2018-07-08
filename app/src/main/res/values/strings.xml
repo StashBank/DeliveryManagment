@@ -2,6 +2,7 @@
 	<string name="app_name">Управление доставкой</string>
 
 	<string name="cant_fetch_data_from_server">Can not fetch data from server</string>
+	<string name="ok">Ok</string>
 	<!-- Strings related to login -->
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
@@ -35,4 +36,7 @@
 	<string name="delivery_item_delivered_lbl">Доставлено</string>
 	<string name="delivery_item_btn_delivered">Доставлено</string>
 	<string name="payment_activity_btn_pay">Оплатить</string>
+	<string name="payment_client_lbl">Клиент</string>
+	<string name="payment_amount_lbl">Сумма</string>
+	<string name="payment_number_lbl">Номер</string>
 </resources>

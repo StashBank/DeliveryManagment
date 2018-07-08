@@ -5,18 +5,85 @@
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/payment_description"
-		android:text="Payment Activity"
+	<ProgressBar
+		android:id="@+id/progress"
+		style="?android:attr/progressBarStyleLarge"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:textSize="24sp">
+		android:layout_marginTop="12dp"
+		android:layout_centerHorizontal="true"
+		android:visibility="gone"/>
 
-	</TextView>
+	<LinearLayout
+		android:id="@+id/payment_number_wrap"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:layout_marginLeft="12dp"
+		android:layout_marginRight="12dp"
+		android:orientation="horizontal">
+		<TextView
+			android:text="@string/payment_number_lbl"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="12dp"
+			android:textSize="22sp" />
+		<TextView
+			android:id="@+id/payment_number"
+			android:text=""
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="24sp" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/payment_amount_wrap"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/payment_number_wrap"
+		android:layout_marginLeft="12dp"
+		android:layout_marginRight="12dp"
+		android:orientation="horizontal">
+		<TextView
+			android:text="@string/payment_amount_lbl"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="12dp"
+			android:textSize="22sp" />
+		<TextView
+			android:id="@+id/payment_amount"
+			android:text=""
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="24sp" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/payment_client_wrap"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/payment_amount_wrap"
+		android:layout_marginLeft="12dp"
+		android:layout_marginRight="12dp"
+		android:layout_marginBottom="24dp"
+		android:orientation="horizontal">
+		<TextView
+			android:text="@string/payment_client_lbl"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="12dp"
+			android:textSize="22sp" />
+		<TextView
+			android:id="@+id/payment_client"
+			android:text=""
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="24sp" />
+	</LinearLayout>
 
 	<Button
 		android:id="@+id/btn_pay"
+		android:onClick="onPayment"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:layout_centerInParent="false"
@@ -24,7 +91,7 @@
 		android:layout_marginLeft="30dp"
 		android:layout_marginRight="30dp"
 		android:background="@color/colorActivated"
-		android:layout_below="@id/payment_description"
+		android:layout_below="@id/payment_client_wrap"
 		android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

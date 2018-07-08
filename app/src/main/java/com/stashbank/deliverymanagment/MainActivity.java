@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	private DeliveryFragment deliveryFragment;
 	
-	private int PAYMENT_REQ_CODE = 1;
+	private final int PAYMENT_REQ_CODE = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -175,29 +175,12 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	public void makePayment(DeliveryItem delivery)
 	{
 		selectedDeliveryItem = delivery;
-		/*Intent intent = new Intent(this, PaymentActivity.class);
+		Intent intent = new Intent(this, PaymentActivity.class);
 		intent.putExtra("number", delivery.getNumber());
 		intent.putExtra("amount", delivery.getAmount());
 		intent.putExtra("client", delivery.getClient());
 		intent.putExtra("deliveryId", delivery.getId());
-		startActivityForResult(intent, PAYMENT_REQ_CODE);*/
-		Intent i = new Intent("com.sccp.gpb.emv.MAKE_PAYMENT");
-		i.putExtra("amount", delivery.getNumber().toString());
-		i.putExtra("customer_email", "hello@swiffpay.com");
-		i.putExtra("ref_1", "");
-		i.putExtra("ref_2", "");
-		i.putExtra("ref_3", "");
-		i.putExtra("ref_4", "");
-		i.putExtra("mobile", "12345678");
-		i.putExtra("extra", "invoice=19191");
-		i.putExtra("source", getApplication().getPackageName());
-		try {
-			showProgress(true);
-			startActivityForResult(i, PAYMENT_REQ_CODE);
-		} catch (android.content.ActivityNotFoundException e) {
-			showProgress(false);
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-		}
+		startActivityForResult(intent, PAYMENT_REQ_CODE);
 	}
 	
 	@Override
@@ -211,29 +194,6 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	void onPaymentActivity(int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
-			String transaction_response_code = data.getStringExtra("transaction_response_code");
-			String transaction_number = data.getStringExtra("transaction_number");
-			String transaction_ref = data.getStringExtra("transaction_ref");
-			String amount = data.getStringExtra("amount");
-			String order_info = data.getStringExtra("order_info");
-			String auth_code = data.getStringExtra("auth_code");
-			String extra = data.getStringExtra("extra");
-			String email = data.getStringExtra("customer_email");
-			String mobile = data.getStringExtra("mobile");
-			String ref1 = data.getStringExtra("ref_1");
-			String ref2 = data.getStringExtra("ref_2");
-			String ref3 = data.getStringExtra("ref_3");
-			String ref4 = data.getStringExtra("ref_4");
-
-			String card_type = data.getStringExtra("card_type");
-			String cc_name = data.getStringExtra("cc_name");
-			String cc_number = data.getStringExtra("cc_number");
-			String currency = data.getStringExtra("currency");
-
-			String tsi = data.getStringExtra("TSI");
-			String tvr = data.getStringExtra("TVR");
-			String cvm_result = data.getStringExtra("CVMResult");
-
 			// markAsPayed(selectedDeliveryItem);
 			Toast.makeText(this, "Payed", Toast.LENGTH_LONG).show();
 		} else {

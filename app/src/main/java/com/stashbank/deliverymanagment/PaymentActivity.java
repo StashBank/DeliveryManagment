@@ -1,5 +1,6 @@
 package com.stashbank.deliverymanagment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,62 +23,116 @@ import java.io.*;
 
 public class PaymentActivity extends AppCompatActivity
 {
-	
+	private final int MAKE_PAYMENT_CODE = 2;
+	private Double amount;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_payment);
 		Intent intent = getIntent();
-		String number = intent.getStringExtra("number");
-		double amount = intent.getDoubleExtra("amount", 0);
-		String client = intent.getStringExtra("client");
-		String text = String.format(
-			"Payment for TTH: %s, UAH: %s, Client: %s",
-			number, amount, client
-		);
-		TextView textView = (TextView)findViewById(R.id.payment_description);
-		// textView.setText(text);
-		fetchDeliveryItem(intent.getStringExtra("deliveryId"));
-		Button btnPay = (Button) findViewById(R.id.btn_pay);
-		btnPay.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View p1)
-			{
-				DeliveryItem item = null; //TODO
-				makePayment(item);
-			}	
-			
-		});
+		String number = intent.getStringExtra("number");
+		TextView tvNumber = (TextView)findViewById(R.id.payment_number);
+		tvNumber.setText(number);
+
+		amount = intent.getDoubleExtra("amount", 0);
+		TextView tvAmount = (TextView)findViewById(R.id.payment_amount);
+		tvAmount.setText(amount.toString());
+
+		String client = intent.getStringExtra("client");
+		TextView tvClient = (TextView)findViewById(R.id.payment_client);
+		tvClient.setText(client);
+
+		// fetchDeliveryItem(intent.getStringExtra("deliveryId"));
 	}
-	
-	void makePayment(DeliveryItem item) {
-		Intent intent = new Intent();
-		intent.putExtra("payed", true);
-		setResult(RESULT_OK, intent);
-		finish();
+
+	public  void onPayment(View view) {
+		DeliveryItem item = null; //TODO
+		view.setEnabled(false);
+		makePayment(amount.toString());
 	}
-	
-	void markPayment(DeliveryItem item) {
-		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<DeliveryItem> call = repository.setItem(item.getId(), item);
-		// showProgress(true);
-		try {
-			Response<DeliveryItem> response = call.execute();
-			// showProgress(false);
-			if (response.isSuccessful()) {
-				// response.body();
-			} else {
-				log("response code " + response.code());
-				// itemAdapter.onFetchDataFailure();
-			}
-		} catch (IOException e) {
-			// showProgress(false);
-			log("ERROR " + e);
-			Toast.makeText(this, "Error while sending data to server", Toast.LENGTH_LONG);
+
+	public void showProgress(final boolean show) {
+		ProgressBar progressView = (ProgressBar) findViewById(R.id.progress);
+		if (progressView != null) {
+			progressView.setVisibility(show ? View.VISIBLE : View.GONE);
 		}
 	}
-	
+
+	void makePayment(String amount) {
+		Intent i = new Intent("com.sccp.gpb.emv.MAKE_PAYMENT");
+		i.putExtra("amount", amount);
+		i.putExtra("customer_email", "hello@swiffpay.com");
+		i.putExtra("ref_1", "");
+		i.putExtra("ref_2", "");
+		i.putExtra("ref_3", "");
+		i.putExtra("ref_4", "");
+		i.putExtra("mobile", "12345678");
+		i.putExtra("extra", "invoice=19191");
+		i.putExtra("source", getApplication().getPackageName());
+		try {
+			showProgress(true);
+			startActivityForResult(i, MAKE_PAYMENT_CODE);
+		} catch (android.content.ActivityNotFoundException e) {
+			showProgress(false);
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void openOkDialog(String message, DialogInterface.OnClickListener listener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder
+				.setTitle(message)
+				.setPositiveButton(R.string.ok, listener)
+				.create()
+				.show();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		showProgress(false);
+		if (data == null) {return;}
+		if (requestCode == MAKE_PAYMENT_CODE) {
+			Intent intent = new Intent();
+			intent.putExtra("payed", resultCode == RESULT_OK);
+			setResult(resultCode, intent);
+			if (resultCode == RESULT_OK) {
+				createTransacrion(data);
+				openOkDialog("Оплата прошла успешно", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						finish();
+					}
+				});
+			}
+		}
+	}
+
+	private void createTransacrion(Intent data) {
+		String transaction_response_code = data.getStringExtra("transaction_response_code");
+		String transaction_number = data.getStringExtra("transaction_number");
+		String transaction_ref = data.getStringExtra("transaction_ref");
+		String amount = data.getStringExtra("amount");
+		String order_info = data.getStringExtra("order_info");
+		String auth_code = data.getStringExtra("auth_code");
+		String extra = data.getStringExtra("extra");
+		String email = data.getStringExtra("customer_email");
+		String mobile = data.getStringExtra("mobile");
+		String ref1 = data.getStringExtra("ref_1");
+		String ref2 = data.getStringExtra("ref_2");
+		String ref3 = data.getStringExtra("ref_3");
+		String ref4 = data.getStringExtra("ref_4");
+
+		String card_type = data.getStringExtra("card_type");
+		String cc_name = data.getStringExtra("cc_name");
+		String cc_number = data.getStringExtra("cc_number");
+		String currency = data.getStringExtra("currency");
+
+		String tsi = data.getStringExtra("TSI");
+		String tvr = data.getStringExtra("TVR");
+		String cvm_result = data.getStringExtra("CVMResult");
+	}
+
 	void fetchDeliveryItem(String id) {
 		DeliveryItemRepository repository = new DeliveryItemRepository();
 		Call<DeliveryItem> call = repository.getItemById(id);
@@ -91,14 +146,16 @@ public class PaymentActivity extends AppCompatActivity
 					if (response.isSuccessful()) {
 						DeliveryItem delivery = response.body();
 						String number = delivery.getNumber();
-						double amount = delivery.getAmount();
+						TextView tvNumber = (TextView)findViewById(R.id.payment_number);
+						tvNumber.setText(number);
+
+						amount = delivery.getAmount();
+						TextView tvAmount = (TextView)findViewById(R.id.payment_amount);
+						tvAmount.setText(amount.toString());
+
 						String client = delivery.getClient();
-						String text = String.format(
-							"Payment for TTH: %s, UAH: %s, Client: %s",
-							number, amount, client
-						);
-						TextView textView = (TextView)findViewById(R.id.payment_description);
-						textView.setText(text);
+						TextView tvClient = (TextView)findViewById(R.id.payment_client);
+						tvClient.setText(client);
 					} else {
 						log("response code " + response.code());
 					}
@@ -114,7 +171,7 @@ public class PaymentActivity extends AppCompatActivity
 
 		});
 	}
-	
+
 	private void log(String message)
 	{
 		Log.d("REST", message);
