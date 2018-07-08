@@ -15,12 +15,5 @@ public interface DeliveryItemApi
 	
 	@PUT("delivery_manegment.delivery/{id}")
 	Call<DeliveryItem> setItem(@Path("id") String id, @Body DeliveryItem item);
-	
-	@FormUrlEncoded
-	@PUT("delivery_manegment.delivery/{id}")
-<<<<<<< HEAD
-	Call<DeliveryItem> markPayment(@Path("id") String id, @Field("payed") boolean payed);
-=======
-	Call<DeliveryItem> markPayment(@Path("id") String id, @Field boolean payed);
->>>>>>> master
+
 }

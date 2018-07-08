@@ -1,6 +1,7 @@
 package com.stashbank.deliverymanagment;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
@@ -17,17 +18,19 @@ import com.stashbank.deliverymanagment.rest.*;
 import android.util.*;
 import android.view.View.*;
 
-public class DeliveryFragment extends Fragment
+public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.OnRefreshListener
 {
+
 	public interface DeliveryFragmentEventListener {
-		public void showProgress(final boolean show);
-		public void makePayment(DeliveryItem delivery);
-		public void markAsDelivered(DeliveryItem delivery);
+		void showProgress(final boolean show);
+		void makePayment(DeliveryItem delivery);
+		void markAsDelivered(DeliveryItem delivery);
 	}
 
 	ArrayList<DeliveryItem> items = new ArrayList<DeliveryItem>();
 	DeliveryItemAdapter itemAdapter;
 	ListView listView;
+	SwipeRefreshLayout swipeRefreshLayout;
 	DeliveryFragmentEventListener eventListener;
 	
 	public void setEventListener(DeliveryFragmentEventListener eventListener) {
@@ -43,21 +46,34 @@ public class DeliveryFragment extends Fragment
 		itemAdapter = new DeliveryItemAdapter(getActivity(), items, eventListener);
 		listView = (ListView) view.findViewById(R.id.list_view);
 		listView.setAdapter(itemAdapter);
+		swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+		swipeRefreshLayout.setOnRefreshListener(this);
 		return view;
 	}
+
+	@Override
+	public void onRefresh() {
+		this.fetchData(true);
+	}
+
+	public void fetchData() {
+		this.fetchData(false);
+	}
 	
-	private void fetchData() {
-		// REST
+	private void fetchData(final boolean isRefresh) {
 		DeliveryItemRepository repository = new DeliveryItemRepository();
 		Call<List<DeliveryItem>> call = repository.getItems();
-		if (eventListener != null)
-			eventListener.showProgress(true);
+		if (!isRefresh)
+			showLoaderSpinner(true);
 		call.enqueue(new Callback<List<DeliveryItem>>() {
 			@Override
 			public void onResponse(Call<List<DeliveryItem>> call, Response<List<DeliveryItem>> response) {
-				if (eventListener != null)
-					eventListener.showProgress(false);
+				if (isRefresh)
+					swipeRefreshLayout.setRefreshing(false);
+				else
+					showLoaderSpinner(false);
 				if (response.isSuccessful()) {
+					itemAdapter.clear();
 					itemAdapter.addAll(response.body());
 				} else {
 					log("response code " + response.code());
@@ -67,32 +83,26 @@ public class DeliveryFragment extends Fragment
 
 			@Override
 			public void onFailure(Call<List<DeliveryItem>> call, Throwable t) {
-				if (eventListener != null)
-					eventListener.showProgress(false);
+				if (isRefresh)
+					swipeRefreshLayout.setRefreshing(false);
+				else
+					showLoaderSpinner(false);
 				log("ERROR " + t);
 				itemAdapter.onFetchDataFailure();
 			}
 
 		});
 	}
+
+	private void showLoaderSpinner(boolean show) {
+		if (eventListener != null)
+			eventListener.showProgress(show);
+	}
+
 	
 	private void log(String message)
 	{
 		Log.d("REST", message);
-	}
-	
-	private void generateData() {
-		for (int i = 1; i <= 30; i++) {
-			String number = "000" + i;
-			DeliveryItem item = new DeliveryItem(
-				"" + i,
-				number,
-				"Client " + i,
-				"Some address",
-				Math.round(Math.random() * 100000) / 100
-			);
-			itemAdapter.add(item);
-		}
 	}
  
 }

@@ -66,14 +66,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 	private EditText mPasswordView;
 	private View mProgressView;
 	private View mLoginFormView;
-	private TextView mLogView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		// Set up the login form.
-		mLogView = (TextView) findViewById(R.id.tv_log);
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 		mEmailView.setText("foo@example.com");
 		populateAutoComplete();
@@ -101,55 +99,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mProgressView = findViewById(R.id.login_progress);
-		fetch();
-	}
-	
-	private void fetch() {
-		String API_BASE_URL = "https://api.github.com/";
-
-		OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-		Retrofit.Builder builder =  
-			new Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
-            .addConverterFactory(
-			GsonConverterFactory.create()
-		);
-
-		Retrofit retrofit =  
-			builder
-			.client(
-            httpClient.build()
-        )
-			.build();
-
-		// Create a very simple REST adapter which points the GitHub API endpoint.
-		GitHubClient client =  retrofit.create(GitHubClient.class);
-
-		// Fetch a list of the Github repositories.
-		Call<List<GitHubRepo>> call =  
-			client.reposForUser("StashBank");
-
-		// Execute the call asynchronously. Get a positive or negative callback.
-		call.enqueue(new Callback<List<GitHubRepo>>() {  
-				@Override
-				public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
-					// The network call was a success and we got a response
-					// TODO: use the repository list and display it
-					List<GitHubRepo> repos = response.body();
-					String text = "";
-					for(GitHubRepo repo : repos)
-						text += repo.getName();
-					mLogView.setText(text);
-				}
-
-				@Override
-				public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
-					// the network call was a failure
-					// TODO: handle error
-				}
-			});
-		
 	}
 
 	private void populateAutoComplete() {

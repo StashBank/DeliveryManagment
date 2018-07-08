@@ -44,11 +44,4 @@ public class DeliveryItemRepository implements DeliveryItemApi
 		return call;
 	}
 	
-	@Override
-	public Call<DeliveryItem> markPayment(String id, boolean payed) {
-		DeliveryItemApi api = createService();
-		Call<DeliveryItem> call = api.markPayment(id, payed);
-		return call;
-	}
-	
 }

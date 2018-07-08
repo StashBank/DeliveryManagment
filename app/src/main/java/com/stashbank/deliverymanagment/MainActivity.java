@@ -1,5 +1,6 @@
 package com.stashbank.deliverymanagment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private Toolbar toolbar;
 	private NavigationView navigationView;
 	private DeliveryItem selectedDeliveryItem;
+
+	private DeliveryFragment deliveryFragment;
 	
 	private int PAYMENT_REQ_CODE = 1;
 
@@ -114,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	
 	
 	private void openDeliveryFragment() {
-		DeliveryFragment fragment = new DeliveryFragment();
-		fragment.setEventListener(this);
+		deliveryFragment = new DeliveryFragment();
+		deliveryFragment.setEventListener(this);
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, fragment)
+			.replace(R.id.fragment_container, deliveryFragment)
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
@@ -157,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		if (progressView != null) {
 			FrameLayout frame = (FrameLayout) findViewById(R.id.fragment_container);
 			progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-			frame.setVisibility(show ? View.GONE : View.VISIBLE);
+			// frame.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -172,54 +175,107 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	public void makePayment(DeliveryItem delivery)
 	{
 		selectedDeliveryItem = delivery;
-		Intent intent = new Intent(this, PaymentActivity.class);
+		/*Intent intent = new Intent(this, PaymentActivity.class);
 		intent.putExtra("number", delivery.getNumber());
 		intent.putExtra("amount", delivery.getAmount());
 		intent.putExtra("client", delivery.getClient());
 		intent.putExtra("deliveryId", delivery.getId());
-		// intent.putExtra("delivery", delivery);
-		startActivityForResult(intent, PAYMENT_REQ_CODE);
+		startActivityForResult(intent, PAYMENT_REQ_CODE);*/
+		Intent i = new Intent("com.sccp.gpb.emv.MAKE_PAYMENT");
+		i.putExtra("amount", delivery.getNumber().toString());
+		i.putExtra("customer_email", "hello@swiffpay.com");
+		i.putExtra("ref_1", "");
+		i.putExtra("ref_2", "");
+		i.putExtra("ref_3", "");
+		i.putExtra("ref_4", "");
+		i.putExtra("mobile", "12345678");
+		i.putExtra("extra", "invoice=19191");
+		i.putExtra("source", getApplication().getPackageName());
+		try {
+			showProgress(true);
+			startActivityForResult(i, PAYMENT_REQ_CODE);
+		} catch (android.content.ActivityNotFoundException e) {
+			showProgress(false);
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		showProgress(false);
 		if (data == null) {return;}
 		if (requestCode == PAYMENT_REQ_CODE) {
-			markPayment(selectedDeliveryItem);
+			onPaymentActivity(resultCode, data);
+		}
+	}
+
+	void onPaymentActivity(int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_OK) {
+			String transaction_response_code = data.getStringExtra("transaction_response_code");
+			String transaction_number = data.getStringExtra("transaction_number");
+			String transaction_ref = data.getStringExtra("transaction_ref");
+			String amount = data.getStringExtra("amount");
+			String order_info = data.getStringExtra("order_info");
+			String auth_code = data.getStringExtra("auth_code");
+			String extra = data.getStringExtra("extra");
+			String email = data.getStringExtra("customer_email");
+			String mobile = data.getStringExtra("mobile");
+			String ref1 = data.getStringExtra("ref_1");
+			String ref2 = data.getStringExtra("ref_2");
+			String ref3 = data.getStringExtra("ref_3");
+			String ref4 = data.getStringExtra("ref_4");
+
+			String card_type = data.getStringExtra("card_type");
+			String cc_name = data.getStringExtra("cc_name");
+			String cc_number = data.getStringExtra("cc_number");
+			String currency = data.getStringExtra("currency");
+
+			String tsi = data.getStringExtra("TSI");
+			String tvr = data.getStringExtra("TVR");
+			String cvm_result = data.getStringExtra("CVMResult");
+
+			// markAsPayed(selectedDeliveryItem);
+			Toast.makeText(this, "Payed", Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(this, "Error while make payment", Toast.LENGTH_LONG).show();
 		}
 	}
 	
-	void markPayment(DeliveryItem item) {
-		DeliveryItemRepository repository = new DeliveryItemRepository();
-		// Call<DeliveryItem> items = repository.setItem(item.getId(), item);
-		Call<DeliveryItem> items = repository.markPayment(item.getId(), true);
-		// showProgress(true);
-		items.enqueue(new Callback<DeliveryItem>() {
-				@Override
-				public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
-					// showProgress(false);
-					if (response.isSuccessful()) {
-						// response.body();
-					} else {
-						log("response code " + response.code());
-						// itemAdapter.onFetchDataFailure();
-					}
-				}
-
-				@Override
-				public void onFailure(Call<DeliveryItem> call, Throwable t) {
-					// showProgress(false);
-					log("ERROR " + t);
-					// itemAdapter.onFetchDataFailure();
-				}
-
-			});
+	void markAsPayed(DeliveryItem item) {
+		item.setPayed(true);
+		setDeliveryItem(item);
 	}
 	
 	@Override
-	public void markAsDelivered(DeliveryItem delivery)
+	public void markAsDelivered(DeliveryItem item)
 	{
-		// TODO: Implement this method
+		item.setDelivered(true);
+		setDeliveryItem(item);
+	}
+
+	private void setDeliveryItem(DeliveryItem item) {
+		DeliveryItemRepository repository = new DeliveryItemRepository();
+		Call<DeliveryItem> call = repository.setItem(item.getId(), item);
+		showProgress(true);
+		call.enqueue(new Callback<DeliveryItem>() {
+			@Override
+			public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
+				showProgress(false);
+				if (response.isSuccessful()) {
+					deliveryFragment.fetchData();
+				} else {
+					log("response code " + response.code());
+				}
+			}
+
+			@Override
+			public void onFailure(Call<DeliveryItem> call, Throwable t) {
+				showProgress(false);
+				log("ERROR " + t);
+				// itemAdapter.onFetchDataFailure();
+			}
+
+		});
 	}
 	
 	private void log(String message)

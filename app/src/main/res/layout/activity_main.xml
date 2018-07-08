@@ -6,29 +6,39 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true">
-	
-	<ProgressBar
-		android:id="@+id/progress"
-		style="?android:attr/progressBarStyleLarge"
-		android:layout_width="24dp"
-		android:layout_height="24dp"
-		android:layout_marginBottom="8dp"
-		android:visibility="gone"/>
-
 
 	<FrameLayout
 		android:id="@+id/fragment_container"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			style="style/Toolbar"
-			android:elevation="4dp"
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:tools="http://schemas.android.com/tools"
 			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:background="@color/colorPrimary"
-			android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+			android:layout_height="match_parent"
+			android:gravity="center_horizontal"
+			android:orientation="vertical"
+			tools:context="com.stashbank.deliverymanagment.MainActivity">
+
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				style="style/Toolbar"
+				android:elevation="4dp"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:background="@color/colorPrimary"
+				android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+		<ProgressBar
+			android:id="@+id/progress"
+			style="?android:attr/progressBarStyleLarge"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:visibility="gone"/>
+
+		</LinearLayout>
 
 	</FrameLayout>
 

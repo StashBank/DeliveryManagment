@@ -73,6 +73,7 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 				eventListener.makePayment(item);
 			}
 		});
+		btnPay.setVisibility(item.isPayed() ? View.GONE : View.VISIBLE);
 		
 
 		btnDeliver = (Button) view.findViewById(R.id.item_btn_delivered);
@@ -85,6 +86,8 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 					eventListener.markAsDelivered(item);
 				}
 			});
+		boolean showDeliveryBtn = !(item.isDelivered() || !item.isPayed());
+		btnDeliver.setVisibility(showDeliveryBtn ? View.VISIBLE : View.GONE);
 		return view;
 	}
 
@@ -98,7 +101,7 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 	}
 	
 	public void onFetchDataFailure() {
-		Toast.makeText(getContext(), "Can't fetch data from server", Toast.LENGTH_LONG);
+		Toast.makeText(getContext(), "Can't fetch data from server", Toast.LENGTH_LONG).show();
 	}
 
 }
