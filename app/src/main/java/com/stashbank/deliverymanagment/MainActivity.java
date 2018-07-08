@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	void onPaymentActivity(int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
-			// markAsPayed(selectedDeliveryItem);
+			markAsPayed(selectedDeliveryItem);
 			Toast.makeText(this, "Payed", Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(this, "Error while make payment", Toast.LENGTH_LONG).show();
