@@ -1,7 +1,7 @@
 <resources>
 	<string name="app_name">Управление доставкой</string>
 
-	<string name="cant_fetch_data_from_server">Can't fetch data from server</string>
+	<string name="cant_fetch_data_from_server">Can not fetch data from server</string>
 	<!-- Strings related to login -->
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
