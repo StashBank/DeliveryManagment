@@ -11,7 +11,7 @@ import com.stashbank.deliverymanagment.DeliveryFragment;
 
 public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChangeListener
 {
-	
+
 	LayoutInflater layoutInflater;
 	DeliveryFragment.DeliveryFragmentEventListener eventListener;
 	TextView tvNumber;
@@ -101,7 +101,7 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 	}
 	
 	public void onFetchDataFailure() {
-		Toast.makeText(getContext(), "Can't fetch data from server", Toast.LENGTH_LONG).show();
+		Toast.makeText(getContext(), R.string.cant_fetch_data_from_server, Toast.LENGTH_LONG).show();
 	}
 
 }

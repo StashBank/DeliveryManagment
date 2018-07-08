@@ -13,7 +13,7 @@
 
 		<TextView
 			android:layout_height="match_parent"
-			android:text="ТТН"
+			android:text="@string/delivery_item_number_lbl"
 			android:textSize="@dimen/item_text_size"
 			android:layout_width="@dimen/item_label_width"/>
 
@@ -36,7 +36,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
-			android:text="Сумма"
+			android:text="@string/delivery_item_amount_lbl"
 			android:textSize="@dimen/item_text_size"/>
 
 		<TextView
@@ -58,7 +58,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
-			android:text="Клиент"
+			android:text="@string/delivery_item_client_lbl"
 			android:textSize="@dimen/item_text_size"/>
 
 		<TextView
@@ -80,7 +80,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
-			android:text="Адрес доставки"
+			android:text="@string/delivery_item_address_lbl"
 			android:textSize="@dimen/item_text_size"/>
 
 		<TextView
@@ -103,7 +103,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
 			android:textSize="@dimen/item_text_size"
-			android:text="Оплачено"/>
+			android:text="@string/delivery_item_payed_lbl"/>
 		
 		<RelativeLayout
 			android:layout_height="match_parent"
@@ -123,7 +123,7 @@
 				android:id="@+id/item_btn_pay"
 				android:layout_height="wrap_content"
 				android:layout_width="96dp"
-				android:text="Оплатить"
+				android:text="@string/delivery_item_btn_pay"
 				android:textSize="10sp"
 				android:layout_alignParentRight="true"
 				android:textColor="#0A0FEA"/>
@@ -141,7 +141,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
 			android:textSize="@dimen/item_text_size"
-			android:text="Доставлено"/>
+			android:text="@string/delivery_item_delivered_lbl"/>
 		
 		<RelativeLayout
 			android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
 				android:id="@+id/item_btn_delivered"
 				android:layout_height="wrap_content"
 				android:layout_width="96dp"
-				android:text="Доставлено"
+				android:text="@string/delivery_item_btn_delivered"
 				android:layout_alignParentRight="true"
 				android:textSize="10sp"
 				android:textColor="#0A0FEA"/>

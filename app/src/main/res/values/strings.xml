@@ -1,19 +1,21 @@
 <resources>
-	<string name="app_name">Delivery Management</string>
+	<string name="app_name">Управление доставкой</string>
 
+	<string name="cant_fetch_data_from_server">Can't fetch data from server</string>
 	<!-- Strings related to login -->
 	<string name="prompt_email">Email</string>
 	<string name="prompt_password">Password</string>
-	<string name="action_sign_in">Sign in or register</string>
+	<string name="action_sign_in">Sign in</string>
 	<string name="action_sign_in_short">Sign in</string>
-	<string name="error_invalid_email">This email address is invalid</string>
-	<string name="error_invalid_password">This password is too short</string>
-	<string name="error_incorrect_password">This password is incorrect</string>
-	<string name="error_field_required">This field is required</string>
+	<string name="error_invalid_email">Некорректный e-mail</string>
+	<string name="error_invalid_password">Слишком короткий пароль</string>
+	<string name="error_incorrect_password">Неправильный пароль</string>
+	<string name="error_field_required">Это поле объязательно</string>
 	<string name="permission_rationale">"Contacts permissions are needed for providing email
 		completions."
 	</string>
-	<string name="action_settings">Settings</string>
+	<!-- Strings related to menu -->
+	<string name="action_settings">Настройки</string>
 
 	<string name="menu_home">Главная</string>
 	<string name="menu_delivery">Доставка</string>
@@ -21,6 +23,16 @@
 	<string name="menu_payment">Оплата</string>
 	<string name="title_activity_payment">Оплата</string>
 
+	<!-- Strings related to delivery item -->
 	<string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="delivery_item_number_lbl">ТТН</string>
+	<string name="delivery_item_amount_lbl">Сумма</string>
+	<string name="delivery_item_client_lbl">Клиент</string>
+	<string name="delivery_item_address_lbl">Адрес доставки</string>
+	<string name="delivery_item_payed_lbl">Оплачено</string>
+	<string name="delivery_item_btn_pay">Оплатить</string>
+	<string name="delivery_item_delivered_lbl">Доставлено</string>
+	<string name="delivery_item_btn_delivered">Доставлено</string>
+	<string name="payment_activity_btn_pay">Оплатить</string>
 </resources>

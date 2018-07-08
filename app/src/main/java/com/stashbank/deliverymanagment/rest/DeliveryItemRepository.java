@@ -9,10 +9,11 @@ import okhttp3.OkHttpClient;
 
 public class DeliveryItemRepository implements DeliveryItemApi
 {
+	final String API_URL = "https://crud-server.firebaseapp.com/";
 	DeliveryItemApi createService() {
 		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 		Retrofit retrofit = new Retrofit.Builder()
-			.baseUrl("https://crud-server.firebaseapp.com/")
+			.baseUrl(API_URL)
 			.addConverterFactory(GsonConverterFactory.create())
 			.client(httpClientBuilder.build())
 			.build();
