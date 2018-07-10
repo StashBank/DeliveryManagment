@@ -36,28 +36,6 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="@dimen/item_label_width"
-			android:text="@string/delivery_item_amount_lbl"
-			android:textSize="@dimen/item_text_size"/>
-
-		<TextView
-			android:id="@+id/item_amount"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Ammount"
-			android:textSize="@dimen/item_text_size"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="5dp"/>
-
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:orientation="horizontal">
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:layout_width="@dimen/item_label_width"
 			android:text="@string/delivery_item_client_lbl"
 			android:textSize="@dimen/item_text_size"/>
 
@@ -69,6 +47,48 @@
 			android:textSize="@dimen/item_text_size"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="5dp"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="32dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:text="@string/delivery_item_mobile_lbl"
+			android:textSize="@dimen/item_text_size"/>
+
+		<RelativeLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp">
+
+		<TextView
+			android:id="@+id/item_mobile"
+			android:text="Mobile"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="5dp"
+			android:layout_alignParentLeft="true"
+			android:textSize="@dimen/item_text_size" />
+
+		<Button
+			android:id="@+id/item_btn_call"
+			android:layout_height="wrap_content"
+			android:layout_width="36dp"
+			android:drawableEnd="@drawable/ic_action_call"
+			android:drawableRight="@drawable/ic_action_call"
+			android:layout_alignParentRight="true"
+			android:textSize="10sp"
+			android:background="#0000"
+			android:layout_marginRight="12dp"/>
+
+		</RelativeLayout>
 
 	</LinearLayout>
 
@@ -88,6 +108,28 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="Address"
+			android:textSize="@dimen/item_text_size"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="5dp"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="@dimen/item_label_width"
+			android:text="@string/delivery_item_amount_lbl"
+			android:textSize="@dimen/item_text_size"/>
+
+		<TextView
+			android:id="@+id/item_amount"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Ammount"
 			android:textSize="@dimen/item_text_size"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="5dp"/>

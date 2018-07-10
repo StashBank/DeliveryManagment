@@ -17,6 +17,7 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 	TextView tvNumber;
 	TextView tvAddress;
 	TextView tvClient;
+	TextView tvMobile;
 	TextView tvAmount;
 	CheckBox cbDelivered;
 	CheckBox cbPayed;
@@ -46,6 +47,7 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 		DeliveryItem item = (DeliveryItem) getItem(position);
 		tvNumber = (TextView) view.findViewById(R.id.item_number);
 		tvClient = (TextView) view.findViewById(R.id.item_client);
+		tvMobile = (TextView) view.findViewById(R.id.item_mobile);
 		tvAddress = (TextView) view.findViewById(R.id.item_address);
 		tvAmount = (TextView) view.findViewById(R.id.item_amount);
 		cbDelivered = (CheckBox) view.findViewById(R.id.item_delivered);
@@ -60,6 +62,7 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 		
 		tvNumber.setText(item.getNumber());
 		tvClient.setText(item.getClient());
+		tvMobile.setText(item.getMobile());
 		tvAddress.setText(item.getAddress());
 		tvAmount.setText("" + item.getAmount());
 		
@@ -88,6 +91,17 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 			});
 		boolean showDeliveryBtn = !(item.isDelivered() || !item.isPayed());
 		btnDeliver.setVisibility(showDeliveryBtn ? View.VISIBLE : View.GONE);
+		Button btnCall = (Button) view.findViewById(R.id.item_btn_call);
+		if (item.getMobile() != null) {
+			btnCall.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onCallButtonClick();
+				}
+			});
+		} else {
+			btnCall.setVisibility(View.GONE);
+		}
 		return view;
 	}
 
@@ -102,6 +116,12 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 	
 	public void onFetchDataFailure() {
 		Toast.makeText(getContext(), R.string.cant_fetch_data_from_server, Toast.LENGTH_LONG).show();
+	}
+
+	public void onCallButtonClick() {
+		String phoneNumber = tvMobile.getText().toString();
+		if (this.eventListener != null)
+			this.eventListener.makePhoneCall(phoneNumber);
 	}
 
 }

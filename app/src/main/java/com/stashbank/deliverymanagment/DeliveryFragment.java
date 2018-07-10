@@ -25,6 +25,7 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
 		void showProgress(final boolean show);
 		void makePayment(DeliveryItem delivery);
 		void markAsDelivered(DeliveryItem delivery);
+		void makePhoneCall(String number);
 	}
 
 	ArrayList<DeliveryItem> items = new ArrayList<DeliveryItem>();

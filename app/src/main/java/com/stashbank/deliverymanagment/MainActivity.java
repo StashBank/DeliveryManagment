@@ -1,7 +1,12 @@
 package com.stashbank.deliverymanagment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,13 +29,18 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	DeliveryFragment.DeliveryFragmentEventListener
 {
 
+	/**
+	 * Id to identity CALL_PHONE permission request.
+	 */
+	private static final int REQUEST_CALL_PHONE = 0;
 	private DrawerLayout drawer;
 	private Toolbar toolbar;
 	private NavigationView navigationView;
 	private DeliveryItem selectedDeliveryItem;
 
 	private DeliveryFragment deliveryFragment;
-	
+	private String phoneNumberToCall = null;
+
 	private final int PAYMENT_REQ_CODE = 1;
 
 	@Override
@@ -42,18 +52,18 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		navigationView.setNavigationItemSelectedListener(this);
 		toolbar = (Toolbar)findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		
+
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 			this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.setDrawerListener(toggle);
 		toggle.syncState();
-		
+
 		if (savedInstanceState == null) {
 			openMainFragment();
 		}
 
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
 
@@ -105,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 		return true;
 	}
-	
+
 	private void openMainFragment() {
 		getSupportFragmentManager()
 			.beginTransaction()
@@ -114,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		navigationView.setCheckedItem(R.id.nav_home);
 
 	}
-	
-	
+
+
 	private void openDeliveryFragment() {
 		deliveryFragment = new DeliveryFragment();
 		deliveryFragment.setEventListener(this);
@@ -125,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
-	
+
 	private void openShippingFragment() {
 		ShippingFragment fragment = new ShippingFragment();
 		getSupportFragmentManager()
@@ -134,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_shipping);
 	}
-	
+
 	@Override
 	public void onDeliveryButtonClick(View view)
 	{
@@ -153,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		// TODO: Implement this method
 		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
 	}
-	
+
 	@Override
 	public void showProgress(final boolean show) {
 		ProgressBar progressView = (ProgressBar) findViewById(R.id.progress);
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		intent.putExtra("deliveryId", delivery.getId());
 		startActivityForResult(intent, PAYMENT_REQ_CODE);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		showProgress(false);
@@ -193,19 +203,31 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	void onPaymentActivity(int resultCode, Intent data) {
-		if (resultCode == Activity.RESULT_OK) {
+		boolean payed = data.getBooleanExtra("payed", false);
+		if (resultCode == Activity.RESULT_OK && payed) {
 			markAsPayed(selectedDeliveryItem);
-			Toast.makeText(this, "Payed", Toast.LENGTH_LONG).show();
-		} else {
-			Toast.makeText(this, "Error while make payment", Toast.LENGTH_LONG).show();
+			// Toast.makeText(this, "Payed", Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	void markAsPayed(DeliveryItem item) {
 		item.setPayed(true);
 		setDeliveryItem(item);
 	}
-	
+
+	public void makePhoneCall(String number) {
+		int check = ContextCompat.checkSelfPermission( this, Manifest.permission.CALL_PHONE );
+		if ( check != PackageManager.PERMISSION_GRANTED ) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+				requestPermissions( new String[] {  Manifest.permission.CALL_PHONE }, REQUEST_CALL_PHONE);
+			}
+		} else {
+			Intent callIntent = new Intent(Intent.ACTION_CALL);
+			callIntent.setData(Uri.parse("tel:" + number));
+			startActivity(callIntent);
+		}
+	}
+
 	@Override
 	public void markAsDelivered(DeliveryItem item)
 	{
@@ -237,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 		});
 	}
-	
+
 	private void log(String message)
 	{
 		Log.d("REST", message);

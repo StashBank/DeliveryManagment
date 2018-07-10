@@ -48,9 +48,9 @@ public class PaymentActivity extends AppCompatActivity
 	}
 
 	public  void onPayment(View view) {
-		DeliveryItem item = null; //TODO
+		// TODO: DeliveryItem item = null;
 		view.setEnabled(false);
-		makePayment(amount.toString());
+		makePayment(String.format( "%.2f", amount ));
 	}
 
 	public void showProgress(final boolean show) {
@@ -94,16 +94,35 @@ public class PaymentActivity extends AppCompatActivity
 		showProgress(false);
 		if (data == null) {return;}
 		if (requestCode == MAKE_PAYMENT_CODE) {
+			String transaction_response_code = data.getStringExtra("transaction_response_code");
 			Intent intent = new Intent();
-			intent.putExtra("payed", resultCode == RESULT_OK);
-			setResult(resultCode, intent);
+			boolean payed = transaction_response_code == "0" && resultCode == RESULT_OK;
+			intent.putExtra("payed",  payed);
 			if (resultCode == RESULT_OK) {
-				createTransacrion(data);
-				openOkDialog("Оплата прошла успешно", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						finish();
-					}
-				});
+				String message = null;
+				switch(transaction_response_code) {
+					case "0":
+						createTransacrion(data);
+						openOkDialog("Оплата прошла успешно", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							finish();
+						}
+					});
+						break;
+					case "-941":
+						message = "Ошибка валидации входящих параметров";
+						break;
+					case "-999":
+						message ="Отменено пользователем";
+						break;
+					default:
+						message = "Не ожиданая ошибка во врмя платежа";
+						break;
+				}
+				setResult(resultCode, intent);
+				if (message != null)
+					Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+				finish();
 			}
 		}
 	}

@@ -30,6 +30,7 @@
 	<string name="delivery_item_number_lbl">ТТН</string>
 	<string name="delivery_item_amount_lbl">Сумма</string>
 	<string name="delivery_item_client_lbl">Клиент</string>
+	<string name="delivery_item_mobile_lbl">Мобильный</string>
 	<string name="delivery_item_address_lbl">Адрес доставки</string>
 	<string name="delivery_item_payed_lbl">Оплачено</string>
 	<string name="delivery_item_btn_pay">Оплатить</string>

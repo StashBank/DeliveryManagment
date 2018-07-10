@@ -4,7 +4,7 @@ public class ShippingItem extends Item
 {
 	private Boolean shipped;
 
-	public ShippingItem(
+	/*public ShippingItem(
 	String id,
 	String number,
 	String address,
@@ -14,15 +14,13 @@ public class ShippingItem extends Item
 	) {
 		super(id, number, address, client, amount);
 		this.shipped = shipped;
-	}
+	}*/
 
-	public void setShipped(Boolean shipped)
-	{
+	public void setShipped(Boolean shipped) {
 		this.shipped = shipped;
 	}
 
-	public Boolean getShipped()
-	{
+	public Boolean getShipped() {
 		return shipped;
 	}
 }

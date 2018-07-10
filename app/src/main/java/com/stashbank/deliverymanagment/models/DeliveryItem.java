@@ -7,7 +7,7 @@ public class DeliveryItem extends Item
 	
 	public DeliveryItem() {}
 
-	public DeliveryItem(
+	/*public DeliveryItem(
 		String id,
 		String number,
 		String address,
@@ -15,25 +15,21 @@ public class DeliveryItem extends Item
 		double amount
 	) {
 		super(id, number, address, client, amount);
-	}
+	}*/
 
-	public void setPayed(boolean payed)
-	{
+	public void setPayed(boolean payed) {
 		this.payed = payed;
 	}
 
-	public boolean isPayed()
-	{
+	public boolean isPayed() {
 		return payed;
 	}
 
-	public void setDelivered(boolean delivered)
-	{
+	public void setDelivered(boolean delivered) {
 		this.delivered = delivered;
 	}
 
-	public boolean isDelivered()
-	{
+	public boolean isDelivered() {
 		return delivered;
 	}
 }
