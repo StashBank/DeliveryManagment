@@ -12,9 +12,9 @@ import com.stashbank.deliverymanagment.adapters.*;
 import android.content.*;
 import android.widget.*;
 
-public class ShippingFragment extends Fragment
+public class ReceivingFragment extends Fragment
 {
-	ArrayList<DeliveryItem> items = new ArrayList<DeliveryItem>();
+	ArrayList<ReceivingItem> items = new ArrayList();
 	DeliveryItemAdapter itemAdapter;
 	ListView listView;
 

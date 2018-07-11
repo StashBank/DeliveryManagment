@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.*;
-import android.widget.Button;
 import android.support.v4.widget.*;
 import android.support.design.widget.*;
 import android.view.*;
@@ -26,22 +25,15 @@ import retrofit2.*;
 import android.util.*;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener,
-	MainFragment.OnButtonClickListner,
+		MainFragment.OnButtonClickListener,
 	DeliveryFragment.DeliveryFragmentEventListener
 {
 
-	/**
-	 * Id to identity CALL_PHONE permission request.
-	 */
-	private static final int REQUEST_CALL_PHONE = 0;
 	private DrawerLayout drawer;
 	private Toolbar toolbar;
 	private NavigationView navigationView;
 	private DeliveryItem selectedDeliveryItem;
-
 	private DeliveryFragment deliveryFragment;
-	private String phoneNumberToCall = null;
-
 	private final int PAYMENT_REQ_CODE = 1;
 	private FloatingActionButton fabNew, fabNewReceiving, fabNewDelivery;
 	private Animation animOpen, animClose, animRotateClockwise, animRotateAnticlockwise;
@@ -129,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void openCreateDeliveryCard() {
-		Toast.makeText(this, "Will be create new delivery", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(this, EditDeliveryItemActivity.class);
+		startActivity(intent);
 	}
 
 	private void openCreateReceivingCard() {
@@ -141,8 +134,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
-		} else {
+		} else if (selectedMenuId == R.id.nav_home) {
 			super.onBackPressed();
+		} else {
+			openMainFragment();
 		}
 	}
 
@@ -211,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	private void openShippingFragment() {
 		selectedMenuId = R.id.nav_shipping;
-		ShippingFragment fragment = new ShippingFragment();
+		ReceivingFragment fragment = new ReceivingFragment();
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, fragment)
@@ -229,12 +224,6 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	public void onShippingButtonClick(View view)
 	{
 		openShippingFragment();
-	}
-
-	@Override
-	public void onPaymentButtonClick(View view) {
-		// TODO: Implement this method
-		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -287,16 +276,9 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	public void makePhoneCall(String number) {
-		int check = ContextCompat.checkSelfPermission( this, Manifest.permission.CALL_PHONE );
-		if ( check != PackageManager.PERMISSION_GRANTED ) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				requestPermissions( new String[] {  Manifest.permission.CALL_PHONE }, REQUEST_CALL_PHONE);
-			}
-		} else {
-			Intent callIntent = new Intent(Intent.ACTION_CALL);
-			callIntent.setData(Uri.parse("tel:" + number));
-			startActivity(callIntent);
-		}
+		Intent callIntent = new Intent(Intent.ACTION_DIAL);
+		callIntent.setData(Uri.parse("tel:" + number));
+		startActivity(callIntent);
 	}
 
 	@Override

@@ -11,4 +11,5 @@
 	<dimen name="item_text_size">20sp</dimen>
 	<dimen name="item_text_size_large">24sp</dimen>
 	<dimen name="fragment_margin_top">16dp</dimen>
+	<dimen name="edit_field_height">64dp</dimen>
 </resources>

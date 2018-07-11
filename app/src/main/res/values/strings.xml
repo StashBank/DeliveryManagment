@@ -12,15 +12,17 @@
 	<string name="error_invalid_password">Слишком короткий пароль</string>
 	<string name="error_incorrect_password">Неправильный пароль</string>
 	<string name="error_field_required">Это поле объязательно</string>
-	<string name="permission_rationale">"Contacts permissions are needed for providing email
-		completions."
+	<string name="permission_rationale">
+		"Contacts permissions are needed for providing email completions."
 	</string>
+	<string name="save">Сохранить</string>
+
 	<!-- Strings related to menu -->
 	<string name="action_settings">Настройки</string>
 
 	<string name="menu_home">Главная</string>
 	<string name="menu_delivery">Доставка</string>
-	<string name="menu_shipment">Отгрузка</string>
+	<string name="menu_receiving">Отгрузка</string>
 	<string name="menu_payment">Оплата</string>
 	<string name="title_activity_payment">Оплата</string>
 
@@ -40,4 +42,11 @@
 	<string name="payment_client_lbl">Клиент</string>
 	<string name="payment_amount_lbl">Сумма</string>
 	<string name="payment_number_lbl">Номер</string>
+
+	<!-- Strings related to delivery item edit card-->
+	<string name="lbl_edit_delivery_client">Клиент</string>
+	<string name="lbl_edit_delivery_phone">Телефон</string>
+	<string name="lbl_edit_delivery_address">Адрес</string>
+	<string name="lbl_edit_delivery_amount">Сумма</string>
+	<string name="lbl_edit_delivery_payed">Оплачено</string>
 </resources>

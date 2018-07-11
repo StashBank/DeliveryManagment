@@ -1,10 +1,10 @@
 package com.stashbank.deliverymanagment.models;
 
-public class ShippingItem extends Item
+public class ReceivingItem extends Item
 {
 	private Boolean shipped;
 
-	/*public ShippingItem(
+	/*public ReceivingItem(
 	String id,
 	String number,
 	String address,

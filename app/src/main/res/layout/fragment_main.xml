@@ -32,23 +32,12 @@
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:text="@string/menu_shipment"
+			android:text="@string/menu_receiving"
 			android:layout_centerHorizontal="true"
 			android:layout_marginTop="60dp"
 			android:id="@+id/btn_menu_shipping"
 			style="@style/Widget.AppCompat.Button.Colored"
 			android:background="@color/colorPrimary"
-			android:textSize="18sp"/>
-
-		<Button
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:text="@string/menu_payment"
-			android:layout_centerHorizontal="true"
-			android:layout_marginTop="120dp"
-			android:id="@+id/btn_menu_payment"
-			style="@style/Widget.AppCompat.Button.Colored"
-			android:background="@color/colorActivated"
 			android:textSize="18sp"/>
 
 	</RelativeLayout>

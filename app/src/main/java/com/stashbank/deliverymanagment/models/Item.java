@@ -1,8 +1,11 @@
 package com.stashbank.deliverymanagment.models;
 
+import java.util.Date;
+
 public class Item
 {
 	private String id;
+	private Date createdAt;
 	private String number;
 	private String address;
 	private String client;
@@ -10,25 +13,25 @@ public class Item
 	private double amount;
 	
 	public Item() {}
-	
-	/*public Item(
-		String id,
-		String number,
-		String address,
-		String client,
-		String mobile,
-		double amount
-	) {
+
+	public void setId(String id) {
 		this.id = id;
-		this.number = number;
-		this.amount = amount;
-		this.address = address;
-		this.client = client;
-		this.mobile = mobile;
-	}*/
+	}
+
+	public String getId() {
+		return id;
+	}
 
 	public void setClient(String client) {
 		this.client = client;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getClient() {
@@ -41,14 +44,6 @@ public class Item
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public void setNumber(String number) {

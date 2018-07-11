@@ -44,5 +44,13 @@ public class DeliveryItemRepository implements DeliveryItemApi
 		Call<DeliveryItem> call = api.setItem(id, item);
 		return call;
 	}
+
+	@Override
+	public Call<DeliveryItem> addItem(DeliveryItem item)
+	{
+		DeliveryItemApi api = createService();
+		Call<DeliveryItem> call = api.addItem(item);
+		return call;
+	}
 	
 }
