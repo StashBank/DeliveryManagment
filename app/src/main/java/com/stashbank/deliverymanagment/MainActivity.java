@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.*;
 import android.widget.Button;
 import android.support.v4.widget.*;
 import android.support.design.widget.*;
@@ -42,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private String phoneNumberToCall = null;
 
 	private final int PAYMENT_REQ_CODE = 1;
+	private FloatingActionButton fabNew, fabNewReceiving, fabNewDelivery;
+	private Animation animOpen, animClose, animRotateClockwise, animRotateAnticlockwise;
+	private int selectedMenuId = R.id.nav_home;
+	private boolean isFabsOpen = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,74 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		if (savedInstanceState == null) {
 			openMainFragment();
 		}
+		initFabs();
+	}
 
+	private  void initFabs() {
+		android.content.Context ctx = getApplicationContext();
+		animOpen = AnimationUtils.loadAnimation(ctx, R.anim.fab_open);
+		animClose = AnimationUtils.loadAnimation(ctx, R.anim.fab_close);
+		animRotateClockwise = AnimationUtils.loadAnimation(ctx, R.anim.rotate_clockwise);
+		animRotateAnticlockwise = AnimationUtils.loadAnimation(ctx, R.anim.rotate_anticlockwise);
+
+		fabNew = (FloatingActionButton) findViewById(R.id.fab_new);
+		fabNewReceiving = (FloatingActionButton) findViewById(R.id.fab_new_receive);
+		fabNewDelivery = (FloatingActionButton) findViewById(R.id.fab_new_delivery);
+		fabNew.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (selectedMenuId == R.id.nav_home) {
+					if (isFabsOpen)
+						hideFabs();
+					else
+						showFabs();
+				} else if (selectedMenuId == R.id.nav_delivery) {
+					openCreateDeliveryCard();
+				} else if (selectedMenuId == R.id.nav_shipping) {
+					openCreateReceivingCard();
+				}
+			}
+		});
+		fabNewReceiving.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openCreateReceivingCard();
+				hideFabs();
+			}
+		});
+		fabNewDelivery.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openCreateDeliveryCard();
+				hideFabs();
+			}
+		});
+	}
+
+	private void showFabs() {
+		fabNewReceiving.startAnimation(animOpen);
+		fabNewDelivery.startAnimation(animOpen);
+		fabNew.startAnimation(animRotateClockwise);
+		fabNewReceiving.setClickable(true);
+		fabNewDelivery.setClickable(true);
+		isFabsOpen = true;
+	}
+
+	private void hideFabs() {
+		fabNewReceiving.startAnimation(animClose);
+		fabNewDelivery.startAnimation(animClose);
+		fabNew.startAnimation(animRotateAnticlockwise);
+		fabNewReceiving.setClickable(false);
+		fabNewDelivery.setClickable(false);
+		isFabsOpen = false;
+	}
+
+	private void openCreateDeliveryCard() {
+		Toast.makeText(this, "Will be create new delivery", Toast.LENGTH_SHORT).show();
+	}
+
+	private void openCreateReceivingCard() {
+		Toast.makeText(this, "Will be create new receiving", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -93,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	@Override
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-		switch (menuItem.getItemId()) {
+		selectedMenuId = menuItem.getItemId();
+		switch (selectedMenuId) {
 			case R.id.nav_home:
 				openMainFragment();
 				break;
@@ -117,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void openMainFragment() {
+		selectedMenuId = R.id.nav_home;
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new MainFragment())
@@ -125,8 +198,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	}
 
-
 	private void openDeliveryFragment() {
+		selectedMenuId = R.id.nav_delivery;
 		deliveryFragment = new DeliveryFragment();
 		deliveryFragment.setEventListener(this);
 		getSupportFragmentManager()
@@ -137,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void openShippingFragment() {
+		selectedMenuId = R.id.nav_shipping;
 		ShippingFragment fragment = new ShippingFragment();
 		getSupportFragmentManager()
 			.beginTransaction()
@@ -158,8 +232,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	@Override
-	public void onPaymentButtonClick(View view)
-	{
+	public void onPaymentButtonClick(View view) {
 		// TODO: Implement this method
 		Toast.makeText(this, "Paymant button click", Toast.LENGTH_SHORT).show();
 	}
@@ -175,15 +248,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	@Override
-	public void overridePendingTransition(int enterAnim, int exitAnim)
-	{
+	public void overridePendingTransition(int enterAnim, int exitAnim) {
 		// TODO: Implement this method
 		super.overridePendingTransition(enterAnim, exitAnim);
 	}
 
 	@Override
-	public void makePayment(DeliveryItem delivery)
-	{
+	public void makePayment(DeliveryItem delivery) {
 		selectedDeliveryItem = delivery;
 		Intent intent = new Intent(this, PaymentActivity.class);
 		intent.putExtra("number", delivery.getNumber());
@@ -229,8 +300,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	@Override
-	public void markAsDelivered(DeliveryItem item)
-	{
+	public void markAsDelivered(DeliveryItem item) {
 		item.setDelivered(true);
 		setDeliveryItem(item);
 	}
