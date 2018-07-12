@@ -11,7 +11,7 @@
 	android:paddingRight="@dimen/activity_horizontal_margin"
 	android:paddingTop="?attr/actionBarSize"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior"
-	tools:context="com.stashbank.deliverymanagment.MainActivity"
+	tools:context="com.stashbank.deliveryManagement.MainActivity"
 	android:layout_marginTop="16dp">
 
 	<android.support.v4.widget.SwipeRefreshLayout

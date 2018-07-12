@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment;
+package com.stashbank.deliveryManagement;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,9 +13,9 @@ import android.view.*;
 import android.support.v7.app.*;
 import android.support.v4.view.*;
 import android.widget.*;
-import com.stashbank.deliverymanagment.rest.*;
+import com.stashbank.deliveryManagement.rest.*;
 import retrofit2.*;
-import com.stashbank.deliverymanagment.models.*;
+import com.stashbank.deliveryManagement.models.*;
 import android.util.*;
 import android.view.View.*;
 import java.io.*;

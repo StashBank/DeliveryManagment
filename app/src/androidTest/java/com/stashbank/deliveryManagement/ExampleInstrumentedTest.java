@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment;
+package com.stashbank.deliveryManagement;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
 		// Context of the app under test.
 		Context appContext = InstrumentationRegistry.getTargetContext();
 
-		assertEquals("com.stashbank.deliverymanagment", appContext.getPackageName());
+		assertEquals("com.stashbank.deliveryManagement", appContext.getPackageName());
 	}
 }

@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment;
+package com.stashbank.deliveryManagement;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.view.*;
 import java.util.*;
-import com.stashbank.deliverymanagment.models.*;
-import com.stashbank.deliverymanagment.adapters.*;
+import com.stashbank.deliveryManagement.models.*;
+import com.stashbank.deliveryManagement.adapters.*;
 import android.content.*;
 import android.widget.*;
 

@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment.rest;
+package com.stashbank.deliveryManagement.rest;
 import retrofit2.http.*;
 import retrofit2.*;
 import java.util.*;

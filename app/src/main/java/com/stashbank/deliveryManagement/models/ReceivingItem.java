@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment.models;
+package com.stashbank.deliveryManagement.models;
 
 public class ReceivingItem extends Item
 {

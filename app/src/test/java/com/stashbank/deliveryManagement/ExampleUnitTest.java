@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment;
+package com.stashbank.deliveryManagement;
 
 import org.junit.Test;
 

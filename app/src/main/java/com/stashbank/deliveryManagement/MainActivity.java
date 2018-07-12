@@ -1,28 +1,32 @@
-package com.stashbank.deliverymanagment;
+package com.stashbank.deliveryManagement;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.animation.*;
-import android.support.v4.widget.*;
-import android.support.design.widget.*;
-import android.view.*;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.v7.app.*;
-import android.support.v4.view.*;
-import android.widget.*;
-import com.stashbank.deliverymanagment.models.*;
-import com.stashbank.deliverymanagment.rest.*;
-import retrofit2.*;
-import android.util.*;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.stashbank.deliveryManagement.models.DeliveryItem;
+import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener,
 		MainFragment.OnButtonClickListener,
@@ -264,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 	void onPaymentActivity(int resultCode, Intent data) {
 		boolean payed = data.getBooleanExtra("payed", false);
-		if (resultCode == Activity.RESULT_OK && payed) {
+		if (resultCode == AppCompatActivity.RESULT_OK && payed) {
 			markAsPayed(selectedDeliveryItem);
 			// Toast.makeText(this, "Payed", Toast.LENGTH_LONG).show();
 		}

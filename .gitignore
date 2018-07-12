@@ -9,3 +9,5 @@
 .externalNativeBuild
 
 *.apk
+
+/app/release/output.json

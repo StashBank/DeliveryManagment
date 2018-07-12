@@ -1,4 +1,4 @@
-package com.stashbank.deliverymanagment.rest;
+package com.stashbank.deliveryManagement.rest;
 
 public class GitHubRepo {  
     private int id;

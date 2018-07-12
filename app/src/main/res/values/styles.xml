@@ -12,7 +12,7 @@
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">?attr/actionBarSize</item>
 		<!-- <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item> -->
-		<item name="android:background">?attr/colorAccent</item>
+		<item name="background">?attr/colorAccent</item>
 	</style>
 
 	<style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

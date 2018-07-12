@@ -1,9 +1,9 @@
-package com.stashbank.deliverymanagment.rest;
+package com.stashbank.deliveryManagement.rest;
 
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.*;
-import com.stashbank.deliverymanagment.models.*;
+import com.stashbank.deliveryManagement.models.*;
 import retrofit2.http.*;
 import okhttp3.OkHttpClient;
 

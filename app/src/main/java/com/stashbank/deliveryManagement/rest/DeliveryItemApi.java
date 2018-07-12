@@ -1,9 +1,9 @@
-package com.stashbank.deliverymanagment.rest;
+package com.stashbank.deliveryManagement.rest;
 
 import java.util.List;
 import retrofit2.*;
 import retrofit2.http.*;
-import com.stashbank.deliverymanagment.models.*;
+import com.stashbank.deliveryManagement.models.*;
 
 public interface DeliveryItemApi {
 	@GET("delivery_manegment.delivery")

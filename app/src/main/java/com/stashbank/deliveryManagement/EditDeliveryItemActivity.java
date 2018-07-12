@@ -1,12 +1,12 @@
-package com.stashbank.deliverymanagment;
+package com.stashbank.deliveryManagement;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-import com.stashbank.deliverymanagment.models.DeliveryItem;
-import com.stashbank.deliverymanagment.rest.DeliveryItemRepository;
+import com.stashbank.deliveryManagement.models.DeliveryItem;
+import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
 
 import retrofit2.Call;
 import retrofit2.Callback;
