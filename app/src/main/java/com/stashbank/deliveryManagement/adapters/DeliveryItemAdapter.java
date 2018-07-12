@@ -1,4 +1,5 @@
 package com.stashbank.deliveryManagement.adapters;
+import android.util.Log;
 import android.widget.*;
 import android.view.*;
 import android.content.*;
@@ -9,7 +10,7 @@ import com.stashbank.deliveryManagement.models.*;
 import android.widget.CompoundButton.*;
 import com.stashbank.deliveryManagement.DeliveryFragment;
 
-public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChangeListener
+public class DeliveryItemAdapter extends ArrayAdapter
 {
 
 	LayoutInflater layoutInflater;
@@ -31,15 +32,13 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 	}
 
 	@Override
-	public long getItemId(int position)
-	{
+	public long getItemId(int position) {
 		// Item item = (Item)getItem(position);
 		return position; // item.getId();
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
+	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 		if (view == null) {
 			view = layoutInflater.inflate(R.layout.delivery_item, parent, false);
@@ -51,7 +50,6 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 		tvAddress = (TextView) view.findViewById(R.id.item_address);
 		tvAmount = (TextView) view.findViewById(R.id.item_amount);
 		cbDelivered = (CheckBox) view.findViewById(R.id.item_delivered);
-		cbDelivered.setOnCheckedChangeListener(this);
 		cbDelivered.setTag(position);
 		cbDelivered.setChecked(item.isDelivered());
 		cbDelivered.setEnabled(false);
@@ -103,15 +101,6 @@ public class DeliveryItemAdapter extends ArrayAdapter implements OnCheckedChange
 			btnCall.setVisibility(View.GONE);
 		}
 		return view;
-	}
-
-	
-	@Override
-	public void onCheckedChanged(CompoundButton button, boolean isChecked)
-	{
-		int position = (int) button.getTag();
-		DeliveryItem item = (DeliveryItem) getItem(position);
-		item.setDelivered(isChecked);
 	}
 	
 	public void onFetchDataFailure() {
