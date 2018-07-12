@@ -16,7 +16,7 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 
 	private ProgressBar progressBar;
 	private Button btnSave;
-	private EditText etClientName, etClientPhone, etClientAddress, etAmount;
+	private EditText etNumber, etClientName, etClientPhone, etClientAddress, etAmount;
 	private CheckBox cbPayed;
 	private static final String EMPTY_STRING = "";
 
@@ -32,6 +32,7 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 				onSaveButtonClick(v);
 			}
 		});
+		etNumber = (EditText) findViewById(R.id.etNumber);
 		etClientName = (EditText) findViewById(R.id.etClientName);
 		etClientPhone = (EditText) findViewById(R.id.etClientPhone);
 		etClientAddress = (EditText) findViewById(R.id.etClientAddress);
@@ -46,9 +47,11 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 
 	private DeliveryItem getDeliveryItem() {
 		DeliveryItem item = new DeliveryItem();
+		String number = etNumber.getText().toString();
+		item.setNumber(number);
 		String client = etClientName.getText().toString();
 		item.setClient(client);
-		String phone = etClientName.getText().toString();
+		String phone = etClientPhone.getText().toString();
 		item.setMobile(phone);
 		String address = etClientAddress.getText().toString();
 		item.setAddress(address);
@@ -95,6 +98,7 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 	}
 
 	private void clearFields() {
+		etNumber.setText(EMPTY_STRING);
 		etClientName.setText(EMPTY_STRING);
 		etClientPhone.setText(EMPTY_STRING);
 		etClientAddress.setText(EMPTY_STRING);

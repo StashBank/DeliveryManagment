@@ -44,6 +44,7 @@
 	<string name="payment_number_lbl">Номер</string>
 
 	<!-- Strings related to delivery item edit card-->
+	<string name="lbl_edit_delivery_number">ТТН</string>
 	<string name="lbl_edit_delivery_client">Клиент</string>
 	<string name="lbl_edit_delivery_phone">Телефон</string>
 	<string name="lbl_edit_delivery_address">Адрес</string>
