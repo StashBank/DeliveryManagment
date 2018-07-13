@@ -15,18 +15,14 @@ public class DeliveryItemAdapter extends ArrayAdapter
 
 	LayoutInflater layoutInflater;
 	DeliveryFragment.DeliveryFragmentEventListener eventListener;
-	TextView tvNumber;
-	TextView tvAddress;
-	TextView tvClient;
-	TextView tvMobile;
-	TextView tvAmount;
-	CheckBox cbDelivered;
-	CheckBox cbPayed;
-	Button btnPay;
-	Button btnDeliver;
+	TextView tvNumber, tvAddress, tvClient, tvMobile, tvAmount;
+	CheckBox cbDelivered, cbPayed;
+	Button btnPay, btnDeliver, btnCall;
+	ArrayList<DeliveryItem> items;
 	
 	public DeliveryItemAdapter(Context context, ArrayList<DeliveryItem> items, DeliveryFragment.DeliveryFragmentEventListener eventListener) {
 		super(context, 0, items);
+		this.items = items;
 		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.eventListener = eventListener;
 	}
@@ -89,17 +85,18 @@ public class DeliveryItemAdapter extends ArrayAdapter
 			});
 		boolean showDeliveryBtn = !(item.isDelivered() || !item.isPayed());
 		btnDeliver.setVisibility(showDeliveryBtn ? View.VISIBLE : View.GONE);
-		Button btnCall = (Button) view.findViewById(R.id.item_btn_call);
-		if (item.getMobile() != null) {
+		btnCall = (Button) view.findViewById(R.id.item_btn_call);
+		btnCall.setTag(position);
+		// if (item.getMobile() != null) {
 			btnCall.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					onCallButtonClick();
+					onCallButtonClick(v);
 				}
 			});
-		} else {
+		/*} else {
 			btnCall.setVisibility(View.GONE);
-		}
+		}*/
 		return view;
 	}
 	
@@ -107,9 +104,12 @@ public class DeliveryItemAdapter extends ArrayAdapter
 		Toast.makeText(getContext(), R.string.cant_fetch_data_from_server, Toast.LENGTH_LONG).show();
 	}
 
-	public void onCallButtonClick() {
-		String phoneNumber = tvMobile.getText().toString();
-		if (this.eventListener != null)
+	public void onCallButtonClick(View button) {
+		int position = (int) button.getTag();
+		DeliveryItem item = (DeliveryItem) getItem(position);
+		// String phoneNumber = tvMobile.getText().toString();
+		String phoneNumber = item.getMobile();
+		if (this.eventListener != null & phoneNumber != null && phoneNumber != "")
 			this.eventListener.makePhoneCall(phoneNumber);
 	}
 
