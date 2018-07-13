@@ -28,7 +28,8 @@
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentStart="true"
 		android:layout_alignParentRight="true"
-		android:layout_alignParentEnd="true">
+		android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
 
 	<EditText
 		android:id="@+id/etNumber"
@@ -47,7 +48,8 @@
 		android:id="@+id/etClientNameWrap"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/edit_field_height"
-		android:layout_below="@id/etNumberWrap">
+		android:layout_below="@id/etNumberWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
 
 		<EditText
 			android:id="@+id/etClientName"
@@ -65,7 +67,8 @@
 		android:id="@+id/etClientPhoneWrap"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/edit_field_height"
-		android:layout_below="@id/etClientNameWrap">
+		android:layout_below="@id/etClientNameWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
 
 	<EditText
 		android:id="@+id/etClientPhone"
@@ -83,12 +86,13 @@
 		android:id="@+id/etClientAddressWrap"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/edit_field_height"
-		android:layout_below="@id/etClientPhoneWrap">
+		android:layout_below="@id/etClientPhoneWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
 
 	<EditText
 		android:id="@+id/etClientAddress"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/edit_field_height"
+		android:layout_height="match_parent"
 		android:inputType="text"
 		android:hint="@string/lbl_edit_delivery_address"
 		android:text=""
@@ -101,12 +105,13 @@
 		android:id="@+id/etAmountWrap"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/edit_field_height"
-		android:layout_below="@id/etClientAddressWrap">
+		android:layout_below="@id/etClientAddressWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
 
 	<EditText
 		android:id="@+id/etAmount"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/edit_field_height"
+		android:layout_height="match_parent"
 		android:inputType="numberDecimal"
 		android:hint="@string/lbl_edit_delivery_amount"
 		android:text=""
