@@ -153,42 +153,29 @@ public class PaymentActivity extends AppCompatActivity
 	}
 
 	void fetchDeliveryItem(String id) {
+        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (item, err) -> {
+            // showProgress(false);
+            if (err != null) {
+                DeliveryItem delivery = item;
+                String number = delivery.getNumber();
+                TextView tvNumber = (TextView)findViewById(R.id.payment_number);
+                tvNumber.setText(number);
+
+                amount = delivery.getAmount();
+                TextView tvAmount = (TextView)findViewById(R.id.payment_amount);
+                tvAmount.setText(amount.toString());
+
+                String client = delivery.getClient();
+                TextView tvClient = (TextView)findViewById(R.id.payment_client);
+                tvClient.setText(client);
+            } else {
+                log("error " + err);
+            }
+        };
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<DeliveryItem> call = repository.getItemById(id);
+        DeliveryItemRepository.DeliveryItemTask task = repository.getItemById(id, p);
 		// showProgress(true);
-		call.enqueue(new Callback<DeliveryItem>() {
-
-				@Override
-				public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response)
-				{
-					// showProgress(false);
-					if (response.isSuccessful()) {
-						DeliveryItem delivery = response.body();
-						String number = delivery.getNumber();
-						TextView tvNumber = (TextView)findViewById(R.id.payment_number);
-						tvNumber.setText(number);
-
-						amount = delivery.getAmount();
-						TextView tvAmount = (TextView)findViewById(R.id.payment_amount);
-						tvAmount.setText(amount.toString());
-
-						String client = delivery.getClient();
-						TextView tvClient = (TextView)findViewById(R.id.payment_client);
-						tvClient.setText(client);
-					} else {
-						log("response code " + response.code());
-					}
-				}
-
-				@Override
-				public void onFailure(Call<DeliveryItem> call, Throwable t)
-				{
-					// showProgress(false);
-					log("ERROR " + t);
-					// Toast.makeText(this, "Error while fetching data from server", Toast.LENGTH_LONG);
-				}
-
-		});
+		task.execute();
 	}
 
 	private void log(String message)

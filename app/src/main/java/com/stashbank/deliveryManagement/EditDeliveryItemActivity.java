@@ -8,6 +8,8 @@ import android.widget.*;
 import com.stashbank.deliveryManagement.models.DeliveryItem;
 import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,30 +65,21 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 	}
 
 	private void saveItem(DeliveryItem item) {
+        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (items, error) -> {
+            showProgress(false);
+            btnSave.setEnabled(true);
+            if (error != null) {
+                showToast("Data has not been saved");
+            } else {
+                clearFields();
+                showToast("Data has been saved");
+            }
+        };
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<DeliveryItem> call = repository.addItem(item);
+        DeliveryItemRepository.DeliveryItemTask task = repository.addItem(item, p);
 		showProgress(true);
 		btnSave.setEnabled(false);
-		call.enqueue(new Callback<DeliveryItem>() {
-			@Override
-			public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
-				showProgress(false);
-				btnSave.setEnabled(true);
-				if (response.isSuccessful()) {
-					showToast("Data has been saved");
-					clearFields();
-				}  else {
-					showToast("Data has not been saved");
-				}
-			}
-
-			@Override
-			public void onFailure(Call<DeliveryItem> call, Throwable t) {
-				showProgress(false);
-				btnSave.setEnabled(true);
-				showToast("Error while sending request");
-			}
-		});
+        task.execute();
 	}
 
 	private void showToast(String messgae) {

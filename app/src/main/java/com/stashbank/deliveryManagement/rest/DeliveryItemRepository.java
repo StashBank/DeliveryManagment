@@ -1,16 +1,22 @@
 package com.stashbank.deliveryManagement.rest;
 
+import android.os.AsyncTask;
+
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.*;
 import com.stashbank.deliveryManagement.models.*;
-import retrofit2.http.*;
 import okhttp3.OkHttpClient;
 
-public class DeliveryItemRepository implements DeliveryItemApi
+public class DeliveryItemRepository
 {
-	final String API_URL = "https://crud-server.firebaseapp.com/";
-	DeliveryItemApi createService() {
+    public interface Predicate<T, E> {
+        void response(T response, E error);
+    }
+
+	final static String API_URL = "https://crud-server.firebaseapp.com/";
+
+	private static DeliveryItemApi createService() {
 		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 		Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(API_URL)
@@ -21,36 +27,98 @@ public class DeliveryItemRepository implements DeliveryItemApi
 		return api;
 	}
 
-	@Override
-	public Call<DeliveryItem> getItemById(String id)
-	{
+	public DeliveryItemTask getItemById(String id, Predicate<DeliveryItem, Exception> predicate) {
 		DeliveryItemApi api = createService();
 		Call<DeliveryItem> call = api.getItemById(id);
-		return call;
-	}
-	
-	@Override
-	public Call<List<DeliveryItem>> getItems()
-	{
-		DeliveryItemApi api = createService();
-		Call<List<DeliveryItem>> call = api.getItems();
-		return call;
+        DeliveryItemTask task = new DeliveryItemTask(predicate, call);
+		return task;
 	}
 
-	@Override
-	public Call<DeliveryItem> setItem(String id, DeliveryItem item)
-	{
+	public DeliveryItemsTask getItems(Predicate<List<DeliveryItem>, Exception> predicate) {
+        DeliveryItemApi api = createService();
+        Call<List<DeliveryItem>> call = api.getItems();
+        DeliveryItemsTask task = new DeliveryItemsTask(predicate, call);
+        return task;
+	}
+
+	public DeliveryItemTask setItem(
+	        String id, DeliveryItem item, Predicate<DeliveryItem, Exception> predicate
+    ) {
 		DeliveryItemApi api = createService();
 		Call<DeliveryItem> call = api.setItem(id, item);
-		return call;
+        DeliveryItemTask task = new DeliveryItemTask(predicate, call);
+		return task;
 	}
 
-	@Override
-	public Call<DeliveryItem> addItem(DeliveryItem item)
-	{
+	public DeliveryItemTask addItem(DeliveryItem item, Predicate<DeliveryItem, Exception> predicate) {
 		DeliveryItemApi api = createService();
 		Call<DeliveryItem> call = api.addItem(item);
-		return call;
+        DeliveryItemTask task = new DeliveryItemTask(predicate, call);
+        return task;
 	}
+
+    public class DeliveryItemTask extends AsyncTask<Void,Void,DeliveryItem> {
+
+        private Predicate<DeliveryItem, Exception> predicate;
+        private Call<DeliveryItem> call;
+        private Exception error;
+
+        public DeliveryItemTask(
+                Predicate<DeliveryItem, Exception> predicate,
+                Call<DeliveryItem> call
+        ) {
+            this.predicate = predicate;
+            this.call = call;
+        }
+
+        @Override
+        protected DeliveryItem doInBackground(Void... params) {
+            try {
+                DeliveryItem items = call.execute().body();
+                return items;
+            } catch (Exception e) {
+                error = e;
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(DeliveryItem result) {
+            super.onPostExecute(result);
+            predicate.response(result, error);
+        }
+    }
+
+    public class DeliveryItemsTask extends AsyncTask<Void,Void,List<DeliveryItem>> {
+
+        private Predicate<List<DeliveryItem>, Exception> predicate;
+        private Call<List<DeliveryItem>> call;
+	    private Exception error;
+
+	    public DeliveryItemsTask(
+	            Predicate<List<DeliveryItem>, Exception> predicate,
+                Call<List<DeliveryItem>> call
+        ) {
+	        this.predicate = predicate;
+	        this.call = call;
+        }
+
+        @Override
+        protected List<DeliveryItem> doInBackground(Void... params) {
+            try {
+                List<DeliveryItem> items = call.execute().body();
+                return items;
+            } catch (Exception e) {
+                error = e;
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<DeliveryItem> result) {
+            super.onPostExecute(result);
+            predicate.response(result, error);
+        }
+    }
 	
 }

@@ -292,28 +292,19 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void setDeliveryItem(DeliveryItem item) {
+        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (items, err) -> {
+            showProgress(false);
+            if (err != null) {
+                log("ERROR " + err);
+                // itemAdapter.onFetchDataFailure();
+            } else {
+                deliveryFragment.fetchData();
+            }
+        };
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<DeliveryItem> call = repository.setItem(item.getId(), item);
+        DeliveryItemRepository.DeliveryItemTask task = repository.setItem(item.getId(), item, p);
 		showProgress(true);
-		call.enqueue(new Callback<DeliveryItem>() {
-			@Override
-			public void onResponse(Call<DeliveryItem> call, Response<DeliveryItem> response) {
-				showProgress(false);
-				if (response.isSuccessful()) {
-					deliveryFragment.fetchData();
-				} else {
-					log("response code " + response.code());
-				}
-			}
-
-			@Override
-			public void onFailure(Call<DeliveryItem> call, Throwable t) {
-				showProgress(false);
-				log("ERROR " + t);
-				// itemAdapter.onFetchDataFailure();
-			}
-
-		});
+		task.execute();
 	}
 
 	private void log(String message)

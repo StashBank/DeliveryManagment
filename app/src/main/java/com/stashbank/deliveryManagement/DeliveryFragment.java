@@ -10,13 +10,11 @@ import android.view.*;
 import java.util.*;
 import com.stashbank.deliveryManagement.models.*;
 import com.stashbank.deliveryManagement.adapters.*;
-import android.content.*;
+
 import android.widget.*;
-import retrofit2.*;
-import retrofit2.converter.gson.*;
+
 import com.stashbank.deliveryManagement.rest.*;
 import android.util.*;
-import android.view.View.*;
 
 public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.OnRefreshListener
 {
@@ -62,37 +60,22 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
 	}
 	
 	private void fetchData(final boolean isRefresh) {
+        DeliveryItemRepository.Predicate<List<DeliveryItem>, Exception> p = (items, error) -> {
+            showLoaderSpinner(false);
+            if (isRefresh)
+                swipeRefreshLayout.setRefreshing(false);
+            if (error != null) {
+                log("ERROR " + error);
+                itemAdapter.onFetchDataFailure();
+            } else {
+                itemAdapter.clear();
+                itemAdapter.addAll(items);
+            }
+        };
+        showLoaderSpinner(true);
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		Call<List<DeliveryItem>> call = repository.getItems();
-		if (!isRefresh)
-			showLoaderSpinner(true);
-		call.enqueue(new Callback<List<DeliveryItem>>() {
-			@Override
-			public void onResponse(Call<List<DeliveryItem>> call, Response<List<DeliveryItem>> response) {
-				if (isRefresh)
-					swipeRefreshLayout.setRefreshing(false);
-				else
-					showLoaderSpinner(false);
-				if (response.isSuccessful()) {
-					itemAdapter.clear();
-					itemAdapter.addAll(response.body());
-				} else {
-					log("response code " + response.code());
-					itemAdapter.onFetchDataFailure();
-				}
-			}
-
-			@Override
-			public void onFailure(Call<List<DeliveryItem>> call, Throwable t) {
-				if (isRefresh)
-					swipeRefreshLayout.setRefreshing(false);
-				else
-					showLoaderSpinner(false);
-				log("ERROR " + t);
-				itemAdapter.onFetchDataFailure();
-			}
-
-		});
+		DeliveryItemRepository.DeliveryItemsTask task = repository.getItems(p);
+		task.execute();
 	}
 
 	private void showLoaderSpinner(boolean show) {
