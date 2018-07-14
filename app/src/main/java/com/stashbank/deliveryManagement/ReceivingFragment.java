@@ -9,7 +9,7 @@ import android.view.*;
 import java.util.*;
 import com.stashbank.deliveryManagement.models.*;
 import com.stashbank.deliveryManagement.adapters.*;
-import android.content.*;
+
 import android.widget.*;
 
 public class ReceivingFragment extends Fragment
@@ -22,7 +22,7 @@ public class ReceivingFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.fragment_shipping, container, false);
+		return inflater.inflate(R.layout.fragment_receiving, container, false);
 	}
 
 }

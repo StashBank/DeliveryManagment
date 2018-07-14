@@ -3,6 +3,7 @@ package com.stashbank.deliveryManagement;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
@@ -24,10 +25,6 @@ import android.widget.Toast;
 import com.stashbank.deliveryManagement.models.DeliveryItem;
 import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener,
 		MainFragment.OnButtonClickListener,
 	DeliveryFragment.DeliveryFragmentEventListener
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private Animation animOpen, animClose, animRotateClockwise, animRotateAnticlockwise;
 	private int selectedMenuId = R.id.nav_home;
 	private boolean isFabsOpen = false;
+	private boolean doubleBackToExitPressedOnce;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		drawer.setDrawerListener(toggle);
 		toggle.syncState();
 
+		initFabs();
 		if (savedInstanceState == null) {
 			openMainFragment();
 		}
-		initFabs();
 	}
 
 	private  void initFabs() {
@@ -116,12 +114,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void hideFabs() {
-		fabNewReceiving.startAnimation(animClose);
-		fabNewDelivery.startAnimation(animClose);
-		fabNew.startAnimation(animRotateAnticlockwise);
-		fabNewReceiving.setClickable(false);
-		fabNewDelivery.setClickable(false);
-		isFabsOpen = false;
+		if (isFabsOpen) {
+			fabNewReceiving.startAnimation(animClose);
+			fabNewDelivery.startAnimation(animClose);
+			fabNew.startAnimation(animRotateAnticlockwise);
+			fabNewReceiving.setClickable(false);
+			fabNewDelivery.setClickable(false);
+			isFabsOpen = false;
+		}
 	}
 
 	private void openCreateDeliveryCard() {
@@ -139,10 +139,21 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else if (selectedMenuId == R.id.nav_home) {
-			super.onBackPressed();
+			onExit();
 		} else {
 			openMainFragment();
 		}
+	}
+
+	private void onExit() {
+		long duration = 2000;
+		if (doubleBackToExitPressedOnce) {
+			super.onBackPressed();
+			return;
+		}
+		this.doubleBackToExitPressedOnce = true;
+		Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+		new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, duration);
 	}
 
 	@Override
@@ -173,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 				openDeliveryFragment();
 				break;
 			case R.id.nav_shipping:
-				openShippingFragment();
+				openReceivingFragment();
 				break;
 			case R.id.nav_share:
 				Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
@@ -188,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void openMainFragment() {
+		hideFabs();
 		selectedMenuId = R.id.nav_home;
 		getSupportFragmentManager()
 			.beginTransaction()
@@ -198,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void openDeliveryFragment() {
+		hideFabs();
 		selectedMenuId = R.id.nav_delivery;
 		deliveryFragment = new DeliveryFragment();
 		deliveryFragment.setEventListener(this);
@@ -208,7 +221,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		navigationView.setCheckedItem(R.id.nav_delivery);
 	}
 
-	private void openShippingFragment() {
+	private void openReceivingFragment() {
+		hideFabs();
 		selectedMenuId = R.id.nav_shipping;
 		ReceivingFragment fragment = new ReceivingFragment();
 		getSupportFragmentManager()
@@ -219,15 +233,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	@Override
-	public void onDeliveryButtonClick(View view)
-	{
+	public void onDeliveryButtonClick(View view) {
 		openDeliveryFragment();
 	}
 
 	@Override
-	public void onShippingButtonClick(View view)
-	{
-		openShippingFragment();
+	public void onShippingButtonClick(View view) {
+		openReceivingFragment();
 	}
 
 	@Override
