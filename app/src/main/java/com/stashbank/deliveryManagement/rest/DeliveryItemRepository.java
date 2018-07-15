@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.*;
+
 import com.stashbank.deliveryManagement.models.*;
 import okhttp3.OkHttpClient;
 
@@ -40,6 +41,13 @@ public class DeliveryItemRepository
         DeliveryItemsTask task = new DeliveryItemsTask(predicate, call);
         return task;
 	}
+
+    public DeliveryItemsCountTask getItemsCount(Predicate<Integer, Exception> predicate) {
+        DeliveryItemApi api = createService();
+        Call<List<DeliveryItem>> call = api.getItems();
+        DeliveryItemsCountTask task = new DeliveryItemsCountTask(predicate, call);
+        return task;
+    }
 
 	public DeliveryItemTask setItem(
 	        String id, DeliveryItem item, Predicate<DeliveryItem, Exception> predicate
@@ -116,6 +124,44 @@ public class DeliveryItemRepository
 
         @Override
         protected void onPostExecute(List<DeliveryItem> result) {
+            super.onPostExecute(result);
+            predicate.response(result, error);
+        }
+    }
+
+    public class DeliveryItemsCountTask extends AsyncTask<Void,Void,Integer> {
+
+        private Predicate<Integer, Exception> predicate;
+        private Call<List<DeliveryItem>> call;
+        private Exception error;
+
+        public DeliveryItemsCountTask(
+                Predicate<Integer, Exception> predicate,
+                Call<List<DeliveryItem>> call
+        ) {
+            this.predicate = predicate;
+            this.call = call;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            try {
+                List<DeliveryItem> items = call.execute().body();
+                if (items == null)
+                    return 0;
+                Integer count = 0;
+                for (DeliveryItem i: items)
+                    if(!i.isDelivered())
+                        count++;
+                return count;
+            } catch (Exception e) {
+                error = e;
+                return 0;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             predicate.response(result, error);
         }

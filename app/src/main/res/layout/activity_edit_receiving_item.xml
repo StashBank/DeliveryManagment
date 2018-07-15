@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/activity_edit_receiving_item"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	tools:context="com.stashbank.deliveryManagement.EditReceivingItemActivity">
+
+	<ProgressBar
+		android:id="@+id/progress"
+		style="?android:attr/progressBarStyleLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_marginBottom="8dp"
+		android:visibility="gone"/>
+
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/etNumberWrap"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/edit_field_height"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
+
+	<EditText
+		android:id="@+id/etNumber"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:inputType="textPersonName"
+		android:hint="@string/lbl_edit_receiving_number"
+		android:text=""
+		android:ems="10"
+		android:imeOptions="actionUnspecified"
+		android:maxLines="1"/>
+
+	</android.support.design.widget.TextInputLayout>
+
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/etClientNameWrap"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/edit_field_height"
+		android:layout_below="@id/etNumberWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
+
+		<EditText
+			android:id="@+id/etClientName"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:inputType="textPersonName"
+			android:hint="@string/lbl_edit_receiving_client"
+			android:text=""
+			android:ems="10"
+			android:maxLines="1"/>
+
+	</android.support.design.widget.TextInputLayout>
+
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/etClientPhoneWrap"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/edit_field_height"
+		android:layout_below="@id/etClientNameWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
+
+	<EditText
+		android:id="@+id/etClientPhone"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:inputType="text|phone"
+		android:hint="@string/lbl_edit_receiving_phone"
+		android:text=""
+		android:ems="10"
+		android:maxLines="1"/>
+
+	</android.support.design.widget.TextInputLayout>
+
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/etClientAddressWrap"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/edit_field_height"
+		android:layout_below="@id/etClientPhoneWrap"
+        android:layout_marginBottom="@dimen/edit_field_margin_bottom">
+
+	<EditText
+		android:id="@+id/etClientAddress"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:inputType="text"
+		android:hint="@string/lbl_edit_receiving_address"
+		android:text=""
+		android:ems="10"
+		android:maxLines="1"/>
+
+	</android.support.design.widget.TextInputLayout>
+
+	<Button
+		android:id="@+id/btnSave"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
+		style="@style/Widget.AppCompat.Button.Colored"
+		android:background="@color/colorPrimary"
+		android:textSize="18sp"
+		android:padding="12dp"
+		android:text="@string/save"/>
+
+</RelativeLayout>

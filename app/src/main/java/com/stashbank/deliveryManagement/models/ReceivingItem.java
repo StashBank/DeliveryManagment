@@ -2,25 +2,13 @@ package com.stashbank.deliveryManagement.models;
 
 public class ReceivingItem extends Item
 {
-	private Boolean shipped;
+	private boolean received;
 
-	/*public ReceivingItem(
-	String id,
-	String number,
-	String address,
-	String client,
-	double amount,
-	boolean shipped
-	) {
-		super(id, number, address, client, amount);
-		this.shipped = shipped;
-	}*/
-
-	public void setShipped(Boolean shipped) {
-		this.shipped = shipped;
+	public void setReceived(boolean received) {
+		this.received = received;
 	}
 
-	public Boolean getShipped() {
-		return shipped;
+	public boolean isReceived() {
+		return received;
 	}
 }

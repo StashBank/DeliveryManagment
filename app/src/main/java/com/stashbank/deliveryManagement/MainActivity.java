@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void openCreateReceivingCard() {
-		Toast.makeText(this, "Will be create new receiving", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(this, EditReceivingItemActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

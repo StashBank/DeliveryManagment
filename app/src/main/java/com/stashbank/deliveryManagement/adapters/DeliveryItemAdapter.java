@@ -62,41 +62,26 @@ public class DeliveryItemAdapter extends ArrayAdapter
 		
 		btnPay = (Button) view.findViewById(R.id.item_btn_pay);
 		btnPay.setTag(position);
-		btnPay.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View button) {
-				int position = (int) button.getTag();
-				DeliveryItem item = (DeliveryItem) getItem(position);
-				eventListener.makePayment(item);
-			}
-		});
+		btnPay.setOnClickListener(button -> {
+            int position1 = (int) button.getTag();
+            DeliveryItem item1 = (DeliveryItem) getItem(position1);
+            eventListener.makePayment(item1);
+        });
 		btnPay.setVisibility(item.isPayed() ? View.GONE : View.VISIBLE);
-		
 
 		btnDeliver = (Button) view.findViewById(R.id.item_btn_delivered);
 		btnDeliver.setTag(position);
-		btnDeliver.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View button) {
-					int position = (int) button.getTag();
-					DeliveryItem item = (DeliveryItem) getItem(position);
-					eventListener.markAsDelivered(item);
-				}
-			});
+		btnDeliver.setOnClickListener(button -> {
+            int position12 = (int) button.getTag();
+            DeliveryItem item12 = (DeliveryItem) getItem(position12);
+            button.setEnabled(false);
+            eventListener.markAsDelivered(item12);
+        });
 		boolean showDeliveryBtn = !(item.isDelivered() || !item.isPayed());
 		btnDeliver.setVisibility(showDeliveryBtn ? View.VISIBLE : View.GONE);
 		btnCall = (Button) view.findViewById(R.id.item_btn_call);
 		btnCall.setTag(position);
-		// if (item.getMobile() != null) {
-			btnCall.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					onCallButtonClick(v);
-				}
-			});
-		/*} else {
-			btnCall.setVisibility(View.GONE);
-		}*/
+		btnCall.setOnClickListener(v -> onCallButtonClick(v));
 		return view;
 	}
 	
@@ -107,7 +92,6 @@ public class DeliveryItemAdapter extends ArrayAdapter
 	public void onCallButtonClick(View button) {
 		int position = (int) button.getTag();
 		DeliveryItem item = (DeliveryItem) getItem(position);
-		// String phoneNumber = tvMobile.getText().toString();
 		String phoneNumber = item.getMobile();
 		if (this.eventListener != null & phoneNumber != null && phoneNumber != "")
 			this.eventListener.makePhoneCall(phoneNumber);

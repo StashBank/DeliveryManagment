@@ -44,6 +44,12 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.stashbank.deliveryManagement.MainActivity"/>
 		</activity>
+		<activity android:name=".EditReceivingItemActivity"
+			android:screenOrientation="portrait">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.stashbank.deliveryManagement.MainActivity"/>
+		</activity>
 	</application>
 
 </manifest>

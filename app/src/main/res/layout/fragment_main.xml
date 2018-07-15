@@ -33,25 +33,34 @@
             android:layout_alignParentEnd="true"
 			android:minHeight="200dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="180dp"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="156dp"
+					android:layout_alignParentTop="true"
                     android:src="@drawable/img_delivery"/>
 
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="@string/menu_delivery"
-                    android:id="@+id/btn_menu_delivery"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:background="@color/colorPrimary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
+                <!--<Button-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:text="@string/menu_delivery"-->
+                    <!--android:id="@+id/btn_menu_delivery"-->
+                    <!--style="@style/Widget.AppCompat.Button.Colored"-->
+                    <!--android:background="@color/colorPrimary"-->
+                    <!--android:textSize="18sp"/>-->
+				<TextView
+					android:id="@+id/tv_delivery_count"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Не завершенных доставок 0"
+					android:textSize="18sp"
+					android:layout_alignParentBottom="true"
+					android:textAlignment="center"/>
+            </RelativeLayout>
 
 		</android.support.v7.widget.CardView>
 
@@ -65,9 +74,9 @@
             android:layout_below="@id/menu_card_delivery"
 			android:minHeight="200dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="180dp"
                 android:orientation="vertical">
 
             <ImageView
@@ -75,16 +84,25 @@
                 android:layout_height="156dp"
                 android:src="@drawable/img_receiving" />
 
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="@string/menu_receiving"
-                android:id="@+id/btn_menu_shipping"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:background="@color/colorPrimary"
-                android:textSize="18sp"/>
+            <!--<Button-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:text="@string/menu_receiving"-->
+                <!--android:id="@+id/btn_menu_shipping"-->
+                <!--style="@style/Widget.AppCompat.Button.Colored"-->
+                <!--android:background="@color/colorPrimary"-->
+                <!--android:textSize="18sp"/>-->
 
-            </LinearLayout>
+				<TextView
+					android:id="@+id/tv_receiving_count"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Не завершенных отгрузок 0"
+					android:textSize="18sp"
+					android:layout_alignParentBottom="true"
+					android:textAlignment="center"/>
+
+            </RelativeLayout>
 		</android.support.v7.widget.CardView>
 
 	</RelativeLayout>

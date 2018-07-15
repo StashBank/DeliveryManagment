@@ -50,4 +50,10 @@
 	<string name="lbl_edit_delivery_address">Адрес</string>
 	<string name="lbl_edit_delivery_amount">Сумма</string>
 	<string name="lbl_edit_delivery_payed">Оплачено</string>
+
+	<!-- Strings related to delivery item edit card-->
+	<string name="lbl_edit_receiving_number">ТТН</string>
+	<string name="lbl_edit_receiving_client">Клиент</string>
+	<string name="lbl_edit_receiving_phone">Телефон</string>
+	<string name="lbl_edit_receiving_address">Адрес</string>
 </resources>
