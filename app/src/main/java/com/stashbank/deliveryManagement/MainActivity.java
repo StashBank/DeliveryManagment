@@ -73,35 +73,26 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		fabNew = (FloatingActionButton) findViewById(R.id.fab_new);
 		fabNewReceiving = (FloatingActionButton) findViewById(R.id.fab_new_receive);
 		fabNewDelivery = (FloatingActionButton) findViewById(R.id.fab_new_delivery);
-		fabNew.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (selectedMenuId == R.id.nav_home) {
-					if (isFabsOpen)
-						hideFabs();
-					else
-						showFabs();
-				} else if (selectedMenuId == R.id.nav_delivery) {
-					openCreateDeliveryCard();
-				} else if (selectedMenuId == R.id.nav_shipping) {
-					openCreateReceivingCard();
-				}
-			}
-		});
-		fabNewReceiving.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openCreateReceivingCard();
-				hideFabs();
-			}
-		});
-		fabNewDelivery.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openCreateDeliveryCard();
-				hideFabs();
-			}
-		});
+		fabNew.setOnClickListener(v -> {
+            if (selectedMenuId == R.id.nav_home) {
+                if (isFabsOpen)
+                    hideFabs();
+                else
+                    showFabs();
+            } else if (selectedMenuId == R.id.nav_delivery) {
+                openCreateDeliveryCard();
+            } else if (selectedMenuId == R.id.nav_shipping) {
+                openCreateReceivingCard();
+            }
+        });
+		fabNewReceiving.setOnClickListener(v -> {
+            openCreateReceivingCard();
+            hideFabs();
+        });
+		fabNewDelivery.setOnClickListener(v -> {
+            openCreateDeliveryCard();
+            hideFabs();
+        });
 	}
 
 	private void showFabs() {

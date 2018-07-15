@@ -28,12 +28,7 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_edit_delivery_item);
 		progressBar = (ProgressBar) findViewById(R.id.progress);
 		btnSave = (Button) findViewById(R.id.btnSave);
-		btnSave.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onSaveButtonClick(v);
-			}
-		});
+		btnSave.setOnClickListener(v -> onSaveButtonClick(v));
 		etNumber = (EditText) findViewById(R.id.etNumber);
 		etClientName = (EditText) findViewById(R.id.etClientName);
 		etClientPhone = (EditText) findViewById(R.id.etClientPhone);
@@ -43,9 +38,40 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 	}
 
 	public void onSaveButtonClick(View view) {
-		DeliveryItem item = getDeliveryItem();
-		saveItem(item);
+		if (this.validate()) {
+			DeliveryItem item = getDeliveryItem();
+			saveItem(item);
+		}
 	}
+
+	private boolean validate() {
+		return validateRequired(etNumber, "Номер")
+				&& validateRequired(etClientName, "Клиент")
+				&& validateRequired(etClientPhone, "Телефон")
+				&& validateRequired(etClientAddress, "Адрес")
+				&& validateAmount();
+
+	}
+
+	private boolean validateRequired(TextView view, String caption) {
+		String text = view.getText().toString();
+		boolean valid = text != null && text.length() > 0;
+		view.setError(valid ? null : String.format("%s объязателен для заполения", caption));
+		return valid;
+	}
+
+	private boolean validateAmount() {
+		double amount = 0;
+		String amountStr = etAmount.getText().toString();
+		if (amountStr != null && amountStr.length() > 0)
+			try {
+				amount = Double.parseDouble(amountStr);
+			} catch (Exception e) {}
+		boolean valid = amount > 0;
+		etAmount.setError(valid ? null : "Введите корректную сумму");
+		return valid;
+	}
+
 
 	private DeliveryItem getDeliveryItem() {
 		DeliveryItem item = new DeliveryItem();
