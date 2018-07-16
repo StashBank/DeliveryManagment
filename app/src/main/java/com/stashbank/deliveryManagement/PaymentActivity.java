@@ -45,11 +45,15 @@ public class PaymentActivity extends AppCompatActivity
 		tvClient.setText(client);
 
 		// fetchDeliveryItem(intent.getStringExtra("deliveryId"));
+		setEditTextValue(R.id.et_amount, String.format( "%.2f", amount ));
+		setEditTextValue(R.id.et_customer_email, "hello@swiffpay.com");
+		setEditTextValue(R.id.et_mobile, "012345678");
+		setEditTextValue(R.id.et_extra, "invoice=19191");
 	}
 
 	public  void onPayment(View view) {
 		// TODO: DeliveryItem item = null;
-		view.setEnabled(false);
+		// view.setEnabled(false);
 		makePayment(String.format( "%.2f", amount ));
 	}
 
@@ -62,14 +66,14 @@ public class PaymentActivity extends AppCompatActivity
 
 	void makePayment(String amount) {
 		Intent i = new Intent("com.sccp.gpb.emv.MAKE_PAYMENT");
-		i.putExtra("amount", amount);
-		i.putExtra("customer_email", "hello@swiffpay.com");
-		i.putExtra("ref_1", "");
-		i.putExtra("ref_2", "");
-		i.putExtra("ref_3", "");
-		i.putExtra("ref_4", "");
-		i.putExtra("mobile", "12345678");
-		i.putExtra("extra", "invoice=19191");
+		i.putExtra("amount", getEditTextValue(R.id.et_amount));
+		i.putExtra("customer_email", getEditTextValue(R.id.et_customer_email));
+		i.putExtra("ref_1", getEditTextValue(R.id.et_ref_1));
+		i.putExtra("ref_2", getEditTextValue(R.id.et_ref_2));
+		i.putExtra("ref_3", getEditTextValue(R.id.et_ref_3));
+		i.putExtra("ref_4", getEditTextValue(R.id.et_ref_4));
+		i.putExtra("mobile", getEditTextValue(R.id.et_mobile));
+		i.putExtra("extra", getEditTextValue(R.id.et_extra));
 		i.putExtra("source", getApplication().getPackageName());
 		try {
 			showProgress(true);
@@ -78,6 +82,19 @@ public class PaymentActivity extends AppCompatActivity
 			showProgress(false);
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 		}
+	}
+
+	String getEditTextValue(int id) {
+		TextView view = (TextView) findViewById(id);
+		if (view != null)
+			return view.getText().toString();
+		return "";
+	}
+
+	void setEditTextValue(int id, String text) {
+		TextView view = (TextView) findViewById(id);
+		if (view != null)
+			view.setText(text);
 	}
 
 	private void openOkDialog(String message, DialogInterface.OnClickListener listener) {
@@ -102,12 +119,8 @@ public class PaymentActivity extends AppCompatActivity
 				String message = null;
 				switch(transaction_response_code) {
 					case "0":
-						createTransacrion(data);
-						openOkDialog("Оплата прошла успешно", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							finish();
-						}
-					});
+						createTransaction(data);
+						openOkDialog("Оплата прошла успешно", (dialog, id) -> finish());
 						break;
 					case "-941":
 						message = "Ошибка валидации входящих параметров";
@@ -116,18 +129,19 @@ public class PaymentActivity extends AppCompatActivity
 						message ="Отменено пользователем";
 						break;
 					default:
-						message = "Не ожиданая ошибка во врмя платежа";
+						createTransaction(data);
+						message = "Не известная ошибка";
 						break;
 				}
 				setResult(resultCode, intent);
-				if (message != null)
+				/*if (message != null)
 					Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-				finish();
+				finish();*/
 			}
 		}
 	}
 
-	private void createTransacrion(Intent data) {
+	private void createTransaction(Intent data) {
 		String transaction_response_code = data.getStringExtra("transaction_response_code");
 		String transaction_number = data.getStringExtra("transaction_number");
 		String transaction_ref = data.getStringExtra("transaction_ref");
@@ -150,7 +164,23 @@ public class PaymentActivity extends AppCompatActivity
 		String tsi = data.getStringExtra("TSI");
 		String tvr = data.getStringExtra("TVR");
 		String cvm_result = data.getStringExtra("CVMResult");
+		String msg = String.format("transaction_response_code: %s\n", transaction_response_code);
+		msg += String.format("transaction_number: %s\n", transaction_number);
+		msg += String.format("transaction_ref: %s\n", transaction_ref);
+		msg += String.format("amount: %s\n", amount);
+		msg += String.format("order_info: %s\n", order_info);
+		msg += String.format("auth_code: %s\n", auth_code);
+		msg += String.format("card_type: %s\n", card_type);
+		msg += String.format("cc_name: %s\n", cc_name);
+		msg += String.format("cc_number: %s\n", cc_number);
+		msg += String.format("tsi: %s\n", tsi);
+		msg += String.format("tvr: %s\n", tvr);
+		msg += String.format("cvm_result: %s\n", cvm_result);
+		// openOkDialog(msg, (dialog, id) -> emtyFn());
+		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 	}
+
+	private void emtyFn() {}
 
 	void fetchDeliveryItem(String id) {
         DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (item, err) -> {
