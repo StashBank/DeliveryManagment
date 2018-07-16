@@ -23,11 +23,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.stashbank.deliveryManagement.models.DeliveryItem;
+import com.stashbank.deliveryManagement.models.ReceivingItem;
 import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
+import com.stashbank.deliveryManagement.rest.ReceivingItemRepository;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener,
 		MainFragment.OnButtonClickListener,
-	DeliveryFragment.DeliveryFragmentEventListener
+	    DeliveryFragment.DeliveryFragmentEventListener,
+        ReceivingFragment.ReceivingFragmentEventListener
 {
 
 	private DrawerLayout drawer;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private NavigationView navigationView;
 	private DeliveryItem selectedDeliveryItem;
 	private DeliveryFragment deliveryFragment;
+	private ReceivingFragment receivingFragment;
 	private final int PAYMENT_REQ_CODE = 1;
 	private FloatingActionButton fabNew, fabNewReceiving, fabNewDelivery;
 	private Animation animOpen, animClose, animRotateClockwise, animRotateAnticlockwise;
@@ -216,10 +220,11 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private void openReceivingFragment() {
 		hideFabs();
 		selectedMenuId = R.id.nav_shipping;
-		ReceivingFragment fragment = new ReceivingFragment();
+        receivingFragment = new ReceivingFragment();
+        receivingFragment.setEventListener(this);
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, fragment)
+			.replace(R.id.fragment_container, receivingFragment)
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_shipping);
 	}
@@ -244,7 +249,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		}
 	}
 
-	@Override
+    @Override
+    public void markAsReceived(ReceivingItem receiving) {
+        receiving.setReceived(true);
+        setReceivingItem(receiving);
+    }
+
+    @Override
 	public void overridePendingTransition(int enterAnim, int exitAnim) {
 		// TODO: Implement this method
 		super.overridePendingTransition(enterAnim, exitAnim);
@@ -296,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	private void setDeliveryItem(DeliveryItem item) {
-        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (items, err) -> {
+        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (i, err) -> {
             showProgress(false);
             if (err != null) {
                 log("ERROR " + err);
@@ -310,6 +321,22 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 		showProgress(true);
 		task.execute();
 	}
+
+    private void setReceivingItem(ReceivingItem item) {
+        ReceivingItemRepository.Predicate<ReceivingItem, Exception> p = (i, err) -> {
+            showProgress(false);
+            if (err != null) {
+                log("ERROR " + err);
+                // itemAdapter.onFetchDataFailure();
+            } else {
+                receivingFragment.fetchData();
+            }
+        };
+        ReceivingItemRepository repository = new ReceivingItemRepository();
+        ReceivingItemRepository.ReceivingItemTask task = repository.setItem(item.getId(), item, p);
+        showProgress(true);
+        task.execute();
+    }
 
 	private void log(String message)
 	{

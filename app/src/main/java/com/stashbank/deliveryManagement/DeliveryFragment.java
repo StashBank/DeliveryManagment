@@ -38,8 +38,7 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
 
 	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
-	{
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_delivery, container, false);
 		fetchData();
 		itemAdapter = new DeliveryItemAdapter(getActivity(), items, eventListener);
@@ -83,7 +82,6 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
 			eventListener.showProgress(show);
 	}
 
-	
 	private void log(String message)
 	{
 		Log.d("REST", message);

@@ -43,6 +43,14 @@
 	<string name="payment_amount_lbl">Сумма</string>
 	<string name="payment_number_lbl">Номер</string>
 
+    <!-- Strings related to receiving item -->
+    <string name="receiving_item_number_lbl">ТТН</string>
+    <string name="receiving_item_client_lbl">Клиент</string>
+    <string name="receiving_item_mobile_lbl">Мобильный</string>
+    <string name="receiving_item_address_lbl">Адрес</string>
+    <string name="receiving_item_received_lbl">Отгружено</string>
+    <string name="receiving_item_btn_received">Отгружено</string>
+
 	<!-- Strings related to delivery item edit card-->
 	<string name="lbl_edit_delivery_number">ТТН</string>
 	<string name="lbl_edit_delivery_client">Клиент</string>
