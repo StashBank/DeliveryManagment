@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private Toolbar toolbar;
 	private NavigationView navigationView;
 	private DeliveryItem selectedDeliveryItem;
+	private MainFragment mainFragment;
 	private DeliveryFragment deliveryFragment;
 	private ReceivingFragment receivingFragment;
 	private final int PAYMENT_REQ_CODE = 1;
@@ -66,6 +67,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 			openMainFragment();
 		}
 	}
+
+    @Override
+	protected void onResume() {
+	    super.onResume();
+	    if (selectedMenuId == R.id.nav_home && mainFragment != null) {
+            mainFragment.updateInfoData();
+        }
+    }
 
 	private  void initFabs() {
 		android.content.Context ctx = getApplicationContext();
@@ -197,9 +206,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	private void openMainFragment() {
 		hideFabs();
 		selectedMenuId = R.id.nav_home;
+        mainFragment = new MainFragment();
 		getSupportFragmentManager()
 			.beginTransaction()
-			.replace(R.id.fragment_container, new MainFragment())
+			.replace(R.id.fragment_container, mainFragment)
 			.commit();
 		navigationView.setCheckedItem(R.id.nav_home);
 

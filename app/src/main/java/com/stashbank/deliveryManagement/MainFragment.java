@@ -51,6 +51,12 @@ public class MainFragment extends Fragment
 		getReceivingCount(view);
 		return view;
 	}
+
+	public void updateInfoData() {
+	    View view = getView();
+        getDeliveryCount(view);
+        getReceivingCount(view);
+    }
 	
 	private void intiClickEvents(View view) {
 		CardView deliveryCard = (CardView) view.findViewById(R.id.menu_card_delivery);
