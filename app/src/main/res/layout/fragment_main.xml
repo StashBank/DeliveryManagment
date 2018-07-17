@@ -33,7 +33,16 @@
             android:layout_alignParentEnd="true"
 			android:minHeight="200dp">
 
+            <ProgressBar
+                android:id="@+id/delivery_info_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
             <RelativeLayout
+                android:id="@+id/delivery_info_wrap"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:orientation="vertical">
@@ -44,14 +53,6 @@
 					android:layout_alignParentTop="true"
                     android:src="@drawable/img_delivery"/>
 
-                <!--<Button-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:text="@string/menu_delivery"-->
-                    <!--android:id="@+id/btn_menu_delivery"-->
-                    <!--style="@style/Widget.AppCompat.Button.Colored"-->
-                    <!--android:background="@color/colorPrimary"-->
-                    <!--android:textSize="18sp"/>-->
 				<TextView
 					android:id="@+id/tv_delivery_count"
 					android:layout_width="match_parent"
@@ -74,7 +75,16 @@
             android:layout_below="@id/menu_card_delivery"
 			android:minHeight="200dp">
 
+            <ProgressBar
+                android:id="@+id/receiving_info_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
             <RelativeLayout
+                android:id="@+id/receiving_info_wrap"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:orientation="vertical">
@@ -83,15 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="156dp"
                 android:src="@drawable/img_receiving" />
-
-            <!--<Button-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:text="@string/menu_receiving"-->
-                <!--android:id="@+id/btn_menu_shipping"-->
-                <!--style="@style/Widget.AppCompat.Button.Colored"-->
-                <!--android:background="@color/colorPrimary"-->
-                <!--android:textSize="18sp"/>-->
 
 				<TextView
 					android:id="@+id/tv_receiving_count"

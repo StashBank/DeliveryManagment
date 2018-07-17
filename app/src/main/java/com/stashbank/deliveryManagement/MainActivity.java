@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	}
 
 	@Override
-	public void onShippingButtonClick(View view) {
+	public void onReceivingButtonClick(View view) {
 		openReceivingFragment();
 	}
 
