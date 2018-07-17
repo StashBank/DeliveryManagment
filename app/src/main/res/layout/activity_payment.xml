@@ -15,7 +15,6 @@
 		android:visibility="gone"/>
 
 	<LinearLayout
-		android:visibility="gone"
 		android:id="@+id/payment_number_wrap"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -38,7 +37,6 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:visibility="gone"
 		android:id="@+id/payment_amount_wrap"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -61,7 +59,6 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:visibility="gone"
 		android:id="@+id/payment_client_wrap"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -84,123 +81,6 @@
 			android:textSize="24sp" />
 	</LinearLayout>
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:id="@+id/swiff_params"
-		android:layout_centerInParent="true">
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-		<EditText
-			android:id="@+id/et_command"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:hint="command" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_amount"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="amount" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_customer_email"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="customer_email" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_mobile"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="mobile" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_ref_1"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="ref_1" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_ref_2"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="ref_2" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_ref_3"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="ref_3" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_ref_4"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="ref_4" />
-
-		</android.support.design.widget.TextInputLayout>
-
-		<android.support.design.widget.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="48dp">
-
-			<EditText
-				android:id="@+id/et_extra"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:hint="extra" />
-
-		</android.support.design.widget.TextInputLayout>
-
-	</LinearLayout>
-
 	<Button
 		android:id="@+id/btn_pay"
 		android:onClick="onPayment"
@@ -211,7 +91,7 @@
 		android:layout_marginLeft="30dp"
 		android:layout_marginRight="30dp"
 		android:background="@color/colorActivated"
-		android:layout_below="@id/swiff_params"
+		android:layout_below="@id/payment_client_wrap"
 		android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

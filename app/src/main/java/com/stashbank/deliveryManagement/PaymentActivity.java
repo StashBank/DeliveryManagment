@@ -19,12 +19,12 @@ import com.stashbank.deliveryManagement.models.*;
 import android.util.*;
 import android.view.View.*;
 import java.io.*;
+import java.text.DecimalFormat;
 
 
 public class PaymentActivity extends AppCompatActivity
 {
 	private final int MAKE_PAYMENT_CODE = 2;
-	private Double amount;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,28 +33,22 @@ public class PaymentActivity extends AppCompatActivity
 		Intent intent = getIntent();
 
 		String number = intent.getStringExtra("number");
-		TextView tvNumber = (TextView)findViewById(R.id.payment_number);
-		tvNumber.setText(number);
+        setEditTextValue(R.id.payment_number, number);
 
-		amount = intent.getDoubleExtra("amount", 0);
-		TextView tvAmount = (TextView)findViewById(R.id.payment_amount);
-		tvAmount.setText(amount.toString());
+        double amount = intent.getDoubleExtra("amount", 0);
+        int intValue = (int)amount;
+        int rest = (int) ((amount - intValue) * 100);
+        String amountStr = String.format("%s.%s", intValue, rest);
+        setEditTextValue(R.id.payment_amount, amountStr);
 
 		String client = intent.getStringExtra("client");
-		TextView tvClient = (TextView)findViewById(R.id.payment_client);
-		tvClient.setText(client);
-
-		// fetchDeliveryItem(intent.getStringExtra("deliveryId"));
-		setEditTextValue(R.id.et_amount, String.format( "%.2f", amount ));
-		setEditTextValue(R.id.et_customer_email, "hello@swiffpay.com");
-		setEditTextValue(R.id.et_mobile, "012345678");
-		setEditTextValue(R.id.et_extra, "invoice=19191");
+        setEditTextValue(R.id.payment_client, client);
 	}
 
 	public  void onPayment(View view) {
-		// TODO: DeliveryItem item = null;
-		// view.setEnabled(false);
-		makePayment(String.format( "%.2f", amount ));
+		view.setEnabled(false);
+        String amount = getEditTextValue(R.id.payment_amount);
+		makePayment(amount);
 	}
 
 	public void showProgress(final boolean show) {
@@ -66,22 +60,16 @@ public class PaymentActivity extends AppCompatActivity
 
 	void makePayment(String amount) {
 		Intent i = new Intent("com.sccp.gpb.emv.MAKE_PAYMENT");
-		i.putExtra("amount", getEditTextValue(R.id.et_amount));
-		i.putExtra("customer_email", getEditTextValue(R.id.et_customer_email));
-		i.putExtra("ref_1", getEditTextValue(R.id.et_ref_1));
-		i.putExtra("ref_2", getEditTextValue(R.id.et_ref_2));
-		i.putExtra("ref_3", getEditTextValue(R.id.et_ref_3));
-		i.putExtra("ref_4", getEditTextValue(R.id.et_ref_4));
-		i.putExtra("mobile", getEditTextValue(R.id.et_mobile));
-		i.putExtra("extra", getEditTextValue(R.id.et_extra));
+		i.putExtra("amount", amount);
 		i.putExtra("source", getApplication().getPackageName());
-		try {
+        try {
 			showProgress(true);
 			startActivityForResult(i, MAKE_PAYMENT_CODE);
 		} catch (android.content.ActivityNotFoundException e) {
 			showProgress(false);
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 		}
+        findViewById(R.id.btn_pay).setEnabled(true);
 	}
 
 	String getEditTextValue(int id) {
@@ -113,12 +101,13 @@ public class PaymentActivity extends AppCompatActivity
 		if (requestCode == MAKE_PAYMENT_CODE) {
 			String transaction_response_code = data.getStringExtra("transaction_response_code");
 			Intent intent = new Intent();
-			boolean payed = transaction_response_code == "0" && resultCode == RESULT_OK;
+            // transaction_response_code = "000";
+			boolean payed = transaction_response_code == "000" && resultCode == RESULT_OK;
 			intent.putExtra("payed",  payed);
 			if (resultCode == RESULT_OK) {
 				String message = null;
 				switch(transaction_response_code) {
-					case "0":
+					case "000":
 						createTransaction(data);
 						openOkDialog("Оплата прошла успешно", (dialog, id) -> finish());
 						break;
@@ -129,14 +118,13 @@ public class PaymentActivity extends AppCompatActivity
 						message ="Отменено пользователем";
 						break;
 					default:
-						createTransaction(data);
 						message = "Не известная ошибка";
 						break;
 				}
 				setResult(resultCode, intent);
-				/*if (message != null)
+				if (message != null)
 					Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-				finish();*/
+				// finish();
 			}
 		}
 	}
@@ -176,37 +164,12 @@ public class PaymentActivity extends AppCompatActivity
 		msg += String.format("tsi: %s\n", tsi);
 		msg += String.format("tvr: %s\n", tvr);
 		msg += String.format("cvm_result: %s\n", cvm_result);
-		// openOkDialog(msg, (dialog, id) -> emtyFn());
-		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+		// Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 	}
 
-	private void emtyFn() {}
+	private void showOkAnimation() {
 
-	void fetchDeliveryItem(String id) {
-        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (item, err) -> {
-            // showProgress(false);
-            if (err != null) {
-                DeliveryItem delivery = item;
-                String number = delivery.getNumber();
-                TextView tvNumber = (TextView)findViewById(R.id.payment_number);
-                tvNumber.setText(number);
-
-                amount = delivery.getAmount();
-                TextView tvAmount = (TextView)findViewById(R.id.payment_amount);
-                tvAmount.setText(amount.toString());
-
-                String client = delivery.getClient();
-                TextView tvClient = (TextView)findViewById(R.id.payment_client);
-                tvClient.setText(client);
-            } else {
-                log("error " + err);
-            }
-        };
-		DeliveryItemRepository repository = new DeliveryItemRepository();
-        DeliveryItemRepository.DeliveryItemTask task = repository.getItemById(id, p);
-		// showProgress(true);
-		task.execute();
-	}
+    }
 
 	private void log(String message)
 	{
