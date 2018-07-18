@@ -93,7 +93,7 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:layout_height="wrap_content"
+		android:layout_height="64dp"
 		android:layout_width="match_parent"
 		android:orientation="horizontal">
 
@@ -103,14 +103,35 @@
 			android:text="@string/delivery_item_address_lbl"
 			android:textSize="@dimen/item_text_size"/>
 
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp">
+
 		<TextView
 			android:id="@+id/item_address"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+            android:layout_width="144dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentLeft="true"
 			android:text="Address"
-			android:textSize="@dimen/item_text_size"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="5dp"/>
+			android:textSize="@dimen/item_text_size_small" />
+
+        <Button
+            android:id="@+id/item_btn_navigation"
+            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:drawableEnd="@drawable/ic_action_open_map"
+            android:drawableRight="@drawable/ic_action_open_map"
+            android:layout_alignParentRight="true"
+            android:textSize="10sp"
+            android:background="#0000"
+            android:layout_marginRight="12dp"
+            android:layout_toRightOf="@id/item_address"/>
+
+        </RelativeLayout>
 
 	</LinearLayout>
 

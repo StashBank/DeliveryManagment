@@ -71,7 +71,8 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
                 itemAdapter.addAll(items);
             }
         };
-        showLoaderSpinner(true);
+        if (!isRefresh)
+            showLoaderSpinner(true);
 		DeliveryItemRepository repository = new DeliveryItemRepository();
 		DeliveryItemRepository.DeliveryItemsTask task = repository.getItems(p);
 		task.execute();

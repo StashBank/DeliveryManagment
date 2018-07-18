@@ -1,4 +1,5 @@
 package com.stashbank.deliveryManagement.adapters;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.*;
 import android.view.*;
@@ -15,9 +16,6 @@ public class DeliveryItemAdapter extends ArrayAdapter
 
 	LayoutInflater layoutInflater;
 	DeliveryFragment.DeliveryFragmentEventListener eventListener;
-	TextView tvNumber, tvAddress, tvClient, tvMobile, tvAmount;
-	CheckBox cbDelivered, cbPayed;
-	Button btnPay, btnDeliver, btnCall;
 	ArrayList<DeliveryItem> items;
 	
 	public DeliveryItemAdapter(Context context, ArrayList<DeliveryItem> items, DeliveryFragment.DeliveryFragmentEventListener eventListener) {
@@ -40,17 +38,17 @@ public class DeliveryItemAdapter extends ArrayAdapter
 			view = layoutInflater.inflate(R.layout.delivery_item, parent, false);
 		}
 		DeliveryItem item = (DeliveryItem) getItem(position);
-		tvNumber = (TextView) view.findViewById(R.id.item_number);
-		tvClient = (TextView) view.findViewById(R.id.item_client);
-		tvMobile = (TextView) view.findViewById(R.id.item_mobile);
-		tvAddress = (TextView) view.findViewById(R.id.item_address);
-		tvAmount = (TextView) view.findViewById(R.id.item_amount);
-		cbDelivered = (CheckBox) view.findViewById(R.id.item_delivered);
+        TextView tvNumber = (TextView) view.findViewById(R.id.item_number);
+        TextView tvClient = (TextView) view.findViewById(R.id.item_client);
+        TextView tvMobile = (TextView) view.findViewById(R.id.item_mobile);
+        TextView tvAddress = (TextView) view.findViewById(R.id.item_address);
+        TextView tvAmount = (TextView) view.findViewById(R.id.item_amount);
+        CheckBox cbDelivered = (CheckBox) view.findViewById(R.id.item_delivered);
 		cbDelivered.setTag(position);
 		cbDelivered.setChecked(item.isDelivered());
 		cbDelivered.setEnabled(false);
-		
-		cbPayed = (CheckBox) view.findViewById(R.id.item_payed);
+
+        CheckBox cbPayed = (CheckBox) view.findViewById(R.id.item_payed);
 		cbPayed.setChecked(item.isPayed());
 		cbPayed.setEnabled(false);
 		
@@ -59,8 +57,13 @@ public class DeliveryItemAdapter extends ArrayAdapter
 		tvMobile.setText(item.getMobile());
 		tvAddress.setText(item.getAddress());
 		tvAmount.setText("" + item.getAmount());
-		
-		btnPay = (Button) view.findViewById(R.id.item_btn_pay);
+
+		// GOOGLE MAPS
+        Button btnOPenMap = (Button) view.findViewById(R.id.item_btn_navigation);
+        btnOPenMap.setTag(position);
+        btnOPenMap.setOnClickListener(v -> openMap(getAddress(v)));
+
+        Button btnPay = (Button) view.findViewById(R.id.item_btn_pay);
 		btnPay.setTag(position);
 		btnPay.setOnClickListener(button -> {
             int position1 = (int) button.getTag();
@@ -69,7 +72,7 @@ public class DeliveryItemAdapter extends ArrayAdapter
         });
 		btnPay.setVisibility(item.isPayed() ? View.GONE : View.VISIBLE);
 
-		btnDeliver = (Button) view.findViewById(R.id.item_btn_delivered);
+        Button btnDeliver = (Button) view.findViewById(R.id.item_btn_delivered);
 		btnDeliver.setTag(position);
 		btnDeliver.setOnClickListener(button -> {
             int position12 = (int) button.getTag();
@@ -79,7 +82,7 @@ public class DeliveryItemAdapter extends ArrayAdapter
         });
 		boolean showDeliveryBtn = !(item.isDelivered() || !item.isPayed());
 		btnDeliver.setVisibility(showDeliveryBtn ? View.VISIBLE : View.GONE);
-		btnCall = (Button) view.findViewById(R.id.item_btn_call);
+        Button btnCall = (Button) view.findViewById(R.id.item_btn_call);
 		btnCall.setTag(position);
 		btnCall.setOnClickListener(v -> onCallButtonClick(v));
 		return view;
@@ -96,5 +99,19 @@ public class DeliveryItemAdapter extends ArrayAdapter
 		if (this.eventListener != null & phoneNumber != null && phoneNumber != "")
 			this.eventListener.makePhoneCall(phoneNumber);
 	}
+
+	private void openMap(String address) {
+	    Uri uri = Uri.parse(String.format("google.navigation:q=%s", address));
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+        getContext().startActivity(intent);
+    }
+
+    private String getAddress(View button) {
+        int position = (int) button.getTag();
+	    DeliveryItem item = (DeliveryItem) getItem(position);
+	    if (item != null)
+	        return item.getAddress();
+	    return "";
+    }
 
 }

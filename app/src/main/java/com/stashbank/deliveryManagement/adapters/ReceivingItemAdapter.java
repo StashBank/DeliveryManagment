@@ -1,6 +1,8 @@
 package com.stashbank.deliveryManagement.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +25,6 @@ public class ReceivingItemAdapter extends ArrayAdapter
 
 	LayoutInflater layoutInflater;
 	ReceivingFragment.ReceivingFragmentEventListener eventListener;
-	TextView tvNumber, tvAddress, tvClient, tvMobile;
-	CheckBox cbReceived;
-	Button btnReceived, btnCall;
 	ArrayList<ReceivingItem> items;
 
 	public ReceivingItemAdapter(Context context, ArrayList<ReceivingItem> items,
@@ -49,21 +48,21 @@ public class ReceivingItemAdapter extends ArrayAdapter
 			view = layoutInflater.inflate(R.layout.receiving_item, parent, false);
 		}
         ReceivingItem item = (ReceivingItem) getItem(position);
-		tvNumber = (TextView) view.findViewById(R.id.item_number);
-		tvClient = (TextView) view.findViewById(R.id.item_client);
-		tvMobile = (TextView) view.findViewById(R.id.item_mobile);
-		tvAddress = (TextView) view.findViewById(R.id.item_address);
+        TextView tvNumber = (TextView) view.findViewById(R.id.item_number);
+        TextView tvClient = (TextView) view.findViewById(R.id.item_client);
+        TextView tvMobile = (TextView) view.findViewById(R.id.item_mobile);
+        TextView tvAddress = (TextView) view.findViewById(R.id.item_address);
 		
 		tvNumber.setText(item.getNumber());
 		tvClient.setText(item.getClient());
 		tvMobile.setText(item.getMobile());
 		tvAddress.setText(item.getAddress());
 
-        cbReceived = (CheckBox) view.findViewById(R.id.item_received);
+        CheckBox cbReceived = (CheckBox) view.findViewById(R.id.item_received);
         cbReceived.setChecked(item.isReceived());
         cbReceived.setEnabled(false);
 
-        btnReceived = (Button) view.findViewById(R.id.item_btn_received);
+        Button btnReceived = (Button) view.findViewById(R.id.item_btn_received);
         btnReceived.setTag(position);
         btnReceived.setOnClickListener(button -> {
             int position12 = (int) button.getTag();
@@ -75,9 +74,14 @@ public class ReceivingItemAdapter extends ArrayAdapter
 		boolean showReceivedBtn = !item.isReceived();
         btnReceived.setVisibility(showReceivedBtn ? View.VISIBLE : View.GONE);
 
-		btnCall = (Button) view.findViewById(R.id.item_btn_call);
+        Button btnCall = (Button) view.findViewById(R.id.item_btn_call);
 		btnCall.setTag(position);
 		btnCall.setOnClickListener(v -> onCallButtonClick(v));
+
+        // GOOGLE MAPS
+        Button btnOPenMap = (Button) view.findViewById(R.id.item_btn_navigation);
+        btnOPenMap.setTag(position);
+        btnOPenMap.setOnClickListener(v -> openMap(getAddress(v)));
 		return view;
 	}
 	
@@ -92,5 +96,19 @@ public class ReceivingItemAdapter extends ArrayAdapter
 		if (this.eventListener != null & phoneNumber != null && phoneNumber != "")
 			this.eventListener.makePhoneCall(phoneNumber);
 	}
+
+    private void openMap(String address) {
+        Uri uri = Uri.parse(String.format("google.navigation:q=%s", address));
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+        getContext().startActivity(intent);
+    }
+
+    private String getAddress(View button) {
+        int position = (int) button.getTag();
+        ReceivingItem item = (ReceivingItem) getItem(position);
+        if (item != null)
+            return item.getAddress();
+        return "";
+    }
 
 }

@@ -69,7 +69,8 @@ public class ReceivingFragment extends Fragment implements  SwipeRefreshLayout.O
                 itemAdapter.addAll(items);
             }
         };
-        showLoaderSpinner(true);
+        if (!isRefresh)
+            showLoaderSpinner(true);
         ReceivingItemRepository repository = new ReceivingItemRepository();
         ReceivingItemRepository.ReceivingItemsTask task = repository.getItems(p);
         task.execute();
