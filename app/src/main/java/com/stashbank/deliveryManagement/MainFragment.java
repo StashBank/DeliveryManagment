@@ -1,6 +1,7 @@
 package com.stashbank.deliveryManagement;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.content.*;
 import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
 import com.stashbank.deliveryManagement.rest.ReceivingItemRepository;
 
-public class MainFragment extends Fragment
+public class MainFragment extends Fragment implements  SwipeRefreshLayout.OnRefreshListener
 {
     // TODO: refactor this to predicate
 	public interface OnButtonClickListener {
@@ -23,7 +24,7 @@ public class MainFragment extends Fragment
 	}
 
 	OnButtonClickListener buttonClickListener;
-
+    SwipeRefreshLayout swipeRefreshLayout;
 	View deliveryInfoWrap, receivingInfoWrap, deliveryInfoProgress, receivingInfoProgress;
 
 	@Override
@@ -47,15 +48,25 @@ public class MainFragment extends Fragment
         receivingInfoWrap = view.findViewById(R.id.receiving_info_wrap);
         receivingInfoProgress = view.findViewById(R.id.receiving_info_progress);
 		intiClickEvents(view);
-		getDeliveryCount(view);
-		getReceivingCount(view);
+		getDeliveryCount(view, false);
+		getReceivingCount(view, false);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
 		return view;
 	}
 
-	public void updateInfoData() {
+    @Override
+    public void onRefresh() {
+        this.updateInfoData(true);
+    }
+
+	public void updateInfoData(boolean isRefresh) {
+        if (isRefresh)
+            swipeRefreshLayout.setRefreshing(false);
 	    View view = getView();
-        getDeliveryCount(view);
-        getReceivingCount(view);
+        getDeliveryCount(view, isRefresh);
+        getReceivingCount(view, isRefresh);
     }
 	
 	private void intiClickEvents(View view) {
@@ -73,7 +84,7 @@ public class MainFragment extends Fragment
         });
 	}
 
-	private void getDeliveryCount(View view) {
+	private void getDeliveryCount(View view, boolean isRefresh) {
         showDeliveryInfoProgress(true);
 		DeliveryItemRepository repository = new DeliveryItemRepository();
 		DeliveryItemRepository.DeliveryItemsCountTask task = repository.getItemsCount((count, err) -> {
@@ -86,11 +97,11 @@ public class MainFragment extends Fragment
 			TextView textView = (TextView) view.findViewById(R.id.tv_delivery_count);
 			String text = String.format("Осталось %s", count);
 			textView.setText(text);
-		}, getContext());
+		}, getContext(), isRefresh);
 		task.execute();
 	}
 
-	private void getReceivingCount(View view) {
+	private void getReceivingCount(View view, boolean isRefresh) {
         showReceivingInfoProgress(true);
 		ReceivingItemRepository repository = new ReceivingItemRepository();
 		ReceivingItemRepository.ReceivingItemsCountTask task = repository.getItemsCount((count, err) -> {
@@ -104,7 +115,7 @@ public class MainFragment extends Fragment
 			TextView textView = (TextView) view.findViewById(R.id.tv_receiving_count);
 			String text = String.format("Осталось %s", count);
 			textView.setText(text);
-		}, getContext());
+		}, getContext(), isRefresh);
 		task.execute();
 	}
 

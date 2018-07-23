@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	protected void onResume() {
 	    super.onResume();
 	    if (selectedMenuId == R.id.nav_home && mainFragment != null) {
-            mainFragment.updateInfoData();
+            mainFragment.updateInfoData(false);
         }
     }
 
@@ -323,11 +323,11 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                 log("ERROR " + err);
                 // itemAdapter.onFetchDataFailure();
             } else {
-                deliveryFragment.fetchData();
+                deliveryFragment.fetchData(true);
             }
         };
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-        DeliveryItemRepository.DeliveryItemTask task = repository.setItem(item.getId(), item, p, this);
+        DeliveryItemRepository.DeliveryItemTask task = repository.setItem(item.getId(), item, p, this, true);
 		showProgress(true);
 		task.execute();
 	}
@@ -339,11 +339,11 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                 log("ERROR " + err);
                 // itemAdapter.onFetchDataFailure();
             } else {
-                receivingFragment.fetchData();
+                receivingFragment.fetchData(true);
             }
         };
         ReceivingItemRepository repository = new ReceivingItemRepository();
-        ReceivingItemRepository.ReceivingItemTask task = repository.setItem(item.getId(), item, p, this);
+        ReceivingItemRepository.ReceivingItemTask task = repository.setItem(item.getId(), item, p, this, true);
         showProgress(true);
         task.execute();
     }

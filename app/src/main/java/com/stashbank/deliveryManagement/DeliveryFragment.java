@@ -58,7 +58,7 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
 		this.fetchData(false);
 	}
 	
-	private void fetchData(final boolean isRefresh) {
+	public void fetchData(final boolean isRefresh) {
         DeliveryItemRepository.Predicate<List<DeliveryItem>, Exception> p = (items, error) -> {
             showLoaderSpinner(false);
             if (isRefresh)
@@ -74,7 +74,7 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
         if (!isRefresh)
             showLoaderSpinner(true);
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-		DeliveryItemRepository.DeliveryItemsTask task = repository.getItems(p, getContext());
+		DeliveryItemRepository.DeliveryItemsTask task = repository.getItems(p, getContext(), isRefresh);
 		task.execute();
 	}
 

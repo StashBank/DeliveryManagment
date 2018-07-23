@@ -102,7 +102,7 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
             }
         };
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-        DeliveryItemRepository.DeliveryItemTask task = repository.addItem(item, p, this);
+        DeliveryItemRepository.DeliveryItemTask task = repository.addItem(item, p, this, true);
 		showProgress(true);
 		btnSave.setEnabled(false);
         task.execute();

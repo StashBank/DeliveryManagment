@@ -2,7 +2,11 @@ package com.stashbank.deliveryManagement.rest;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import com.stashbank.deliveryManagement.models.ReceivingItem;
+
+import java.io.File;
 import java.util.List;
 
 import okhttp3.Cache;
@@ -18,64 +22,92 @@ public class ReceivingItemRepository {
 
     final static String API_URL = "https://crud-server.firebaseapp.com/";
 
-    private static ReceivingItemApi createService(Context context) {
+    private static ReceivingItemApi createService(Context context, boolean force) {
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        if (force)
+            clearApplicationData(context);
         int cacheSize = 10 * 1024 * 1024; // 10 MB
         Cache cache = new Cache(context.getCacheDir(), cacheSize);
-        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        httpClientBuilder = httpClientBuilder.cache(cache);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClientBuilder
-                        .cache(cache)
-                        .build()
-                )
+                .client(httpClientBuilder.build())
                 .build();
         ReceivingItemApi api = retrofit.create(ReceivingItemApi.class);
         return api;
     }
 
-    public ReceivingItemRepository.ReceivingItemTask getItemById(
-            String id, ReceivingItemRepository.Predicate<ReceivingItem, Exception> predicate, Context ctx
+    public static void clearApplicationData(Context context) {
+        File cache = context.getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
+    }
+
+    public ReceivingItemTask getItemById(
+            String id, Predicate<ReceivingItem, Exception> predicate, Context ctx, boolean force
     ) {
-        ReceivingItemApi api = createService(ctx);
+        ReceivingItemApi api = createService(ctx, force);
         Call<ReceivingItem> call = api.getItemById(id);
-        ReceivingItemRepository.ReceivingItemTask task = new ReceivingItemRepository.ReceivingItemTask(predicate, call);
+        ReceivingItemTask task = new ReceivingItemTask(predicate, call);
         return task;
     }
 
-    public ReceivingItemRepository.ReceivingItemsTask getItems(
-            ReceivingItemRepository.Predicate<List<ReceivingItem>, Exception> predicate, Context ctx
+    public ReceivingItemsTask getItems(
+            Predicate<List<ReceivingItem>, Exception> predicate, Context ctx, boolean force
     ) {
-        ReceivingItemApi api = createService(ctx);
+        ReceivingItemApi api = createService(ctx, force);
         Call<List<ReceivingItem>> call = api.getItems();
-        ReceivingItemRepository.ReceivingItemsTask task = new ReceivingItemRepository.ReceivingItemsTask(predicate, call);
+        ReceivingItemsTask task = new ReceivingItemsTask(predicate, call);
         return task;
     }
 
     public ReceivingItemRepository.ReceivingItemsCountTask getItemsCount(
-            ReceivingItemRepository.Predicate<Integer, Exception> predicate, Context ctx
+            Predicate<Integer, Exception> predicate, Context ctx, boolean force
     ) {
-        ReceivingItemApi api = createService(ctx);
+        ReceivingItemApi api = createService(ctx, force);
         Call<List<ReceivingItem>> call = api.getItems();
-        ReceivingItemRepository.ReceivingItemsCountTask task = new ReceivingItemRepository.ReceivingItemsCountTask(predicate, call);
+        ReceivingItemsCountTask task = new ReceivingItemsCountTask(predicate, call);
         return task;
     }
 
     public ReceivingItemRepository.ReceivingItemTask setItem(
-            String id, ReceivingItem item, ReceivingItemRepository.Predicate<ReceivingItem, Exception> predicate, Context ctx
+            String id, ReceivingItem item, Predicate<ReceivingItem, Exception> predicate, Context ctx, boolean force
     ) {
-        ReceivingItemApi api = createService(ctx);
+        ReceivingItemApi api = createService(ctx, force);
         Call<ReceivingItem> call = api.setItem(id, item);
-        ReceivingItemRepository.ReceivingItemTask task = new ReceivingItemRepository.ReceivingItemTask(predicate, call);
+        ReceivingItemTask task = new ReceivingItemTask(predicate, call);
         return task;
     }
 
-    public ReceivingItemRepository.ReceivingItemTask addItem(
-            ReceivingItem item, ReceivingItemRepository.Predicate<ReceivingItem, Exception> predicate, Context ctx
+    public ReceivingItemTask addItem(
+            ReceivingItem item, Predicate<ReceivingItem, Exception> predicate, Context ctx, boolean force
     ) {
-        ReceivingItemApi api = createService(ctx);
+        ReceivingItemApi api = createService(ctx, force);
         Call<ReceivingItem> call = api.addItem(item);
-        ReceivingItemRepository.ReceivingItemTask task = new ReceivingItemRepository.ReceivingItemTask(predicate, call);
+        ReceivingItemTask task = new ReceivingItemTask(predicate, call);
         return task;
     }
 

@@ -79,7 +79,7 @@ public class EditReceivingItemActivity extends AppCompatActivity {
             }
         };
 		ReceivingItemRepository repository = new ReceivingItemRepository();
-		ReceivingItemRepository.ReceivingItemTask task = repository.addItem(item, p, this);
+		ReceivingItemRepository.ReceivingItemTask task = repository.addItem(item, p, this, true);
 		showProgress(true);
 		btnSave.setEnabled(false);
         task.execute();
