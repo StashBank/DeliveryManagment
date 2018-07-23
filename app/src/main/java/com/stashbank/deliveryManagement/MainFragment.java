@@ -104,7 +104,7 @@ public class MainFragment extends Fragment
 			TextView textView = (TextView) view.findViewById(R.id.tv_receiving_count);
 			String text = String.format("Осталось %s", count);
 			textView.setText(text);
-		});
+		}, getContext());
 		task.execute();
 	}
 

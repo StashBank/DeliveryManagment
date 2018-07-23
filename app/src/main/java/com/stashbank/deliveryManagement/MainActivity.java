@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             }
         };
         ReceivingItemRepository repository = new ReceivingItemRepository();
-        ReceivingItemRepository.ReceivingItemTask task = repository.setItem(item.getId(), item, p);
+        ReceivingItemRepository.ReceivingItemTask task = repository.setItem(item.getId(), item, p, this);
         showProgress(true);
         task.execute();
     }

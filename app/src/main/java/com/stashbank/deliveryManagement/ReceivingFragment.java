@@ -72,7 +72,7 @@ public class ReceivingFragment extends Fragment implements  SwipeRefreshLayout.O
         if (!isRefresh)
             showLoaderSpinner(true);
         ReceivingItemRepository repository = new ReceivingItemRepository();
-        ReceivingItemRepository.ReceivingItemsTask task = repository.getItems(p);
+        ReceivingItemRepository.ReceivingItemsTask task = repository.getItems(p, getContext());
         task.execute();
     }
 

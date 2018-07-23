@@ -2,6 +2,7 @@ package com.stashbank.deliveryManagement.rest;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -28,8 +29,7 @@ public class DeliveryItemRepository
 		Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(API_URL)
 			.addConverterFactory(GsonConverterFactory.create())
-			.client(
-			        httpClientBuilder
+			.client(httpClientBuilder
                     .cache(cache)
                     .build()
             )
@@ -128,6 +128,7 @@ public class DeliveryItemRepository
                 return items;
             } catch (Exception e) {
                 error = e;
+                Log.d("ERROR", e.getMessage());
                 return null;
             }
         }
