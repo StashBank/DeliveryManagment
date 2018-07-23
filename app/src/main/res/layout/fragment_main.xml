@@ -48,19 +48,32 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/img_delivery"
                     android:layout_width="match_parent"
                     android:layout_height="156dp"
 					android:layout_alignParentTop="true"
                     android:src="@drawable/img_delivery"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Доставки"
+                    android:textSize="32sp"
+                    android:paddingLeft="12dp"
+                    android:layout_alignBottom="@id/img_delivery"
+                    android:textColor="?android:textColorPrimaryInverse"
+                    style="style/CardTitle"/>
+
 				<TextView
 					android:id="@+id/tv_delivery_count"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="Не завершенных доставок 0"
+					android:text="Осталось 0 доставок"
 					android:textSize="18sp"
-					android:layout_alignParentBottom="true"
-					android:textAlignment="center"/>
+                    android:layout_alignParentBottom="true"
+                    android:textAlignment="center"
+                    style="style/DetailText"/>
+
             </RelativeLayout>
 
 		</android.support.v7.widget.CardView>
@@ -90,18 +103,30 @@
                 android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/img_receiving"
                 android:layout_width="match_parent"
                 android:layout_height="156dp"
                 android:src="@drawable/img_receiving" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Отгрузки"
+                    android:textSize="32sp"
+                    android:layout_alignBottom="@id/img_receiving"
+                    android:paddingLeft="12dp"
+                    android:textColor="?android:textColorPrimaryInverse"
+                    style="style/CardTitle"/>
 
 				<TextView
 					android:id="@+id/tv_receiving_count"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="Не завершенных отгрузок 0"
+					android:text="Осталось 0 отгрузок"
 					android:textSize="18sp"
 					android:layout_alignParentBottom="true"
-					android:textAlignment="center"/>
+					android:textAlignment="center"
+                    style="style/DetailText"/>
 
             </RelativeLayout>
 		</android.support.v7.widget.CardView>

@@ -1,13 +1,17 @@
 package com.stashbank.deliveryManagement.rest;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.io.File;
 import java.util.*;
 
 import com.stashbank.deliveryManagement.models.*;
 import okhttp3.OkHttpClient;
+import okhttp3.Cache;
 
 public class DeliveryItemRepository
 {
@@ -17,49 +21,55 @@ public class DeliveryItemRepository
 
 	final static String API_URL = "https://crud-server.firebaseapp.com/";
 
-	private static DeliveryItemApi createService() {
+	private static DeliveryItemApi createService(Context context) {
+        int cacheSize = 10 * 1024 * 1024; // 10 MB
+        Cache cache = new Cache(context.getCacheDir(), cacheSize);
 		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 		Retrofit retrofit = new Retrofit.Builder()
 			.baseUrl(API_URL)
 			.addConverterFactory(GsonConverterFactory.create())
-			.client(httpClientBuilder.build())
+			.client(
+			        httpClientBuilder
+                    .cache(cache)
+                    .build()
+            )
 			.build();
 		DeliveryItemApi api = retrofit.create(DeliveryItemApi.class);
 		return api;
 	}
 
-	public DeliveryItemTask getItemById(String id, Predicate<DeliveryItem, Exception> predicate) {
-		DeliveryItemApi api = createService();
+    public DeliveryItemTask getItemById(String id, Predicate<DeliveryItem, Exception> predicate, Context ctx) {
+		DeliveryItemApi api = createService(ctx);
 		Call<DeliveryItem> call = api.getItemById(id);
         DeliveryItemTask task = new DeliveryItemTask(predicate, call);
 		return task;
 	}
 
-	public DeliveryItemsTask getItems(Predicate<List<DeliveryItem>, Exception> predicate) {
-        DeliveryItemApi api = createService();
+	public DeliveryItemsTask getItems(Predicate<List<DeliveryItem>, Exception> predicate, Context ctx) {
+        DeliveryItemApi api = createService(ctx);
         Call<List<DeliveryItem>> call = api.getItems();
         DeliveryItemsTask task = new DeliveryItemsTask(predicate, call);
         return task;
 	}
 
-    public DeliveryItemsCountTask getItemsCount(Predicate<Integer, Exception> predicate) {
-        DeliveryItemApi api = createService();
+    public DeliveryItemsCountTask getItemsCount(Predicate<Integer, Exception> predicate, Context ctx) {
+        DeliveryItemApi api = createService(ctx);
         Call<List<DeliveryItem>> call = api.getItems();
         DeliveryItemsCountTask task = new DeliveryItemsCountTask(predicate, call);
         return task;
     }
 
 	public DeliveryItemTask setItem(
-	        String id, DeliveryItem item, Predicate<DeliveryItem, Exception> predicate
+	        String id, DeliveryItem item, Predicate<DeliveryItem, Exception> predicate, Context ctx
     ) {
-		DeliveryItemApi api = createService();
+		DeliveryItemApi api = createService(ctx);
 		Call<DeliveryItem> call = api.setItem(id, item);
         DeliveryItemTask task = new DeliveryItemTask(predicate, call);
 		return task;
 	}
 
-	public DeliveryItemTask addItem(DeliveryItem item, Predicate<DeliveryItem, Exception> predicate) {
-		DeliveryItemApi api = createService();
+	public DeliveryItemTask addItem(DeliveryItem item, Predicate<DeliveryItem, Exception> predicate, Context ctx) {
+		DeliveryItemApi api = createService(ctx);
 		Call<DeliveryItem> call = api.addItem(item);
         DeliveryItemTask task = new DeliveryItemTask(predicate, call);
         return task;

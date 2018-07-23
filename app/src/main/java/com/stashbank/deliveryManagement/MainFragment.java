@@ -84,9 +84,9 @@ public class MainFragment extends Fragment
 				return;
 			}
 			TextView textView = (TextView) view.findViewById(R.id.tv_delivery_count);
-			String text = String.format("Не завершенных доставок %s", count);
+			String text = String.format("Осталось %s", count);
 			textView.setText(text);
-		});
+		}, getContext());
 		task.execute();
 	}
 
@@ -102,7 +102,7 @@ public class MainFragment extends Fragment
 				return;
 			}
 			TextView textView = (TextView) view.findViewById(R.id.tv_receiving_count);
-			String text = String.format("Не завершенных отгрузок %s", count);
+			String text = String.format("Осталось %s", count);
 			textView.setText(text);
 		});
 		task.execute();

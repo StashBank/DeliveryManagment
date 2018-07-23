@@ -6,7 +6,8 @@ import retrofit2.http.*;
 import com.stashbank.deliveryManagement.models.*;
 
 public interface DeliveryItemApi {
-	@GET("delivery_manegment.delivery")
+
+    @GET("delivery_manegment.delivery")
 	Call<List<DeliveryItem>> getItems();
 
 	@GET("delivery_manegment.delivery/{id}")

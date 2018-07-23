@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             }
         };
 		DeliveryItemRepository repository = new DeliveryItemRepository();
-        DeliveryItemRepository.DeliveryItemTask task = repository.setItem(item.getId(), item, p);
+        DeliveryItemRepository.DeliveryItemTask task = repository.setItem(item.getId(), item, p, this);
 		showProgress(true);
 		task.execute();
 	}
