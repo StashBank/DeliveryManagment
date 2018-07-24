@@ -66,7 +66,7 @@ public class DeliveryFragment extends Fragment implements  SwipeRefreshLayout.On
             if (error != null) {
                 log("ERROR " + error);
                 itemAdapter.onFetchDataFailure();
-            } else {
+            } else if (items != null) {
                 itemAdapter.clear();
                 itemAdapter.addAll(items);
             }
