@@ -18,7 +18,7 @@
 	<string name="save">Сохранить</string>
 
 	<!-- Strings related to menu -->
-	<string name="action_settings">Настройки</string>
+	<string name="action_clear_cache">Очистить кэш</string>
 
 	<string name="menu_home">Главная</string>
 	<string name="menu_delivery">Доставка</string>

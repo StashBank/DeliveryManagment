@@ -1,75 +1,28 @@
 package com.stashbank.deliveryManagement.rest;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import okhttp3.Interceptor;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.File;
 import java.util.*;
 
+import com.stashbank.deliveryManagement.MainActivity;
 import com.stashbank.deliveryManagement.models.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Cache;
 
-public class DeliveryItemRepository
-{
-    public interface Predicate<T, E> {
-        void response(T response, E error);
-    }
-
-	final static String API_URL = "https://crud-server.firebaseapp.com/";
-
-	private static DeliveryItemApi createService(Context context, boolean force) {
-		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-		if (force)
-            clearApplicationData(context);
-		int cacheSize = 10 * 1024 * 1024; // 10 MB
-        Cache cache = new Cache(context.getCacheDir(), cacheSize);
-        httpClientBuilder = httpClientBuilder.cache(cache);
-		Retrofit retrofit = new Retrofit.Builder()
-			.baseUrl(API_URL)
-			.addConverterFactory(GsonConverterFactory.create())
-			.client(httpClientBuilder.build())
-			.build();
-		DeliveryItemApi api = retrofit.create(DeliveryItemApi.class);
-		return api;
-	}
-
-    public static void clearApplicationData(Context context) {
-        File cache = context.getCacheDir();
-        File appDir = new File(cache.getParent());
-        if(appDir.exists()){
-            String[] children = appDir.list();
-            for(String s : children){
-                if(!s.equals("lib")){
-                    deleteDir(new File(appDir, s));
-                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
-                }
-            }
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-
-        return dir.delete();
-    }
+public class DeliveryItemRepository extends BaseRepository {
 
     public DeliveryItemTask getItemById(
             String id, Predicate<DeliveryItem, Exception> predicate, Context ctx, boolean force
     ) {
-		DeliveryItemApi api = createService(ctx, force);
+		DeliveryItemApi api = createService(DeliveryItemApi.class, ctx, force);
 		Call<DeliveryItem> call = api.getItemById(id);
         DeliveryItemTask task = new DeliveryItemTask(predicate, call);
 		return task;
@@ -78,7 +31,7 @@ public class DeliveryItemRepository
 	public DeliveryItemsTask getItems(
 	        Predicate<List<DeliveryItem>, Exception> predicate, Context ctx, boolean force
     ) {
-        DeliveryItemApi api = createService(ctx, force);
+        DeliveryItemApi api = createService(DeliveryItemApi.class,ctx, force);
         Call<List<DeliveryItem>> call = api.getItems();
         DeliveryItemsTask task = new DeliveryItemsTask(predicate, call);
         return task;
@@ -87,7 +40,7 @@ public class DeliveryItemRepository
     public DeliveryItemsCountTask getItemsCount(
             Predicate<Integer, Exception> predicate, Context ctx, boolean force
     ) {
-        DeliveryItemApi api = createService(ctx, force);
+        DeliveryItemApi api = createService(DeliveryItemApi.class,ctx, force);
         Call<List<DeliveryItem>> call = api.getItems();
         DeliveryItemsCountTask task = new DeliveryItemsCountTask(predicate, call);
         return task;
@@ -96,7 +49,7 @@ public class DeliveryItemRepository
 	public DeliveryItemTask setItem(
 	        String id, DeliveryItem item, Predicate<DeliveryItem, Exception> predicate, Context ctx, boolean force
     ) {
-		DeliveryItemApi api = createService(ctx, force);
+		DeliveryItemApi api = createService(DeliveryItemApi.class,ctx, force);
 		Call<DeliveryItem> call = api.setItem(id, item);
         DeliveryItemTask task = new DeliveryItemTask(predicate, call);
 		return task;
@@ -105,7 +58,7 @@ public class DeliveryItemRepository
 	public DeliveryItemTask addItem(
 	        DeliveryItem item, Predicate<DeliveryItem, Exception> predicate, Context ctx, boolean force
     ) {
-		DeliveryItemApi api = createService(ctx, force);
+		DeliveryItemApi api = createService(DeliveryItemApi.class,ctx, force);
 		Call<DeliveryItem> call = api.addItem(item);
         DeliveryItemTask task = new DeliveryItemTask(predicate, call);
         return task;
@@ -160,7 +113,9 @@ public class DeliveryItemRepository
         @Override
         protected List<DeliveryItem> doInBackground(Void... params) {
             try {
-                List<DeliveryItem> items = call.execute().body();
+                Response response = call.execute();
+                Log.d("RESPONSE", response.headers().toString());
+                List<DeliveryItem> items = (List<DeliveryItem>)response.body();
                 return items;
             } catch (Exception e) {
                 error = e;

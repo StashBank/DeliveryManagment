@@ -1,5 +1,6 @@
 package com.stashbank.deliveryManagement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.stashbank.deliveryManagement.models.DeliveryItem;
 import com.stashbank.deliveryManagement.models.ReceivingItem;
 import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
 import com.stashbank.deliveryManagement.rest.ReceivingItemRepository;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener,
 		MainFragment.OnButtonClickListener,
@@ -171,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 
-		if (id == R.id.action_settings) {
-			return true;
+		if (id == R.id.action_clear_cache) {
+			MainActivity.clearApplicationData(this);
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -202,6 +205,34 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 		return true;
 	}
+
+    public static void clearApplicationData(Context context) {
+        File cache = context.getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
+    }
 
 	private void openMainFragment() {
 		hideFabs();
