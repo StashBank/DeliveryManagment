@@ -4,11 +4,16 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -17,27 +22,26 @@ public abstract class BaseRepository<T> {
         void response(T response, E error);
     }
 
-    // final static String API_URL = "https://crud-server.firebaseapp.com/";
-    final static String API_URL = "http://10.0.2.2:5000/";
+    final static String API_URL = "https://crud-server.firebaseapp.com/";
+    // final static String API_URL = "http://10.0.2.2:5000/";
 
-
+    private static String cacheToken = UUID.randomUUID().toString();
     protected static final Interceptor getRewriteCacheControlInterceptor(Context context, boolean force) {
         return chain -> {
-            okhttp3.Response originalResponse = chain.proceed(chain.request());
-            okhttp3.Response.Builder builder = originalResponse.newBuilder();
+            int maxAge = 60; // read from cache for 1 minute
+            String cacheControl = "public, max-age=" + maxAge;
             if (!isNetworkAvailable(context)) {
                 int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
-                builder = originalResponse.newBuilder()
-                    .header("cache-control", "only-if-cached, max-stale=" + maxStale);
+                cacheControl = "only-if-cached, max-stale=" + maxStale;
             } else if (force) {
-                builder = originalResponse.newBuilder()
-                        .header("cache-control", "no-cache, no-store, must-revalidate");
-            } else {
-                int maxAge = 60; // read from cache for 1 minute
-                builder = originalResponse.newBuilder()
-                        .header("cache-control", "max-age=" + maxAge);
+                cacheControl = "no-cache, no-store, must-revalidate";
             }
-            return builder.build();
+            Request original = chain.request();
+            Request request = original.newBuilder()
+                    .header("cache-token", cacheToken)
+                    .header("cachecontrol", cacheControl)
+                    .build();
+            return chain.proceed(request);
         };
     }
 
@@ -45,7 +49,12 @@ public abstract class BaseRepository<T> {
         return chain -> {
             Request.Builder builder = chain.request().newBuilder();
             if (!isNetworkAvailable(context)) {
-                builder.cacheControl(CacheControl.FORCE_CACHE);
+                builder = builder.cacheControl(CacheControl.FORCE_CACHE);
+            } else if (!force) {
+                CacheControl cacheControl = new CacheControl.Builder()
+                        .maxAge(300, TimeUnit.SECONDS)
+                        .build();
+                builder = builder.cacheControl(cacheControl);
             }
             return chain.proceed(builder.build());
         };
@@ -73,12 +82,14 @@ public abstract class BaseRepository<T> {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         Interceptor rewriteCacheControlInterceptor = getRewriteCacheControlInterceptor(context, force);
         Interceptor forceCacheInterceptor = getForceCacheInterceptor(context, force);
-        int cacheSize = 10 * 1024 * 1024; // 10 MB
-        Cache cache = new Cache(context.getCacheDir(), cacheSize);
-        httpClientBuilder = httpClientBuilder.cache(cache);
+        if (!force) {
+            int cacheSize = 10 * 1024 * 1024; // 10 MB
+            Cache cache = new Cache(context.getCacheDir(), cacheSize);
+            httpClientBuilder = httpClientBuilder.cache(cache);
+        }
         OkHttpClient client = httpClientBuilder
-                .addInterceptor(forceCacheInterceptor)
-                // .addNetworkInterceptor(interceptor)
+                .addNetworkInterceptor(rewriteCacheControlInterceptor)
+                // .addInterceptor(forceCacheInterceptor)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
