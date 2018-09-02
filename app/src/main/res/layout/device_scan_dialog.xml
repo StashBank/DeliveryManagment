@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/viewConnectContext"
+        android:gravity="center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+
+        <ua.pbank.minipos.demo.ui.widget.ProgressWheel
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/progressConnect"
+            app:matProg_barColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            app:matProg_progressIndeterminate="true"
+            app:matProg_barWidth="3dp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvConnect"
+            android:text="@string/connect_device"
+            android:gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_marginTop="20dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewDeviceContext"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgDevice"
+                android:src="@mipmap/ic_launcher"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Включите устройство\nили выбирите из списка новое"
+                android:id="@+id/tvMessage"
+                android:gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp" />
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#bebebe"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/available_device"
+                android:id="@+id/tvCaption"
+                android:textSize="16dp"
+                android:textIsSelectable="false"
+                android:layout_weight="1"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary" />
+
+            <ua.pbank.minipos.demo.ui.widget.ProgressWheel
+                android:id="@+id/progressBar"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                app:matProg_barColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"
+                app:matProg_progressIndeterminate="true"
+                app:matProg_barWidth="2dp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp"
+            android:layout_weight="1">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/listView" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

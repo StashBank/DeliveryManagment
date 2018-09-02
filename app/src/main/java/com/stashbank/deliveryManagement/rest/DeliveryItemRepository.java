@@ -1,21 +1,14 @@
 package com.stashbank.deliveryManagement.rest;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import okhttp3.Interceptor;
 import retrofit2.*;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.*;
 
-import com.stashbank.deliveryManagement.MainActivity;
 import com.stashbank.deliveryManagement.models.*;
-import okhttp3.OkHttpClient;
-import okhttp3.Cache;
 
 public class DeliveryItemRepository extends BaseRepository {
 

@@ -10,14 +10,19 @@
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.CALL_PHONE"/>
 
+	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 	<application
+        android:name=".DeliveryManagementApp"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 		<activity
-			android:name=".LoginActivity"
+			android:name=".ui.LoginActivity"
 			android:screenOrientation="portrait"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -26,30 +31,30 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".MainActivity"
+		<activity android:name=".ui.MainActivity"
 				  android:screenOrientation="portrait">
 		</activity>
 		<activity
-			android:name=".PaymentActivity"
+			android:name=".ui.PaymentActivity"
 			android:label="@string/title_activity_payment"
-			android:parentActivityName=".MainActivity"
+			android:parentActivityName=".ui.MainActivity"
 			android:screenOrientation="portrait"
 			android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.stashbank.deliveryManagement.MainActivity"/>
+				android:value="com.stashbank.deliveryManagement.ui.MainActivity"/>
 		</activity>
-		<activity android:name=".EditDeliveryItemActivity"
+		<activity android:name=".ui.EditDeliveryItemActivity"
 				  android:screenOrientation="portrait">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.stashbank.deliveryManagement.MainActivity"/>
+				android:value="com.stashbank.deliveryManagement.ui.MainActivity"/>
 		</activity>
-		<activity android:name=".EditReceivingItemActivity"
+		<activity android:name=".ui.EditReceivingItemActivity"
 			android:screenOrientation="portrait">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.stashbank.deliveryManagement.MainActivity"/>
+				android:value="com.stashbank.deliveryManagement.ui.MainActivity"/>
 		</activity>
 	</application>
 

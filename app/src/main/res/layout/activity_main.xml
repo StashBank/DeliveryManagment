@@ -19,7 +19,7 @@
 			android:layout_height="match_parent"
 			android:gravity="center_horizontal"
 			android:orientation="vertical"
-			tools:context="com.stashbank.deliveryManagement.MainActivity">
+			tools:context="com.stashbank.deliveryManagement.ui.MainActivity">
 
 			<android.support.v7.widget.Toolbar
 				android:id="@+id/toolbar"

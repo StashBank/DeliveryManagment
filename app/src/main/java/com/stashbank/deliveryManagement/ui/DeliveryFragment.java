@@ -1,4 +1,4 @@
-package com.stashbank.deliveryManagement;
+package com.stashbank.deliveryManagement.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.view.*;
 import java.util.*;
+
+import com.stashbank.deliveryManagement.R;
 import com.stashbank.deliveryManagement.models.*;
 import com.stashbank.deliveryManagement.adapters.*;
 

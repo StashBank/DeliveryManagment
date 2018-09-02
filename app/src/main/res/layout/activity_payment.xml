@@ -81,6 +81,12 @@
 			android:textSize="24sp" />
 	</LinearLayout>
 
+	<TextView
+		android:id="@+id/payment_status_message"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/payment_client_wrap"/>
+
 	<Button
 		android:id="@+id/btn_pay"
 		android:onClick="onPayment"
@@ -91,7 +97,7 @@
 		android:layout_marginLeft="30dp"
 		android:layout_marginRight="30dp"
 		android:background="@color/colorActivated"
-		android:layout_below="@id/payment_client_wrap"
+		android:layout_below="@id/payment_status_message"
 		android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

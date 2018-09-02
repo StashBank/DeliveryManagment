@@ -2,19 +2,12 @@ package com.stashbank.deliveryManagement.rest;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.stashbank.deliveryManagement.MainActivity;
 import com.stashbank.deliveryManagement.models.ReceivingItem;
 
-import java.io.File;
 import java.util.List;
 
-import okhttp3.Cache;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ReceivingItemRepository extends BaseRepository {
 

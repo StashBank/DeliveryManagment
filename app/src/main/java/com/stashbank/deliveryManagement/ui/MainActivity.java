@@ -1,4 +1,4 @@
-package com.stashbank.deliveryManagement;
+package com.stashbank.deliveryManagement.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.stashbank.deliveryManagement.R;
 import com.stashbank.deliveryManagement.models.DeliveryItem;
 import com.stashbank.deliveryManagement.models.ReceivingItem;
 import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;

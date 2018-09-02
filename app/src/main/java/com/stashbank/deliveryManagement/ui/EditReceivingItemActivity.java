@@ -1,31 +1,29 @@
-package com.stashbank.deliveryManagement;
+package com.stashbank.deliveryManagement.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.stashbank.deliveryManagement.models.DeliveryItem;
-import com.stashbank.deliveryManagement.rest.DeliveryItemRepository;
+import com.stashbank.deliveryManagement.R;
+import com.stashbank.deliveryManagement.models.ReceivingItem;
+import com.stashbank.deliveryManagement.rest.ReceivingItemRepository;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class EditDeliveryItemActivity extends AppCompatActivity {
+public class EditReceivingItemActivity extends AppCompatActivity {
 
 	private ProgressBar progressBar;
 	private Button btnSave;
-	private EditText etNumber, etClientName, etClientPhone, etClientAddress, etAmount;
-	private CheckBox cbPayed;
+	private EditText etNumber, etClientName, etClientPhone, etClientAddress;
 	private static final String EMPTY_STRING = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_delivery_item);
+		setContentView(R.layout.activity_edit_receiving_item);
 		progressBar = (ProgressBar) findViewById(R.id.progress);
 		btnSave = (Button) findViewById(R.id.btnSave);
 		btnSave.setOnClickListener(v -> onSaveButtonClick(v));
@@ -33,13 +31,11 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 		etClientName = (EditText) findViewById(R.id.etClientName);
 		etClientPhone = (EditText) findViewById(R.id.etClientPhone);
 		etClientAddress = (EditText) findViewById(R.id.etClientAddress);
-		etAmount = (EditText) findViewById(R.id.etAmount);
-		cbPayed = (CheckBox) findViewById(R.id.cbPayed);
 	}
 
 	public void onSaveButtonClick(View view) {
 		if (this.validate()) {
-			DeliveryItem item = getDeliveryItem();
+			ReceivingItem item = getReceivingItem();
 			saveItem(item);
 		}
 	}
@@ -48,8 +44,7 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 		return validateRequired(etNumber, "Номер")
 				&& validateRequired(etClientName, "Клиент")
 				&& validateRequired(etClientPhone, "Телефон")
-				&& validateRequired(etClientAddress, "Адрес")
-				&& validateAmount();
+				&& validateRequired(etClientAddress, "Адрес");
 
 	}
 
@@ -60,21 +55,9 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 		return valid;
 	}
 
-	private boolean validateAmount() {
-		double amount = 0;
-		String amountStr = etAmount.getText().toString();
-		if (amountStr != null && amountStr.length() > 0)
-			try {
-				amount = Double.parseDouble(amountStr);
-			} catch (Exception e) {}
-		boolean valid = amount > 0;
-		etAmount.setError(valid ? null : "Введите корректную сумму");
-		return valid;
-	}
 
-
-	private DeliveryItem getDeliveryItem() {
-		DeliveryItem item = new DeliveryItem();
+	private ReceivingItem getReceivingItem() {
+		ReceivingItem item = new ReceivingItem();
 		String number = etNumber.getText().toString();
 		item.setNumber(number);
 		String client = etClientName.getText().toString();
@@ -83,15 +66,11 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 		item.setMobile(phone);
 		String address = etClientAddress.getText().toString();
 		item.setAddress(address);
-		String amount = etAmount.getText().toString();
-		item.setAmount(Double.parseDouble(amount));
-		Boolean payed = cbPayed.isChecked();
-		item.setPayed(payed);
 		return item;
 	}
 
-	private void saveItem(DeliveryItem item) {
-        DeliveryItemRepository.Predicate<DeliveryItem, Exception> p = (items, error) -> {
+	private void saveItem(ReceivingItem item) {
+        ReceivingItemRepository.Predicate<ReceivingItem, Exception> p = (items, error) -> {
             showProgress(false);
             btnSave.setEnabled(true);
             if (error != null) {
@@ -101,8 +80,8 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
                 showToast("Data has been saved");
             }
         };
-		DeliveryItemRepository repository = new DeliveryItemRepository();
-        DeliveryItemRepository.DeliveryItemTask task = repository.addItem(item, p, this, true);
+		ReceivingItemRepository repository = new ReceivingItemRepository();
+		ReceivingItemRepository.ReceivingItemTask task = repository.addItem(item, p, this, true);
 		showProgress(true);
 		btnSave.setEnabled(false);
         task.execute();
@@ -121,7 +100,5 @@ public class EditDeliveryItemActivity extends AppCompatActivity {
 		etClientName.setText(EMPTY_STRING);
 		etClientPhone.setText(EMPTY_STRING);
 		etClientAddress.setText(EMPTY_STRING);
-		etAmount.setText(EMPTY_STRING);
-		cbPayed.setChecked(false);
 	}
 }

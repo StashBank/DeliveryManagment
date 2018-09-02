@@ -12,10 +12,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.stashbank.deliveryManagement.DeliveryFragment;
 import com.stashbank.deliveryManagement.R;
-import com.stashbank.deliveryManagement.ReceivingFragment;
-import com.stashbank.deliveryManagement.models.DeliveryItem;
+import com.stashbank.deliveryManagement.ui.ReceivingFragment;
 import com.stashbank.deliveryManagement.models.ReceivingItem;
 
 import java.util.ArrayList;

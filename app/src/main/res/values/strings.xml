@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">Управление доставкой</string>
+	<string name="app_name">Управление доставкой (Привват)</string>
 
 	<string name="cant_fetch_data_from_server">Can not fetch data from server</string>
 	<string name="ok">Ok</string>
@@ -64,4 +64,38 @@
 	<string name="lbl_edit_receiving_client">Клиент</string>
 	<string name="lbl_edit_receiving_phone">Телефон</string>
 	<string name="lbl_edit_receiving_address">Адрес</string>
+
+	<!-- Private -->
+	<string name="connect_device">З\'єднання з пристроєм ...</string>
+	<string name="available_device">Доступні пристрої</string>
+	<string name="scanning_device">Пошук пристроїв ...</string>
+	<string name="cancel_dlg">Відміна</string>
+	<string name="no_paired_devices_found">Не знайдені подключені пристрої</string>
+	<string name="paired_device">Підключено</string>
+	<string name="unpaired_device">Відключено</string>
+	<string name="message_pinpad">Увімкніть пристрій \nабо виберіть зі списку новий</string>
+	<string name="message_pinpad_new">Будь ласка підключіть пристрій введення</string>
+	<string name="connect_device_error">Помилка з\'єднання</string>
+	<string name="connect_device_success">З\'єднання встановлено</string>
+	<string name="noname_device">Без імені</string>
+	<string name="msg_bluetooth_is_not_supported">Bluetooth не підтримується на вашому пристрої</string>
+	<string name="turn_on_bluetooth">Увімкніть блютуз</string>
+
+	<string name="functionality_limited">Обмеження функціоналу</string>
+	<string name="functionality_message">Доступ до даних про місцезнаходження пристрою не було надано, додаток не зможе виявити доступні блютуз пристрої.</string>
+	<string name="grant_permission">Дозвольте доступ.</string>
+	<string name="go_settings">Перейдіть в налаштування пристрою для надання доступу.</string>
+	<string name="btnCancelText">Відміна</string>
+
+	<string name="message_printer">Увімкніть принтер \nабо виберіть зі списку новий</string>
+	<string name="message_printer_disconnected">Принтер відключений</string>
+	<string name="message_printer_new">Будь ласка підключіть пристрій друку</string>
+	<string name="print_receipt">Надрукувати</string>
+	<string name="error_on_client">Не вдалося звернутися до сервісу. Перевірте підключення та повторіть спробу</string>
+	<string name="receipt_not_received">Не вдалося отримати чек</string>
+
+	<string name="start_pay">Оплатити</string>
+	<string name="receipt">Чек</string>
+	<string name="please_wait">Будь ласка зачекайте</string>
+	<string name="msg_printing_receipt">Друк чека</string>
 </resources>

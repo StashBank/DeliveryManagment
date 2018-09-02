@@ -1,6 +1,5 @@
 package com.stashbank.deliveryManagement.adapters;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.*;
 import android.view.*;
 import android.content.*;
@@ -8,8 +7,7 @@ import java.util.*;
 
 import com.stashbank.deliveryManagement.R;
 import com.stashbank.deliveryManagement.models.*;
-import android.widget.CompoundButton.*;
-import com.stashbank.deliveryManagement.DeliveryFragment;
+import com.stashbank.deliveryManagement.ui.DeliveryFragment;
 
 public class DeliveryItemAdapter extends ArrayAdapter
 {

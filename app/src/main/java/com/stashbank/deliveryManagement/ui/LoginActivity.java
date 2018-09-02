@@ -1,4 +1,4 @@
-package com.stashbank.deliveryManagement;
+package com.stashbank.deliveryManagement.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -34,10 +34,8 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import android.content.*;
-import okhttp3.OkHttpClient;
-import retrofit2.*;
-import retrofit2.converter.gson.*;
-import com.stashbank.deliveryManagement.rest.*;
+
+import com.stashbank.deliveryManagement.R;
 
 /**
  * A login screen that offers login via email/password.
