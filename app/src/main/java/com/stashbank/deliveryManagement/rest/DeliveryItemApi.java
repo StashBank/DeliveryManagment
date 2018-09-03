@@ -8,6 +8,7 @@ import com.stashbank.deliveryManagement.models.*;
 public interface DeliveryItemApi {
 
     @GET("delivery_manegment.delivery")
+    @Headers("Cache-Control: max-age=640000")
 	Call<List<DeliveryItem>> getItems();
 
 	@GET("delivery_manegment.delivery/{id}")

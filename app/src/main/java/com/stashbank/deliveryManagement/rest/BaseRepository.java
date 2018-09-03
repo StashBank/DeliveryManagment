@@ -23,23 +23,28 @@ public abstract class BaseRepository<T> {
     }
 
     final static String API_URL = "https://crud-server.firebaseapp.com/";
-    // final static String API_URL = "http://10.0.2.2:5000/";
+     //final static String API_URL = "http://10.0.2.2:5000/";
 
     private static String cacheToken = UUID.randomUUID().toString();
     protected static final Interceptor getRewriteCacheControlInterceptor(Context context, boolean force) {
         return chain -> {
             int maxAge = 60; // read from cache for 1 minute
             String cacheControl = "public, max-age=" + maxAge;
+            String useCache = "true";
             if (!isNetworkAvailable(context)) {
                 int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
                 cacheControl = "only-if-cached, max-stale=" + maxStale;
             } else if (force) {
+                cacheToken = UUID.randomUUID().toString();
+                useCache = "false";
                 cacheControl = "no-cache, no-store, must-revalidate";
             }
             Request original = chain.request();
             Request request = original.newBuilder()
                     .header("cache-token", cacheToken)
-                    .header("cachecontrol", cacheControl)
+                    .removeHeader("pragma")
+                    .header("cache-control", cacheControl)
+                    .header("use-cache", useCache)
                     .build();
             return chain.proceed(request);
         };
@@ -81,7 +86,7 @@ public abstract class BaseRepository<T> {
     protected static <T> T createService(Class<T> serviceClass, Context context, boolean force) {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         Interceptor rewriteCacheControlInterceptor = getRewriteCacheControlInterceptor(context, force);
-        Interceptor forceCacheInterceptor = getForceCacheInterceptor(context, force);
+        // Interceptor forceCacheInterceptor = getForceCacheInterceptor(context, force);
         if (!force) {
             int cacheSize = 10 * 1024 * 1024; // 10 MB
             Cache cache = new Cache(context.getCacheDir(), cacheSize);
@@ -89,7 +94,7 @@ public abstract class BaseRepository<T> {
         }
         OkHttpClient client = httpClientBuilder
                 .addNetworkInterceptor(rewriteCacheControlInterceptor)
-                // .addInterceptor(forceCacheInterceptor)
+                .addInterceptor(rewriteCacheControlInterceptor)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
