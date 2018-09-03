@@ -2,6 +2,7 @@ package com.stashbank.deliveryManagement.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,13 +37,13 @@ public class PaymentActivity extends AppCompatActivity
 	private Double mAmount;
 	private String mPurpose;
 	private String mReceipt;
-
-	@BindView(R.id.payment_status_message)
-	TextView tvMessage;
+	private Context mContext;
+	private TextView tvMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = this;
 		setContentView(R.layout.activity_payment);
 		Intent intent = getIntent();
 
@@ -57,6 +58,8 @@ public class PaymentActivity extends AppCompatActivity
 
 		String client = intent.getStringExtra("client");
         setEditTextValue(R.id.payment_client, client);
+
+        tvMessage = (TextView) findViewById(R.id.payment_status_message);
 	}
 
 	public  void onPayment(View view) {
@@ -260,20 +263,35 @@ public class PaymentActivity extends AppCompatActivity
 	@Override
 	protected void onStart() {
 		super.onStart();
-		MiniPosManager.getInstance().pinpadSubscribe();
+		try {
+            MiniPosManager.getInstance().pinpadSubscribe();
+        } catch (Exception err) {
+            String message = "onStart:\n" + err.getMessage();
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        }
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		MiniPosManager.getInstance().pinpadUnsubscribe();
+		try {
+		    MiniPosManager.getInstance().pinpadUnsubscribe();
+        } catch (Exception err) {
+            String message = "onStop:\n" + err.getMessage();
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        }
 	}
 
 	private void makePaymentPrivate(Double amount, String purpose) {
 		mAmount = amount;
 		mPurpose = purpose;
 		mReceipt = "";
-		MiniPosManager.getInstance().initPinpad(pinpadConnectionListener);
+		try {
+		    MiniPosManager.getInstance().initPinpad(pinpadConnectionListener);
+        } catch (Exception err) {
+            String message = "makePaymentPrivate:\n" + err.getMessage();
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        }
 	}
 
 	/**
@@ -283,7 +301,12 @@ public class PaymentActivity extends AppCompatActivity
 		@Override
 		public void onConnectionSuccess(String sn) {
 			showProgress(true);
-			MiniPosManager.getInstance().startTransaction(mAmount, mPurpose, transactionListener);
+			try {
+			    MiniPosManager.getInstance().startTransaction(mAmount, mPurpose, transactionListener);
+            } catch (Exception err) {
+			    String message = "onConnectionSuccess:\n" + err.getMessage();
+                Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+            }
 		}
 
 		@Override
@@ -305,6 +328,7 @@ public class PaymentActivity extends AppCompatActivity
 			//запрос на включение блютуза
 			Toast.makeText(PaymentActivity.this, R.string.turn_on_bluetooth, Toast.LENGTH_SHORT).show();
 		}
+
 	};
 
 	/**
@@ -315,12 +339,13 @@ public class PaymentActivity extends AppCompatActivity
 		@Override
 		public void onExeption(String message) {
 			Log.d(TAG, "onExeption messsage:" + message);
+            Toast.makeText(PaymentActivity.this, "onExeption messsage:" + message, Toast.LENGTH_SHORT).show();
 			showProgress(false);
 		}
 
 		@Override
 		public void onUpdateUserInterface(String message) {
-			tvMessage.setText("onUpdateUserInterface:" + message);
+			tvMessage.setText(message);
 		}
 
 

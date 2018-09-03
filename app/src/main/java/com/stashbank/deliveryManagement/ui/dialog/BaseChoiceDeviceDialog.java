@@ -102,22 +102,26 @@ public abstract class BaseChoiceDeviceDialog extends BaseDialogFragment {
     private List<BluetoothDevice> getPairedDevice() {
         ArrayList<BluetoothDevice> list = new ArrayList<BluetoothDevice>();
 
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        //получаем mac сохраненного устройства
-        String savedDeviceAddress = getSavedDeviceAddress();
+        try {
+            Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+            //получаем mac сохраненного устройства
+            String savedDeviceAddress = getSavedDeviceAddress();
 
-        if (pairedDevices == null || pairedDevices.size() == 0) {
-            showToast(getString(R.string.no_paired_devices_found));
-        } else {
-            for (BluetoothDevice pDevice :pairedDevices) {
-                if (savedDeviceAddress == null || !savedDeviceAddress.equals(pDevice.getAddress())) {
-                    //list.add(pDevice);
-                } else if (savedDeviceAddress.equals(pDevice.getAddress())) {
-                    mSavedDevice = pDevice;
+            if (pairedDevices == null || pairedDevices.size() == 0) {
+                showToast(getString(R.string.no_paired_devices_found));
+            } else {
+                for (BluetoothDevice pDevice : pairedDevices) {
+                    if (savedDeviceAddress == null || !savedDeviceAddress.equals(pDevice.getAddress())) {
+                        //list.add(pDevice);
+                    } else if (savedDeviceAddress.equals(pDevice.getAddress())) {
+                        mSavedDevice = pDevice;
+                    }
+                    list.add(pDevice); //for debug
                 }
-                list.add(pDevice); //for debug
-            }
 
+            }
+        } catch (Exception err) {
+            Toast.makeText(getContext(), err.getMessage(), Toast.LENGTH_LONG).show();
         }
         return list;
     }

@@ -42,8 +42,16 @@ public class ChoicePinpadDialog extends BaseChoiceDeviceDialog {
     }
 
     private  PairedDevice getSavedDevice() {
-        PairedDevice device = new Select().from(PairedDevice.class).where("type = ?","t").executeSingle();
-        return  device;
+        try {
+            PairedDevice device = new Select()
+                    .from(PairedDevice.class)
+                    .where("type = ?", "t")
+                    .executeSingle();
+            return  device;
+        } catch (Exception err) {
+            Log.d("PairedDevice", err.getMessage());
+            return null;
+        }
     }
 
     @Override
